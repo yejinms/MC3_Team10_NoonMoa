@@ -132,3 +132,31 @@ enum WeatherCondition: String, Codable {
     case snow = "snow"
     case thunderstorms = "thunderstorms"
 }
+
+/*
+ @DocumentID var id: String?
+ var roomId: String?
+ var aptId: String?
+ var userState: String
+ var lastActiveDate: Date?
+ var eyeColor: String
+ var attendanceSheetId: String? // Reference to AttendanceSheet document ID
+ var token: String
+ */
+extension User {
+    static let sampleData: [[User]] =
+    [
+        [User(id: "AAAA", roomId: "1", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "1", token: "a"),
+         User(id: "BBBB", roomId: "2", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "2", token: "b"),
+         User(id: "CCCC", roomId: "3", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "3", token: "c")],
+        [User(id: "DDDD", roomId: "4", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "4", token: "d"),
+         User(id: "EEEE", roomId: "5", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "5", token: "e"),
+         User(id: "FFFF", roomId: "6", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "6", token: "f")],
+        [User(id: "GGGG", roomId: "7", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "7", token: "g"),
+         User(id: "HHHH", roomId: "8", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "8", token: "h"),
+         User(id: "IIII", roomId: "9", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "9", token: "i")],
+        [User(id: "JJJJ", roomId: "10", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "10", token: "j"),
+         User(id: "KKKK", roomId: "11", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "11", token: "k"),
+         User(id: "LLLL", roomId: "12", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "12", token: "l")]
+    ]
+}

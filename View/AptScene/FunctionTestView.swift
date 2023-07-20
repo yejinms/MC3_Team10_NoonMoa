@@ -12,6 +12,8 @@ struct FunctionTestView: View {
     @EnvironmentObject var time: TimeViewModel
 
     @State private var index: Int = 0
+    @Binding var buttonText: String
+
     var body: some View {
             VStack {
                 HStack(spacing: 8) {
@@ -44,6 +46,15 @@ struct FunctionTestView: View {
                             .opacity(0.2)
                     }
                  Spacer()
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.white)
+                        .frame(width: 148, height: 48)
+                        .overlay(
+                            Text(buttonText)
+                                .foregroundColor(.black)
+                                .font(.body)
+                        )
+                        .opacity(0.2)
                 }
                 .padding()
                 Spacer()
@@ -52,8 +63,10 @@ struct FunctionTestView: View {
 }
 
 struct FunctionTestView_Previews: PreviewProvider {
+    @State static var buttonText: String = ""
+    
     static var previews: some View {
-        FunctionTestView()
+        FunctionTestView(buttonText: $buttonText)
             .environmentObject(WeatherViewModel())
             .environmentObject(TimeViewModel())
     }
