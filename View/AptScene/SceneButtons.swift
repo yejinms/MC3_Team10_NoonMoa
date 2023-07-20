@@ -10,7 +10,7 @@ import SwiftUI
 struct SceneButtons: View {
     
     @State var index: Int = 0
-    ///
+
     var body: some View {
         
         ZStack {
