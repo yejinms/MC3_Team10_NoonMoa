@@ -142,3 +142,8 @@ ex) [Feat] 생성 MainView / [Asset] 추가 color set
 - 본인 제외 한 명의 팀원의 Approve가 있어야 merge가 가능하다.
     - + 혼자서 할 수 있게끔 열어둠 (특정 상황에서만 사용)
 - 리뷰어들은 단순히 approve를 한다기보다 코드 변화를 체크하고 네임컨벤션을 지키고 있는지를 확인한다.
+
+<hr>
+
+## 주의할 것
+- Firebase 연동에 필요한 GoogleService-Info.plist는 페페에게 에어드랍으로 받을 것 (보안) [파이어베이스 공식문서](https://firebase.google.com/docs/ios/setup?hl=ko)
