@@ -4,13 +4,14 @@
 //
 //  Created by 최민규 on 2023/07/16.
 //
+// please 
 
 import SwiftUI
 
 struct SceneButtons: View {
     
     @State var index: Int = 0
-    //
+
     var body: some View {
         
         ZStack {
