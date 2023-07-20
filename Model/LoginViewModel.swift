@@ -113,7 +113,7 @@ class LoginViewModel: ObservableObject {
                         }
                         
                         // Create a new user object
-                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, state: State.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken)
+                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken)
                         
                         // Check if the user already exists in Firestore
                         let userRef = self.db.collection("User").document(user.id!)
@@ -174,7 +174,7 @@ class LoginViewModel: ObservableObject {
                         
                         print(aptId)
                                         
-                        let newUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, state: State.active.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken)
+                        let newUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.active.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken)
 
                         // Update the emptyRooms document
                         emptyRoomsRef.setData(["rooms": emptyRooms], merge: true) { err in

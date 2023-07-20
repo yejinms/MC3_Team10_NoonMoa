@@ -15,6 +15,10 @@ struct MainView: View {
     @StateObject var calendarSingleController : CalendarSingleController
     @StateObject var loginViewModel : LoginViewModel
     @StateObject var aptViewModel : AptViewModel
+    
+    @StateObject var weather: WeatherViewModel
+    @StateObject var time: TimeViewModel
+    @StateObject var eyeTrack: EyeTrackViewModel
 
     var body: some View {
         switch viewRouter.currentView {
@@ -25,18 +29,20 @@ struct MainView: View {
             AttendanceView()
                 .environmentObject(AttendanceViewModel())
         case .attendanceCompleted:
-            if let record = attendanceViewModel.currentRecord {
-                AttendanceCompletedView(record: record)
-            }
+            let record = attendanceViewModel.ensureCurrentRecord()
+            AttendanceCompletedView(record: record)
+                .environmentObject(AttendanceCompletedViewModel(record: record))
         case .apt:
             AptView()
                 .environmentObject(AptViewModel())
+                .environmentObject(WeatherViewModel())
+                .environmentObject(TimeViewModel())
         case .CalendarFull:
             CalendarFullView()
                 .environmentObject(CalendarFullViewModel())
         case .CalendarSingle:
             CalendarSingleView()
-                .environmentObject(CalendarFullViewModel())
+                .environmentObject(calendarSingleController)
         default:
             LoginView()
                 .environmentObject(LoginViewModel())

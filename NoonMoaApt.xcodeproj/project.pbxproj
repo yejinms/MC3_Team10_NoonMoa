@@ -29,7 +29,7 @@
 		E32E3E6B2A6951CE00B865E8 /* CalendarSingleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E522A6951CE00B865E8 /* CalendarSingleController.swift */; };
 		E32E3E6C2A6951CE00B865E8 /* CalendarFullViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E532A6951CE00B865E8 /* CalendarFullViewModel.swift */; };
 		E32E3E6D2A6951CE00B865E8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E542A6951CE00B865E8 /* LoginViewModel.swift */; };
-		E32E3E6E2A6951CE00B865E8 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E552A6951CE00B865E8 /* Model.swift */; };
+		E32E3E6E2A6951CE00B865E8 /* FirebaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E552A6951CE00B865E8 /* FirebaseModel.swift */; };
 		E32E3E6F2A6951CE00B865E8 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E562A6951CE00B865E8 /* DummyData.swift */; };
 		E32E3E702A6951CE00B865E8 /* AttendanceCompletedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E572A6951CE00B865E8 /* AttendanceCompletedViewModel.swift */; };
 		E32E3E712A6951CE00B865E8 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E582A6951CE00B865E8 /* ViewRouter.swift */; };
@@ -46,6 +46,23 @@
 		E32E3E882A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E32E3E872A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta */; };
 		E32E3E8A2A69526600B865E8 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E32E3E892A69526600B865E8 /* FirebaseMessaging */; };
 		E32E3E8D2A69527F00B865E8 /* SwiftUICalendar in Frameworks */ = {isa = PBXBuildFile; productRef = E32E3E8C2A69527F00B865E8 /* SwiftUICalendar */; };
+		E3CBB3D72A6972EB00195326 /* SceneButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3CD2A6972EB00195326 /* SceneButtons.swift */; };
+		E3CBB3D82A6972EB00195326 /* InfoLastWakenTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3CE2A6972EB00195326 /* InfoLastWakenTime.swift */; };
+		E3CBB3D92A6972EB00195326 /* SceneApt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3CF2A6972EB00195326 /* SceneApt.swift */; };
+		E3CBB3DA2A6972EB00195326 /* FunctionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D02A6972EB00195326 /* FunctionTestView.swift */; };
+		E3CBB3DB2A6972EB00195326 /* InfoLastActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D12A6972EB00195326 /* InfoLastActive.swift */; };
+		E3CBB3DC2A6972EB00195326 /* SceneRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D22A6972EB00195326 /* SceneRoom.swift */; };
+		E3CBB3DD2A6972EB00195326 /* SceneWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D32A6972EB00195326 /* SceneWeather.swift */; };
+		E3CBB3DE2A6972EB00195326 /* EyeActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D42A6972EB00195326 /* EyeActive.swift */; };
+		E3CBB3DF2A6972EB00195326 /* EyeInactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D52A6972EB00195326 /* EyeInactive.swift */; };
+		E3CBB3E02A6972EB00195326 /* SceneBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3D62A6972EB00195326 /* SceneBackground.swift */; };
+		E3CBB3E32A6972F900195326 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E12A6972F900195326 /* WeatherViewModel.swift */; };
+		E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E22A6972F900195326 /* TimeViewModel.swift */; };
+		E3CBB3E92A69730700195326 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E72A69730700195326 /* Color+Extension.swift */; };
+		E3CBB3EF2A69731700195326 /* EyeTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */; };
+		E3CBB3F02A69731700195326 /* EyeTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3EC2A69731700195326 /* EyeTrackView.swift */; };
+		E3CBB3F12A69731700195326 /* EyeTrackViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3ED2A69731700195326 /* EyeTrackViewContainer.swift */; };
+		E3CBB3F22A69731700195326 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3EE2A69731700195326 /* Helper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,7 +108,7 @@
 		E32E3E522A6951CE00B865E8 /* CalendarSingleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarSingleController.swift; sourceTree = "<group>"; };
 		E32E3E532A6951CE00B865E8 /* CalendarFullViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFullViewModel.swift; sourceTree = "<group>"; };
 		E32E3E542A6951CE00B865E8 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		E32E3E552A6951CE00B865E8 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		E32E3E552A6951CE00B865E8 /* FirebaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseModel.swift; sourceTree = "<group>"; };
 		E32E3E562A6951CE00B865E8 /* DummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		E32E3E572A6951CE00B865E8 /* AttendanceCompletedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceCompletedViewModel.swift; sourceTree = "<group>"; };
 		E32E3E582A6951CE00B865E8 /* ViewRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -99,6 +116,23 @@
 		E32E3E5A2A6951CE00B865E8 /* AptViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AptViewModel.swift; sourceTree = "<group>"; };
 		E32E3E762A69523900B865E8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3CBB3CB2A6967AA00195326 /* NoonMoaApt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NoonMoaApt.entitlements; sourceTree = "<group>"; };
+		E3CBB3CD2A6972EB00195326 /* SceneButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneButtons.swift; sourceTree = "<group>"; };
+		E3CBB3CE2A6972EB00195326 /* InfoLastWakenTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLastWakenTime.swift; sourceTree = "<group>"; };
+		E3CBB3CF2A6972EB00195326 /* SceneApt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneApt.swift; sourceTree = "<group>"; };
+		E3CBB3D02A6972EB00195326 /* FunctionTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionTestView.swift; sourceTree = "<group>"; };
+		E3CBB3D12A6972EB00195326 /* InfoLastActive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoLastActive.swift; sourceTree = "<group>"; };
+		E3CBB3D22A6972EB00195326 /* SceneRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneRoom.swift; sourceTree = "<group>"; };
+		E3CBB3D32A6972EB00195326 /* SceneWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneWeather.swift; sourceTree = "<group>"; };
+		E3CBB3D42A6972EB00195326 /* EyeActive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeActive.swift; sourceTree = "<group>"; };
+		E3CBB3D52A6972EB00195326 /* EyeInactive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeInactive.swift; sourceTree = "<group>"; };
+		E3CBB3D62A6972EB00195326 /* SceneBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneBackground.swift; sourceTree = "<group>"; };
+		E3CBB3E12A6972F900195326 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
+		E3CBB3E22A6972F900195326 /* TimeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
+		E3CBB3E72A69730700195326 /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Color+Extension.swift"; path = "../Color+Extension.swift"; sourceTree = "<group>"; };
+		E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeTrackViewModel.swift; sourceTree = "<group>"; };
+		E3CBB3EC2A69731700195326 /* EyeTrackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeTrackView.swift; sourceTree = "<group>"; };
+		E3CBB3ED2A69731700195326 /* EyeTrackViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeTrackViewContainer.swift; sourceTree = "<group>"; };
+		E3CBB3EE2A69731700195326 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +173,9 @@
 		E32E3E0B2A6951B600B865E8 = {
 			isa = PBXGroup;
 			children = (
+				E3CBB3EA2A69731700195326 /* EyeTrack */,
 				E32E3E762A69523900B865E8 /* GoogleService-Info.plist */,
+				E3CBB3E52A69730700195326 /* Extension */,
 				E32E3E412A6951CE00B865E8 /* Calendar */,
 				E32E3E512A6951CE00B865E8 /* Model */,
 				E32E3E492A6951CE00B865E8 /* View */,
@@ -212,6 +248,7 @@
 		E32E3E492A6951CE00B865E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E3CBB3CC2A6972EB00195326 /* AptScene */,
 				E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */,
 				E32E3E4B2A6951CE00B865E8 /* AttendanceView.swift */,
 				E32E3E4C2A6951CE00B865E8 /* LoginView.swift */,
@@ -226,6 +263,8 @@
 		E32E3E512A6951CE00B865E8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E3CBB3E22A6972F900195326 /* TimeViewModel.swift */,
+				E3CBB3E12A6972F900195326 /* WeatherViewModel.swift */,
 				E32E3E542A6951CE00B865E8 /* LoginViewModel.swift */,
 				E32E3E592A6951CE00B865E8 /* AttendanceViewModel.swift */,
 				E32E3E572A6951CE00B865E8 /* AttendanceCompletedViewModel.swift */,
@@ -233,10 +272,46 @@
 				E32E3E522A6951CE00B865E8 /* CalendarSingleController.swift */,
 				E32E3E532A6951CE00B865E8 /* CalendarFullViewModel.swift */,
 				E32E3E582A6951CE00B865E8 /* ViewRouter.swift */,
-				E32E3E552A6951CE00B865E8 /* Model.swift */,
+				E32E3E552A6951CE00B865E8 /* FirebaseModel.swift */,
 				E32E3E562A6951CE00B865E8 /* DummyData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E3CBB3CC2A6972EB00195326 /* AptScene */ = {
+			isa = PBXGroup;
+			children = (
+				E3CBB3CD2A6972EB00195326 /* SceneButtons.swift */,
+				E3CBB3CE2A6972EB00195326 /* InfoLastWakenTime.swift */,
+				E3CBB3CF2A6972EB00195326 /* SceneApt.swift */,
+				E3CBB3D02A6972EB00195326 /* FunctionTestView.swift */,
+				E3CBB3D12A6972EB00195326 /* InfoLastActive.swift */,
+				E3CBB3D22A6972EB00195326 /* SceneRoom.swift */,
+				E3CBB3D32A6972EB00195326 /* SceneWeather.swift */,
+				E3CBB3D42A6972EB00195326 /* EyeActive.swift */,
+				E3CBB3D52A6972EB00195326 /* EyeInactive.swift */,
+				E3CBB3D62A6972EB00195326 /* SceneBackground.swift */,
+			);
+			path = AptScene;
+			sourceTree = "<group>";
+		};
+		E3CBB3E52A69730700195326 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E3CBB3E72A69730700195326 /* Color+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		E3CBB3EA2A69731700195326 /* EyeTrack */ = {
+			isa = PBXGroup;
+			children = (
+				E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */,
+				E3CBB3EC2A69731700195326 /* EyeTrackView.swift */,
+				E3CBB3ED2A69731700195326 /* EyeTrackViewContainer.swift */,
+				E3CBB3EE2A69731700195326 /* Helper.swift */,
+			);
+			path = EyeTrack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,25 +462,42 @@
 			buildActionMask = 2147483647;
 			files = (
 				E32E3E622A6951CE00B865E8 /* WeekView.swift in Sources */,
+				E3CBB3DD2A6972EB00195326 /* SceneWeather.swift in Sources */,
+				E3CBB3DF2A6972EB00195326 /* EyeInactive.swift in Sources */,
 				E32E3E6C2A6951CE00B865E8 /* CalendarFullViewModel.swift in Sources */,
+				E3CBB3D92A6972EB00195326 /* SceneApt.swift in Sources */,
 				E32E3E712A6951CE00B865E8 /* ViewRouter.swift in Sources */,
+				E3CBB3F02A69731700195326 /* EyeTrackView.swift in Sources */,
+				E3CBB3F22A69731700195326 /* Helper.swift in Sources */,
+				E3CBB3F12A69731700195326 /* EyeTrackViewContainer.swift in Sources */,
 				E32E3E5D2A6951CE00B865E8 /* CalendarDayView.swift in Sources */,
 				E32E3E6F2A6951CE00B865E8 /* DummyData.swift in Sources */,
+				E3CBB3DE2A6972EB00195326 /* EyeActive.swift in Sources */,
 				E32E3E5F2A6951CE00B865E8 /* MonthView.swift in Sources */,
 				E32E3E652A6951CE00B865E8 /* AttendanceView.swift in Sources */,
+				E3CBB3E32A6972F900195326 /* WeatherViewModel.swift in Sources */,
 				E32E3E722A6951CE00B865E8 /* AttendanceViewModel.swift in Sources */,
 				E32E3E602A6951CE00B865E8 /* CalendarGridView.swift in Sources */,
+				E3CBB3E92A69730700195326 /* Color+Extension.swift in Sources */,
 				E32E3E632A6951CE00B865E8 /* DayView.swift in Sources */,
+				E3CBB3D72A6972EB00195326 /* SceneButtons.swift in Sources */,
 				E32E3E662A6951CE00B865E8 /* LoginView.swift in Sources */,
 				E32E3E692A6951CE00B865E8 /* CalendarSingleView.swift in Sources */,
 				E32E3E6A2A6951CE00B865E8 /* MainView.swift in Sources */,
+				E3CBB3DB2A6972EB00195326 /* InfoLastActive.swift in Sources */,
 				E32E3E672A6951CE00B865E8 /* AptView.swift in Sources */,
+				E3CBB3E02A6972EB00195326 /* SceneBackground.swift in Sources */,
 				E32E3E642A6951CE00B865E8 /* AttendanceCompletedView.swift in Sources */,
+				E3CBB3DC2A6972EB00195326 /* SceneRoom.swift in Sources */,
 				E32E3E182A6951B600B865E8 /* NoonMoaAptApp.swift in Sources */,
-				E32E3E6E2A6951CE00B865E8 /* Model.swift in Sources */,
+				E32E3E6E2A6951CE00B865E8 /* FirebaseModel.swift in Sources */,
+				E3CBB3D82A6972EB00195326 /* InfoLastWakenTime.swift in Sources */,
 				E32E3E702A6951CE00B865E8 /* AttendanceCompletedViewModel.swift in Sources */,
+				E3CBB3EF2A69731700195326 /* EyeTrackViewModel.swift in Sources */,
 				E32E3E6B2A6951CE00B865E8 /* CalendarSingleController.swift in Sources */,
+				E3CBB3DA2A6972EB00195326 /* FunctionTestView.swift in Sources */,
 				E32E3E732A6951CE00B865E8 /* AptViewModel.swift in Sources */,
+				E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */,
 				E32E3E612A6951CE00B865E8 /* CalendarMonthView.swift in Sources */,
 				E32E3E6D2A6951CE00B865E8 /* LoginViewModel.swift in Sources */,
 				E32E3E682A6951CE00B865E8 /* CalendarFullView.swift in Sources */,

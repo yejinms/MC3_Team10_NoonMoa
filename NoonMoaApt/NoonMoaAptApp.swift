@@ -30,7 +30,17 @@ struct NoonMoaAptApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(attendanceCompletedViewModel: AttendanceCompletedViewModel(record: attendanceRecord), attendanceViewModel: AttendanceViewModel(), calendarFullViewModel: CalendarFullViewModel(), calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()), loginViewModel: LoginViewModel(), aptViewModel: AptViewModel())
+            MainView(
+                attendanceCompletedViewModel: AttendanceCompletedViewModel(record: attendanceRecord),
+                attendanceViewModel: AttendanceViewModel(),
+                calendarFullViewModel: CalendarFullViewModel(),
+                calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()),
+                loginViewModel: LoginViewModel(),
+                aptViewModel: AptViewModel(),
+                weather: WeatherViewModel(),
+                time: TimeViewModel(),
+                eyeTrack: EyeTrackViewModel()
+            )
                 .environmentObject(viewRouter)
         }
     }

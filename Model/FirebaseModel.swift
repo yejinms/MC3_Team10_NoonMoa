@@ -13,15 +13,15 @@ struct User: Codable, Identifiable {
     @DocumentID var id: String?
     var roomId: String?
     var aptId: String?
-    var state: String
+    var userState: String
     var lastActiveDate: Date?
     var eyeColor: String
     var attendanceSheetId: String? // Reference to AttendanceSheet document ID
     var token: String
     
-    var stateEnum: State {
-        get { return State(rawValue: state) ?? .inactive }
-        set { state = newValue.rawValue }
+    var stateEnum: UserState {
+        get { return UserState(rawValue: userState) ?? .inactive }
+        set { userState = newValue.rawValue }
     }
     
     var eyeColorEnum: EyeColor {
@@ -94,7 +94,7 @@ struct Notification: Codable, Identifiable {
     }
 }
 
-enum State: String, Codable {
+enum UserState: String, Codable {
     case vacant = "vacant"
     case sleep = "sleep"
     case active = "active"
