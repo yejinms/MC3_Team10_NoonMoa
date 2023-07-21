@@ -17,6 +17,7 @@
 		8AD230442A699F4C00C967B5 /* SceneBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD2303C2A699F4C00C967B5 /* SceneBackground.swift */; };
 		DA904E332A6A361700CC14D9 /* StampLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA904E312A6A361700CC14D9 /* StampLargeView.swift */; };
 		DA904E342A6A361700CC14D9 /* StampButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA904E322A6A361700CC14D9 /* StampButtons.swift */; };
+		E325006A2A6A624C00A24207 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E32500692A6A624C00A24207 /* GoogleService-Info.plist */; };
 		E32E3E182A6951B600B865E8 /* NoonMoaAptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E172A6951B600B865E8 /* NoonMoaAptApp.swift */; };
 		E32E3E1F2A6951B700B865E8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E32E3E1E2A6951B700B865E8 /* Preview Assets.xcassets */; };
 		E32E3E642A6951CE00B865E8 /* AttendanceCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */; };
@@ -61,7 +62,6 @@
 		E3F7392D2A6A540000E5F291 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F7391B2A6A540000E5F291 /* DayView.swift */; };
 		E3F739342A6A552300E5F291 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F739332A6A552300E5F291 /* Color+Extension.swift */; };
 		E3F739392A6A575F00E5F291 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3F739382A6A575F00E5F291 /* Assets.xcassets */; };
-		E3F7393B2A6A57BA00E5F291 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3F7393A2A6A57BA00E5F291 /* GoogleService-Info.plist */; };
 		F4A568B12A6A36AC004BD316 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B02A6A36AC004BD316 /* OnboardingView.swift */; };
 		F4A568B32A6A36B3004BD316 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B22A6A36B3004BD316 /* LottieView.swift */; };
 /* End PBXBuildFile section */
@@ -94,6 +94,9 @@
 		8AD2303C2A699F4C00C967B5 /* SceneBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneBackground.swift; sourceTree = "<group>"; };
 		DA904E312A6A361700CC14D9 /* StampLargeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StampLargeView.swift; sourceTree = "<group>"; };
 		DA904E322A6A361700CC14D9 /* StampButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StampButtons.swift; sourceTree = "<group>"; };
+		E32500672A6A5FDA00A24207 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptTests.xctest; path = "/Users/kimpepe/Desktop/ADA/MC3/build/Debug-iphoneos/NoonMoaAptTests.xctest"; sourceTree = "<absolute>"; };
+		E32500682A6A5FDA00A24207 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptUITests.xctest; path = "/Users/kimpepe/Desktop/ADA/MC3/build/Debug-iphoneos/NoonMoaAptUITests.xctest"; sourceTree = "<absolute>"; };
+		E32500692A6A624C00A24207 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E32E3E172A6951B600B865E8 /* NoonMoaAptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoonMoaAptApp.swift; sourceTree = "<group>"; };
 		E32E3E1E2A6951B700B865E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceCompletedView.swift; sourceTree = "<group>"; };
@@ -129,11 +132,8 @@
 		E3F739212A6A540000E5F291 /* CalendarMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthView.swift; sourceTree = "<group>"; };
 		E3F739222A6A540000E5F291 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		E3F739332A6A552300E5F291 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		E3F739352A6A571600E5F291 /* NoonMoaApt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoonMoaApt.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3F739362A6A571600E5F291 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptTests.xctest; path = "/Users/kimpepe/Desktop/ADA/MC3/MC3_Team10_NoonMoa/build/Debug-iphoneos/NoonMoaAptTests.xctest"; sourceTree = "<absolute>"; };
-		E3F739372A6A571600E5F291 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptUITests.xctest; path = "/Users/kimpepe/Desktop/ADA/MC3/MC3_Team10_NoonMoa/build/Debug-iphoneos/NoonMoaAptUITests.xctest"; sourceTree = "<absolute>"; };
+		E3F739352A6A571600E5F291 /* NoonMoaApt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = NoonMoaApt.app; path = "/Users/kimpepe/Desktop/ADA/MC3/build/Debug-iphoneos/NoonMoaApt.app"; sourceTree = "<absolute>"; };
 		E3F739382A6A575F00E5F291 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E3F7393A2A6A57BA00E5F291 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4A568B02A6A36AC004BD316 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F4A568B22A6A36B3004BD316 /* LottieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,9 +200,8 @@
 		E32E3E0B2A6951B600B865E8 = {
 			isa = PBXGroup;
 			children = (
-				E3F7393A2A6A57BA00E5F291 /* GoogleService-Info.plist */,
+				E32500692A6A624C00A24207 /* GoogleService-Info.plist */,
 				E32E3E162A6951B600B865E8 /* NoonMoaApt */,
-				E3F739352A6A571600E5F291 /* NoonMoaApt.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -356,7 +355,7 @@
 			);
 			name = NoonMoaAptTests;
 			productName = NoonMoaAptTests;
-			productReference = E3F739362A6A571600E5F291 /* NoonMoaAptTests.xctest */;
+			productReference = E32500672A6A5FDA00A24207 /* NoonMoaAptTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E32E3E2D2A6951B700B865E8 /* NoonMoaAptUITests */ = {
@@ -374,7 +373,7 @@
 			);
 			name = NoonMoaAptUITests;
 			productName = NoonMoaAptUITests;
-			productReference = E3F739372A6A571600E5F291 /* NoonMoaAptUITests.xctest */;
+			productReference = E32500682A6A5FDA00A24207 /* NoonMoaAptUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -431,7 +430,7 @@
 			files = (
 				E3F739392A6A575F00E5F291 /* Assets.xcassets in Resources */,
 				E32E3E1F2A6951B700B865E8 /* Preview Assets.xcassets in Resources */,
-				E3F7393B2A6A57BA00E5F291 /* GoogleService-Info.plist in Resources */,
+				E325006A2A6A624C00A24207 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
