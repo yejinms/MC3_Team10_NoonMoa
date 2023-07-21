@@ -25,6 +25,10 @@ struct MainView: View {
         case .login:
             LoginView()
                 .environmentObject(LoginViewModel())
+//            AptView()
+//                .environmentObject(AptViewModel())
+//                .environmentObject(WeatherViewModel())
+//                .environmentObject(TimeViewModel())
         case .attendance:
             AttendanceView()
                 .environmentObject(AttendanceViewModel())
