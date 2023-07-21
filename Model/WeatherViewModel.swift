@@ -17,6 +17,6 @@ extension WeatherViewModel {
     static let cloudy: String = "cloudy"
     static let rainy: String = "rainy"
     static let snowy: String = "snowy"
-
+    static let thunder: String = "thunder"
 }
 

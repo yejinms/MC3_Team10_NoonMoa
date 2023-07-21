@@ -25,6 +25,17 @@ extension Color {
     static let eyeCyan = Color(hex: 0xC2DFDF)
     static let eyeBlue = Color(hex: 0xBABCDF)
     
+    static let systemGray = Color(hex: 0x787678)
+    
+    struct stampBorder {
+        static let clearDay = Color(hex: 0xABD5ED)
+        static let clearNight = Color(hex: 0x3A4C8B)
+        static let cloudyDay = Color(hex: 0xB3B4B4)
+        static let cloudyNight = Color(hex: 0x5A6384)
+        static let snowyDay = Color(hex: 0xB8CBEE)
+        static let snowyNight = Color(hex: 0x56509A)
+    }
+    
     struct sky {
         static let clearDay = LinearGradient(colors: [Color(hex: 0xA9D4EC), Color(hex: 0xDAEBF5)], startPoint: .top, endPoint: .bottom)
         static let clearNight = LinearGradient(colors: [Color(hex: 0x354787), Color(hex: 0xC2CFFB)], startPoint: .top, endPoint: .bottom)
