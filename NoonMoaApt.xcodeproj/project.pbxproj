@@ -67,6 +67,9 @@
 		E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E22A6972F900195326 /* TimeViewModel.swift */; };
 		E3CBB3E92A69730700195326 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E72A69730700195326 /* Color+Extension.swift */; };
 		E3CBB3EF2A69731700195326 /* EyeTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */; };
+		F4A568B12A6A36AC004BD316 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B02A6A36AC004BD316 /* OnboardingView.swift */; };
+		F4A568B32A6A36B3004BD316 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B22A6A36B3004BD316 /* LottieView.swift */; };
+		F4A568B52A6A3703004BD316 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4A568B42A6A3703004BD316 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +144,9 @@
 		E3CBB3E22A6972F900195326 /* TimeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
 		E3CBB3E72A69730700195326 /* Color+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Color+Extension.swift"; path = "../Color+Extension.swift"; sourceTree = "<group>"; };
 		E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EyeTrackViewModel.swift; sourceTree = "<group>"; };
+		F4A568B02A6A36AC004BD316 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		F4A568B22A6A36B3004BD316 /* LottieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		F4A568B42A6A3703004BD316 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +309,7 @@
 		E32E3E492A6951CE00B865E8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4A568B02A6A36AC004BD316 /* OnboardingView.swift */,
 				E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */,
 				E32E3E4B2A6951CE00B865E8 /* AttendanceView.swift */,
 				E32E3E4C2A6951CE00B865E8 /* LoginView.swift */,
@@ -310,6 +317,7 @@
 				DA904E302A6A361700CC14D9 /* CalendarScene */,
 				8AD230342A699F4C00C967B5 /* AptScene */,
 				E32E3E4E2A6951CE00B865E8 /* CalendarFullView.swift */,
+				F4A568B22A6A36B3004BD316 /* LottieView.swift */,
 				E32E3E4F2A6951CE00B865E8 /* CalendarSingleView.swift */,
 				E32E3E502A6951CE00B865E8 /* MainView.swift */,
 			);
@@ -464,6 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E32E3E1F2A6951B700B865E8 /* Preview Assets.xcassets in Resources */,
+				F4A568B52A6A3703004BD316 /* GoogleService-Info.plist in Resources */,
 				E32E3E1C2A6951B700B865E8 /* Assets.xcassets in Resources */,
 				DA904E362A6A37C800CC14D9 /* GoogleService-Info.plist in Resources */,
 				DA904E242A6A360E00CC14D9 /* README.md in Resources */,
@@ -517,6 +526,7 @@
 				DA904E282A6A360E00CC14D9 /* Global.swift in Sources */,
 				E32E3E692A6951CE00B865E8 /* CalendarSingleView.swift in Sources */,
 				E32E3E6A2A6951CE00B865E8 /* MainView.swift in Sources */,
+				F4A568B12A6A36AC004BD316 /* OnboardingView.swift in Sources */,
 				E32E3E672A6951CE00B865E8 /* AptView.swift in Sources */,
 				E32E3E642A6951CE00B865E8 /* AttendanceCompletedView.swift in Sources */,
 				E32E3E182A6951B600B865E8 /* NoonMoaAptApp.swift in Sources */,
@@ -525,6 +535,7 @@
 				DA904E2E2A6A360E00CC14D9 /* DayView.swift in Sources */,
 				E32E3E702A6951CE00B865E8 /* AttendanceCompletedViewModel.swift in Sources */,
 				E3CBB3EF2A69731700195326 /* EyeTrackViewModel.swift in Sources */,
+				F4A568B32A6A36B3004BD316 /* LottieView.swift in Sources */,
 				E32E3E6B2A6951CE00B865E8 /* CalendarSingleController.swift in Sources */,
 				E32E3E732A6951CE00B865E8 /* AptViewModel.swift in Sources */,
 				E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */,
