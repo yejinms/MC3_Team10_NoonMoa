@@ -99,6 +99,7 @@ enum UserState: String, Codable {
     case sleep = "sleep"
     case active = "active"
     case inactive = "inactive"
+    case ready = "ready"
 }
 
 enum EyeColor: String, Codable {
