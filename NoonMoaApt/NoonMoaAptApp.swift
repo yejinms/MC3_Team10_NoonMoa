@@ -125,33 +125,33 @@ extension AppDelegate: MessagingDelegate {
 
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  
-    // 푸시 메세지가 앱이 켜져있을 때 나올떄
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
-                                -> Void) {
-      
-    let userInfo = notification.request.content.userInfo
-
     
-    // Do Something With MSG Data...
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+    // 푸시 메세지가 앱이 켜져있을 때 나올떄
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
+                                -> Void) {
+        
+        let userInfo = notification.request.content.userInfo
+        
+        
+        // Do Something With MSG Data...
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        
+        print(userInfo)
+        
+        completionHandler([[.banner, .badge, .sound]])
     }
     
-    
-    print(userInfo)
-
-    completionHandler([[.banner, .badge, .sound]])
-  }
-
     // 푸시메세지를 받았을 떄
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-
+        
         // Check the custom data received with the notification
         if let senderId = userInfo["senderId"] as? String {
             // Update the user's state to 'Ready' in Firestore
@@ -167,41 +167,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 }
             }
         }
-
+        
         completionHandler()
     }
-
-
-// 푸시 알림 보내는 함수
-func sendPushNotification(userBToken: String, title: String, content: String) {
-    let urlString = "https://fcm.googleapis.com/fcm/send"
-    let url = URL(string: urlString)!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("key=AAAA_nxyT6c:APA91bFQrkDDCbaIzES896BwaUVRvM3F2u-Dy9cuCscPlT1EQjcJUU2hYx5fyzdqlP4SqmVKjOwz0O7220y5bL8gsWzWrik23_IrDf9Nh4Kw4wKD4vQ5ak3zMvPeCHc995MCGJaevAY0", forHTTPHeaderField: "Authorization") // Firebase 콘솔에서 본인의 서버 키로 변경
-
-    let notification: [String: Any] = [
-        "to": userBToken,
-        "notification": [
-            "title": title,
-            "content": content
-        ]
-    ]
-
-    let jsonData = try? JSONSerialization.data(withJSONObject: notification)
-    request.httpBody = jsonData
-
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("Error sending push notification:", error)
-        } else if let data = data, let response = response as? HTTPURLResponse {
-            if response.statusCode == 200 {
-                print("Successfully sent push notification.")
-            } else {
-                print("Error sending push notification. Status code:", response.statusCode)
-            }
-        }
-    }
-    task.resume()
 }

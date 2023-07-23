@@ -77,10 +77,10 @@ struct EyeInactive: View {
     }
 }
 
-struct EyeInactive_Previews: PreviewProvider {
-    @State static var roomUser: User = User.sampleData[0][0]
-    
-    static var previews: some View {
-        EyeInactive(roomUser: $roomUser)
-    }
-}
+//struct EyeInactive_Previews: PreviewProvider {
+//    @State static var roomUser: User = User.sampleData[0][0]
+//    
+//    static var previews: some View {
+//        EyeInactive(roomUser: $roomUser)
+//    }
+//}

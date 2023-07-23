@@ -61,7 +61,7 @@ class DummyData: ObservableObject {
                             }
 
                             let dummyUserId = UUID().uuidString
-                            let dummyUser = User(id: dummyUserId, roomId: newRoomId, aptId: aptId, userState: UserState.active.rawValue, lastActiveDate: Date(), eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: "")
+                            let dummyUser = User(id: dummyUserId, roomId: newRoomId, aptId: aptId, userState: UserState.active.rawValue, lastActiveDate: Date(), eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: "", requestedBy: [])
 
                             do {
                                 try self.db.collection("User").document(dummyUserId).setData(from: dummyUser)

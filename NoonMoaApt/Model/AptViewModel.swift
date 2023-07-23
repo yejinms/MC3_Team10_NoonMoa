@@ -12,8 +12,11 @@ class AptViewModel: ObservableObject {
     @Published var apt: Apt?
     @Published var rooms: [Room] = []
     @Published var users: [User] = []
+    @Published var user: User?
+    @Published var roomUserMap: [String: User] = [:] // New published property
+
     
-    private var db = Firestore.firestore()
+    let db = Firestore.firestore()
     private var userListener: ListenerRegistration?
     
     // Fetch current user's apartment
@@ -57,6 +60,7 @@ class AptViewModel: ObservableObject {
                       let user = try? documentSnapshot.data(as: User.self) else { print("Error fetching user: \(error)"); return }  // Print error if any issues fetching user
                 DispatchQueue.main.async {
                     self.updateUserList(user: user)
+                    self.updateRoomUserMap(room: room, user: user) // Update the map after updating user list
                 }
             }
         }
@@ -68,6 +72,13 @@ class AptViewModel: ObservableObject {
             self.users[index] = user
         } else {
             self.users.append(user)
+        }
+    }
+
+    // New method to update Room: User map
+    private func updateRoomUserMap(room: Room, user: User) {
+        if let roomId = room.id {
+            self.roomUserMap[roomId] = user
         }
     }
     

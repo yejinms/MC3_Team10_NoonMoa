@@ -6,14 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct AptView: View {
     @EnvironmentObject var weather: WeatherViewModel
     @EnvironmentObject var time: TimeViewModel
     
-    @State private var users: [[User]] = User.sampleData
+    @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var aptViewModel: AptViewModel
+    
+    @State private var sampleUsers: [[User]] = User.sampleData
+    //    @State private var users: [User] = []
     @State private var buttonText: String = ""
-
+    
     var body: some View {
         ZStack{
             //배경 레이어
@@ -27,10 +32,10 @@ struct AptView: View {
                     GeometryReader { geo in
                         SceneApt()
                         VStack(spacing: 16) {
-                            ForEach(users.indices, id: \.self) { rowIndex in
+                            ForEach(sampleUsers.indices, id: \.self) { rowIndex in
                                 HStack(spacing: 12) {
-                                    ForEach(users[rowIndex].indices, id: \.self) { userIndex in
-                                        SceneRoom(roomUser: $users[rowIndex][userIndex])
+                                    ForEach(sampleUsers[rowIndex].indices, id: \.self) { userIndex in
+                                        SceneRoom(roomUser: $sampleUsers[rowIndex][userIndex])
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                         //디자인요소에서 보더는 빼는 것이 좋아보이고 radius는 8로 하는 것이 좋을 것으로 생각됨
                                     }
@@ -56,20 +61,24 @@ struct AptView: View {
                 ZStack {
                     GeometryReader { geo in
                         VStack(spacing: 16) {
-                            ForEach(users.indices, id: \.self) { rowIndex in
+                            ForEach(sampleUsers.indices, id: \.self) { rowIndex in
                                 HStack(spacing: 12) {
-                                    ForEach(users[rowIndex].indices, id: \.self) { userIndex in
-                                        
-                                        SceneButtons(roomUser: $users[rowIndex][userIndex], buttonText: $buttonText).environmentObject(weather)
-                                            .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
-                                        //방 이미지 자체의 비율 1:1.2 통한 높이 산정
+                                    ForEach(sampleUsers[rowIndex].indices, id: \.self) { columnIndex in
+                                        let userIndex = Int(rowIndex) * 3 + Int(columnIndex)
+                                        if userIndex < aptViewModel.users.count {
+                                            SceneButtons(roomUser: aptViewModel.users[userIndex], buttonText: $buttonText).environmentObject(weather)
+                                                .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                        } else {
+                                            SceneButtons(roomUser: sampleUsers[rowIndex][columnIndex], buttonText: $buttonText).environmentObject(weather)
+                                                .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                        }
                                     }
                                 }
                             }
                         }
                         .offset(x: 12, y: 32)
-                    }//GeometryReader
-                }//ZStack
+                    } //GeometryReader
+                } //ZStack
                 .padding()
                 .ignoresSafeArea()
                 .offset(y: proxy.size.height - proxy.size.width * 1.5)
@@ -82,6 +91,9 @@ struct AptView: View {
                 .environmentObject(time)
             
         }//ZStack
+        .onAppear {
+            aptViewModel.fetchCurrentUserApt()
+        }
     }
 }
 
@@ -122,7 +134,7 @@ struct AptView_Previews: PreviewProvider {
 //                                    ZStack {
 //                                        SceneRoom(roomUser: room.number)
 //                                            .frame(width: (geo.size.width - 48) / 3)
-//                                        if let user = aptViewModel.users.first(where: { $0.id == room.userId }) {
+//                                        if let user = aptViewModel.sampleUsers.first(where: { $0.id == room.userId }) {
 //                                            VStack {
 //                                                Text("State: \(user.stateEnum.rawValue)")
 //                                                Text("Eye Color: \(user.eyeColorEnum.rawValue)")

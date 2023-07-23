@@ -175,15 +175,15 @@ struct EyeActive: View {
 
 
 
-struct EyeActive_Previews: PreviewProvider {
-    @State static var eyeGazeActive = true
-    @State static var lookAtPoint: CGPoint? = CGPoint(x: 0, y: 0)
-    @State static var isWinking = false
-    @State static var eyeGazeAverage: CGPoint? = CGPoint(x: 100, y: 100)
-    @State static var roomUser: User = User.sampleData[0][0]
-    
-    static var previews: some View {
-        EyeActive(eyeGazeActive: $eyeGazeActive, lookAtPoint: $lookAtPoint, isWinking: $isWinking, eyeGazeAverage: $eyeGazeAverage, roomUser: $roomUser)
-            .environmentObject(EyeTrackViewModel())
-    }
-}
+//struct EyeActive_Previews: PreviewProvider {
+//    @State static var eyeGazeActive = true
+//    @State static var lookAtPoint: CGPoint? = CGPoint(x: 0, y: 0)
+//    @State static var isWinking = false
+//    @State static var eyeGazeAverage: CGPoint? = CGPoint(x: 100, y: 100)
+//    @State static var roomUser: User = User.sampleData[0][0]
+//    
+//    static var previews: some View {
+//        EyeActive(eyeGazeActive: $eyeGazeActive, lookAtPoint: $lookAtPoint, isWinking: $isWinking, eyeGazeAverage: $eyeGazeAverage, roomUser: $roomUser)
+//            .environmentObject(EyeTrackViewModel())
+//    }
+//}

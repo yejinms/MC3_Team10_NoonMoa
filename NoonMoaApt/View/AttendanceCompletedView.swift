@@ -13,6 +13,8 @@ struct AttendanceCompletedView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceCompletedViewModel: AttendanceCompletedViewModel
     @StateObject private var viewModel: AttendanceCompletedViewModel
+    var pushNotiController = PushNotiController()
+    
     private var userBTokenArr : [String] = ["cRRGWtqBU0bUg2JHqjHzfL:APA91bGiiIRQ5w2Wze1fAs149fwaymbjS-pU4z4HUlVD4sThpwwPzWjuVkXTrWPfuA-qEuuy34Ex5bR2sZFqAicAoZmKdFv5SsObHSwLWHvms3SmJ9jU9VF7qY2LOTdSbQXtbPA9KsDC"]
     
     private var title: String = "title: [충격] 아무도 몰랐던 천재 헨리의 사생활..."
@@ -27,7 +29,7 @@ struct AttendanceCompletedView: View {
         Button {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 for userBToken in userBTokenArr {
-                    sendPushNotification(userBToken: userBToken, title: title, content: content)
+                    pushNotiController.sendPushNotification(userToken: userBToken, title: title, content: content)
                 }
             }
         } label: {

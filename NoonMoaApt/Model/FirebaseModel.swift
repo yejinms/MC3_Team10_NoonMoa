@@ -18,6 +18,7 @@ struct User: Codable, Identifiable {
     var eyeColor: String
     var attendanceSheetId: String? // Reference to AttendanceSheet document ID
     var token: String
+    var requestedBy: [String]
     
     var stateEnum: UserState {
         get { return UserState(rawValue: userState) ?? .inactive }
@@ -29,6 +30,26 @@ struct User: Codable, Identifiable {
         set { eyeColor = newValue.rawValue }
     }
 }
+
+extension User {
+    init?(dictionary: [String: Any]) {
+        guard let userState = dictionary["userState"] as? String,
+              let token = dictionary["token"] as? String,
+              let requestedBy = dictionary["requestedBy"] as? [String]
+        else { return nil }
+
+        self.id = dictionary["id"] as? String
+        self.roomId = dictionary["roomId"] as? String
+        self.aptId = dictionary["aptId"] as? String
+        self.userState = userState
+        self.lastActiveDate = dictionary["lastActiveDate"] as? Date
+        self.eyeColor = dictionary["eyeColor"] as? String ?? "blue"
+        self.attendanceSheetId = dictionary["attendanceSheetId"] as? String
+        self.token = token
+        self.requestedBy = requestedBy
+    }
+}
+
 
 struct AttendanceRecord: Codable, Identifiable {
     @DocumentID var id: String? // = UUID().uuidString <- 이 부분 제거
@@ -57,6 +78,12 @@ struct Room: Codable, Identifiable {
         self.aptId = aptId ?? ""
         self.number = number ?? 0
         self.userId = userId ?? ""
+    }
+}
+
+extension Room {
+    static func dummyRoom() -> Room {
+        return Room(id: nil, aptId: nil, number: nil, userId: nil)
     }
 }
 
@@ -98,7 +125,7 @@ enum UserState: String, Codable {
     case vacant = "vacant"
     case sleep = "sleep"
     case active = "active"
-    case inactive = "inactive"
+    case inactive = "inactaive"
     case ready = "ready"
 }
 
@@ -144,20 +171,22 @@ enum WeatherCondition: String, Codable {
  var attendanceSheetId: String? // Reference to AttendanceSheet document ID
  var token: String
  */
+
+
 extension User {
     static let sampleData: [[User]] =
     [
-        [User(id: "AAAA", roomId: "1", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "1", token: "a"),
-         User(id: "BBBB", roomId: "2", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "2", token: "b"),
-         User(id: "CCCC", roomId: "3", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "3", token: "c")],
-        [User(id: "DDDD", roomId: "4", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "4", token: "d"),
-         User(id: "EEEE", roomId: "5", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "5", token: "e"),
-         User(id: "FFFF", roomId: "6", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "6", token: "f")],
-        [User(id: "GGGG", roomId: "7", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "7", token: "g"),
-         User(id: "HHHH", roomId: "8", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "8", token: "h"),
-         User(id: "IIII", roomId: "9", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "9", token: "i")],
-        [User(id: "JJJJ", roomId: "10", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "10", token: "j"),
-         User(id: "KKKK", roomId: "11", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "11", token: "k"),
-         User(id: "LLLL", roomId: "12", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "12", token: "l")]
+        [User(id: "AAAA", roomId: "1", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "1", token: "a",requestedBy: []),
+         User(id: "BBBB", roomId: "2", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "2", token: "b",requestedBy: []),
+         User(id: "CCCC", roomId: "3", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "3", token: "c",requestedBy: [])],
+        [User(id: "DDDD", roomId: "4", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "4", token: "d",requestedBy: []),
+         User(id: "EEEE", roomId: "5", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "5", token: "e",requestedBy: []),
+         User(id: "FFFF", roomId: "6", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "6", token: "f",requestedBy: [])],
+        [User(id: "GGGG", roomId: "7", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "7", token: "g",requestedBy: []),
+         User(id: "HHHH", roomId: "8", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "8", token: "h",requestedBy: []),
+         User(id: "IIII", roomId: "9", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "9", token: "i",requestedBy: [])],
+        [User(id: "JJJJ", roomId: "10", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "10", token: "j",requestedBy: []),
+         User(id: "KKKK", roomId: "11", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", attendanceSheetId: "11", token: "k",requestedBy: []),
+         User(id: "LLLL", roomId: "12", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "12", token: "l",requestedBy: [])]
     ]
 }
