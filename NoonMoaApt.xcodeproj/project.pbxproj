@@ -64,6 +64,7 @@
 		E3F739392A6A575F00E5F291 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3F739382A6A575F00E5F291 /* Assets.xcassets */; };
 		F4A568B12A6A36AC004BD316 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B02A6A36AC004BD316 /* OnboardingView.swift */; };
 		F4A568B32A6A36B3004BD316 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A568B22A6A36B3004BD316 /* LottieView.swift */; };
+		F4A568BB2A6D6CC2004BD316 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = F4A568BA2A6D6CC2004BD316 /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,9 +85,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8A8B69F82A6BC68D007ED313 /* NoonMoaApt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = NoonMoaApt.app; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoa/build/Debug-iphoneos/NoonMoaApt.app"; sourceTree = "<absolute>"; };
-		8A8B69F92A6BC68D007ED313 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptTests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoa/build/Debug-iphoneos/NoonMoaAptTests.xctest"; sourceTree = "<absolute>"; };
-		8A8B69FA2A6BC68D007ED313 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptUITests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoa/build/Debug-iphoneos/NoonMoaAptUITests.xctest"; sourceTree = "<absolute>"; };
 		8A8B69FB2A6BC6A3007ED313 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8AD230352A699F4C00C967B5 /* SceneButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneButtons.swift; sourceTree = "<group>"; };
 		8AD230362A699F4C00C967B5 /* SceneApt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneApt.swift; sourceTree = "<group>"; };
@@ -136,6 +134,9 @@
 		E3F739382A6A575F00E5F291 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4A568B02A6A36AC004BD316 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F4A568B22A6A36B3004BD316 /* LottieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		F4A568B62A6CFC44004BD316 /* NoonMoaApt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoonMoaApt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4A568B72A6CFC44004BD316 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoonMoaAptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4A568B82A6CFC44004BD316 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoonMoaAptUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +150,7 @@
 				E32E3E862A69526600B865E8 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				E32E3E882A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				E32E3E802A69526600B865E8 /* FirebaseFirestore in Frameworks */,
+				F4A568BB2A6D6CC2004BD316 /* Lottie in Frameworks */,
 				E32E3E7E2A69526600B865E8 /* FirebaseAuthCombine-Community in Frameworks */,
 				E32E3E822A69526600B865E8 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				E32E3E7C2A69526600B865E8 /* FirebaseAuth in Frameworks */,
@@ -202,6 +204,9 @@
 			children = (
 				8A8B69FB2A6BC6A3007ED313 /* GoogleService-Info.plist */,
 				E32E3E162A6951B600B865E8 /* NoonMoaApt */,
+				F4A568B62A6CFC44004BD316 /* NoonMoaApt.app */,
+				F4A568B72A6CFC44004BD316 /* NoonMoaAptTests.xctest */,
+				F4A568B82A6CFC44004BD316 /* NoonMoaAptUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,9 +340,10 @@
 				E32E3E872A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta */,
 				E32E3E892A69526600B865E8 /* FirebaseMessaging */,
 				E32E3E8C2A69527F00B865E8 /* SwiftUICalendar */,
+				F4A568BA2A6D6CC2004BD316 /* Lottie */,
 			);
 			productName = NoonMoaApt;
-			productReference = 8A8B69F82A6BC68D007ED313 /* NoonMoaApt.app */;
+			productReference = F4A568B62A6CFC44004BD316 /* NoonMoaApt.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E32E3E232A6951B700B865E8 /* NoonMoaAptTests */ = {
@@ -355,7 +361,7 @@
 			);
 			name = NoonMoaAptTests;
 			productName = NoonMoaAptTests;
-			productReference = 8A8B69F92A6BC68D007ED313 /* NoonMoaAptTests.xctest */;
+			productReference = F4A568B72A6CFC44004BD316 /* NoonMoaAptTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E32E3E2D2A6951B700B865E8 /* NoonMoaAptUITests */ = {
@@ -373,7 +379,7 @@
 			);
 			name = NoonMoaAptUITests;
 			productName = NoonMoaAptUITests;
-			productReference = 8A8B69FA2A6BC68D007ED313 /* NoonMoaAptUITests.xctest */;
+			productReference = F4A568B82A6CFC44004BD316 /* NoonMoaAptUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -411,6 +417,7 @@
 			packageReferences = (
 				E32E3E782A69526600B865E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E32E3E8B2A69527F00B865E8 /* XCRemoteSwiftPackageReference "SwiftUICalendar" */,
+				F4A568B92A6D6CC2004BD316 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = E32E3E0B2A6951B600B865E8;
 			projectDirPath = "";
@@ -842,6 +849,14 @@
 				minimumVersion = 0.1.14;
 			};
 		};
+		F4A568B92A6D6CC2004BD316 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -894,6 +909,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E32E3E8B2A69527F00B865E8 /* XCRemoteSwiftPackageReference "SwiftUICalendar" */;
 			productName = SwiftUICalendar;
+		};
+		F4A568BA2A6D6CC2004BD316 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4A568B92A6D6CC2004BD316 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
