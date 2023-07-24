@@ -55,10 +55,19 @@ struct CalendarMonthView: View {
             NavigationView {
                 GeometryReader { reader in
                     ZStack {
+                        
+                        Image("Eye_stamp")
+                            .resizable()
+                            .scaledToFit()
                         // 뒷배경
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
+                            .opacity(0.5)
                             .padding(.horizontal, 15)
+                            .background(
+                                .ultraThinMaterial, in:
+                                    RoundedRectangle(cornerRadius: 20)
+                            )
                         
                         VStack {
                             HStack(alignment: .center) {
