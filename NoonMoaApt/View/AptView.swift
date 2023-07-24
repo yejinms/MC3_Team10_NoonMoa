@@ -32,7 +32,6 @@ struct AptView: View {
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         SceneRoom(roomUser: $users[rowIndex][userIndex])
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
-                                        //디자인요소에서 보더는 빼는 것이 좋아보이고 radius는 8로 하는 것이 좋을 것으로 생각됨
                                     }
                                 }
                             }

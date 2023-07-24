@@ -18,14 +18,12 @@ struct MainView: View {
     
     @StateObject var weather: WeatherViewModel
     @StateObject var time: TimeViewModel
-    @StateObject var eyeTrack: EyeTrackViewModel
 
     var body: some View {
         switch viewRouter.currentView {
         case .login:
             LoginView()
                 .environmentObject(LoginViewModel())
-//            CalendarMonthView()
         case .attendance:
             AttendanceView()
                 .environmentObject(AttendanceViewModel())
@@ -34,10 +32,11 @@ struct MainView: View {
             AttendanceCompletedView(record: record)
                 .environmentObject(AttendanceCompletedViewModel(record: record))
         case .apt:
-            AptView()
-                .environmentObject(AptViewModel())
-                .environmentObject(WeatherViewModel())
-                .environmentObject(TimeViewModel())
+            TestView()
+//            AptView()
+//                .environmentObject(AptViewModel())
+//                .environmentObject(WeatherViewModel())
+//                .environmentObject(TimeViewModel())
         case .CalendarFull:
             CalendarFullView()
                 .environmentObject(CalendarFullViewModel())
