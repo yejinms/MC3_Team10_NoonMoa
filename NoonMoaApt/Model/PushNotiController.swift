@@ -67,22 +67,31 @@ class PushNotiController: ObservableObject {
                     print("targetUser.token: \(targetUser.token)")
                     print("targetUser.id: \(targetUser.id)")
                     print("targetUser.userState: \(targetUser.userState)")
-                    print("targetUser.requestedBy: \(targetUser.requestedBy[0])")
                     
-                    // Check if the target user is not in 'Ready' state
-                    if targetUser.userState != "ready" {
+                    // Check if the target user is not in 'Clicked' state
+                    if targetUser.clicked == false {
+                        
+                        print("\(targetUser.clicked)")
+                        
                         // Update currentUser's 'requestedBy' list in Firebase
                         self.db.collection("User").document(targetUserId).updateData([
                             "requestedBy": FieldValue.arrayUnion([currentUser.uid])
                         ])
+                        
+                        // After updating 'requestedBy', change clicked to 'true'
+                       self.db.collection("User").document(targetUserId).updateData([
+                           "clicked": true])
+                        
                         // Send push notification to targetUser
                         self.sendPushNotification(userToken: targetUser.token, title: "Request", content: "\(currentUser.uid) wants to contact you.")
+                        
                     } else {
-                        // If targetUser is in 'Ready' state, just update currentUser's 'requestedBy' list
+                        // If targetUser is in 'Clicked' state, just update currentUser's 'requestedBy' list
                         self.db.collection("User").document(targetUserId).updateData([
                             "requestedBy": FieldValue.arrayUnion([currentUser.uid])
                         ])
                     }
+                    
                 } else {
                     print("Error decoding target user")
                 }
@@ -107,21 +116,22 @@ class PushNotiController: ObservableObject {
                         let userRef = self.db.collection("User").document(userId)
                         userRef.getDocument { (doc, err) in
                             if let doc = doc, doc.exists, let data = doc.data(), let userToken = data["token"] as? String {
-                                self.sendPushNotification(userToken: userToken, title: "Response", content: "\(user.id!) wakes up now")
+                                self.sendPushNotification(userToken: userToken, title: "Response", content: "\(currentUser.uid) wakes up now")
                             }
                         }
                     }
-                    // init
-                    self.db.collection("User").document(user.id!).updateData([
-                        "userState": UserState.active.rawValue,
-                        "requestedBy": []
-                    ])
                 } else {
                     print("Error decoding current user")
                 }
             } else {
                 print("Error getting current user:", err)
             }
+            
+            // init
+            self.db.collection("User").document(currentUser.uid).updateData([
+                "userState": UserState.active.rawValue,
+                "requestedBy": []
+            ])
         }
     }
 

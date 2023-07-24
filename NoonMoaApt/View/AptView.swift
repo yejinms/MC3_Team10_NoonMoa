@@ -16,7 +16,7 @@ struct AptView: View {
     @EnvironmentObject var aptViewModel: AptViewModel
     
     @State private var sampleUsers: [[User]] = User.sampleData
-    //    @State private var users: [User] = []
+//    @State private var users: [User] = []
     @State private var buttonText: String = ""
     
     var body: some View {
@@ -69,16 +69,19 @@ struct AptView: View {
                                             SceneButtons(roomUser: aptViewModel.users[userIndex], buttonText: $buttonText).environmentObject(weather)
                                                 .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                         } else {
-                                            SceneButtons(roomUser: sampleUsers[rowIndex][columnIndex], buttonText: $buttonText).environmentObject(weather)
-                                                .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            ZStack {
+                                                Text("\(sampleUsers[rowIndex][columnIndex].userState)")
+                                                SceneButtons(roomUser: sampleUsers[rowIndex][columnIndex], buttonText: $buttonText).environmentObject(weather)
+                                                    .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                         .offset(x: 12, y: 32)
-                    } //GeometryReader
-                } //ZStack
+                    }//GeometryReader
+                }//ZStack
                 .padding()
                 .ignoresSafeArea()
                 .offset(y: proxy.size.height - proxy.size.width * 1.5)

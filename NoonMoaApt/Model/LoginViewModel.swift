@@ -13,12 +13,17 @@ import AuthenticationServices
 
 class LoginViewModel: ObservableObject {
     
-    @Published var nonce = ""
-    @Published var fcmToken: String = ""
     let db = Firestore.firestore()
-    
     private let dummyData = DummyData()
     
+    @Published var nonce = ""
+    @Published var fcmToken: String = ""
+    var viewRouter = ViewRouter()
+
+    init(viewRouter: ViewRouter) {  // Add this initializer
+        self.viewRouter = viewRouter
+    }
+
     func initializeCountersIfNotExist() {
         let roomCounterRef = db.collection("globals").document("roomCounter")
         let aptCounterRef = db.collection("globals").document("aptCounter")
@@ -119,11 +124,33 @@ class LoginViewModel: ObservableObject {
                         let userRef = self.db.collection("User").document(user.id!)
                         userRef.getDocument { (document, error) in
                             if let document = document, document.exists {
-                                // The user already exists, so we don't need to update them but we need to assign a new room
-                                print("User already exists. Assigning a new room.")
+                                
+                                // The user already exists.
+                                print("User already exists. DO NOT assigning a new room.")
+                                self.updateUserInFirestore(user: user)
                                 self.assignRoomToUser(user: user)
-                            }else {
+                                
+                                // Navigate
+                                if let userData = User(dictionary: document.data()!) {
+                                    switch userData.stateEnum {
+                                    case .sleep:
+                                        DispatchQueue.main.async {
+                                            self.viewRouter.currentView = .attendance
+                                        }
+                                    case .inactive:
+                                        DispatchQueue.main.async {
+                                            self.viewRouter.currentView = .apt
+                                        }
+                                    default:
+                                        DispatchQueue.main.async {
+                                            self.viewRouter.currentView = .apt
+                                        }
+                                    }
+                                }
+                                
+                            } else {
                                 // The user is new, so we update them in Firestore and assign a room
+                                print("NEW User. Assigning a new room.")
                                 self.updateUserInFirestore(user: user)
                                 self.assignRoomToUser(user: user)
                             }

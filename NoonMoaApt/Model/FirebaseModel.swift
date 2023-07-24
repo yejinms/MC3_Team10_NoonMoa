@@ -19,6 +19,7 @@ struct User: Codable, Identifiable {
     var attendanceSheetId: String? // Reference to AttendanceSheet document ID
     var token: String
     var requestedBy: [String]
+    var clicked: Bool = false
     
     var stateEnum: UserState {
         get { return UserState(rawValue: userState) ?? .inactive }
@@ -47,6 +48,7 @@ extension User {
         self.attendanceSheetId = dictionary["attendanceSheetId"] as? String
         self.token = token
         self.requestedBy = requestedBy
+        self.clicked = false
     }
 }
 
@@ -125,8 +127,7 @@ enum UserState: String, Codable {
     case vacant = "vacant"
     case sleep = "sleep"
     case active = "active"
-    case inactive = "inactaive"
-    case ready = "ready"
+    case inactive = "inactive"
 }
 
 enum EyeColor: String, Codable {
