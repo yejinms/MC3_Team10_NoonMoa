@@ -11,6 +11,22 @@ import SwiftUICalendar
 struct CalendarMonthView: View {
     @ObservedObject var controller: CalendarController = CalendarController()
     
+    // 해나 - 영어 월별 이름을 한글로 바꾸기
+    let monthMap: [String: String] = [
+        "Jan": "1월",
+        "Feb": "2월",
+        "Mar": "3월",
+        "Apr": "4월",
+        "May": "5월",
+        "Jun": "6월",
+        "Jul": "7월",
+        "Aug": "8월",
+        "Sep": "9월",
+        "Oct": "10월",
+        "Nov": "11월",
+        "Dec": "12월"
+    ]
+    
     // 해나 - 영어 요일을 한글로 바꾸는 함수
     func getKoreanWeekdayString(_ weekday: String) -> String {
         switch weekday {
@@ -42,20 +58,32 @@ struct CalendarMonthView: View {
                 GeometryReader { reader in
                     VStack (spacing: 0) {
                         HStack(alignment: .center, spacing: 0) {
-                            Button("Prev") {
+                            Button(action: {
                                 // 이전 달로 스크롤하는 버튼
                                 controller.scrollTo(controller.yearMonth.addMonth(value: -1), isAnimate: true)
+                            }) {
+                                Image(systemName: "arrow.left")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20)
+                                    .foregroundColor(.black)
                             }
                             .padding(8)
                             Spacer()
                             // 현재 년도와 달을 표시하는 텍스트 뷰
-                            Text("\(controller.yearMonth.monthShortString), \(String(controller.yearMonth.year))")
-                                .font(.title)
+                            Text("\(String(controller.yearMonth.year))년 \(monthMap[controller.yearMonth.monthShortString] ?? "")")
+                                .font(.title2)
                                 .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                             Spacer()
-                            Button("Next") {
+                            Button(action: {
                                 // 다음 달로 스크롤하는 버튼
                                 controller.scrollTo(controller.yearMonth.addMonth(value: 1), isAnimate: true)
+                            }) {
+                                Image(systemName: "arrow.right")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20)
+                                    .foregroundColor(.black)
                             }
                             .padding(8)
                         }
