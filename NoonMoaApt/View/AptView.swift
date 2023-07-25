@@ -13,6 +13,7 @@ struct AptView: View {
     
     @State private var users: [[User]] = User.sampleData
     @State private var buttonText: String = ""
+    @State private var isCalendarOpen: Bool = false
 
     var body: some View {
         ZStack{
@@ -80,6 +81,37 @@ struct AptView: View {
             FunctionTestView(buttonText: $buttonText)
                 .environmentObject(weather)
                 .environmentObject(time)
+            
+            // 상단 캘린더 & 설정 버튼
+            GeometryReader { proxy in
+                HStack (spacing: 16) {
+                    Spacer()
+                    
+                    Button { // 캘린더 버튼
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            isCalendarOpen = true
+                        }
+                    } label: {
+                        Image("calendar_unselected")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: proxy.size.width * 0.08)
+                    }
+                    
+                    Button { // 설정 버튼
+                        
+                    } label: {
+                        Image("settings_unselected")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: proxy.size.width * 0.08)
+                    }
+                }
+                .padding(.trailing, proxy.size.width * 0.06)
+            }
+            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
+                .opacity(isCalendarOpen ? 1 : 0)
+                                                                                                                                     
             
         }//ZStack
     }

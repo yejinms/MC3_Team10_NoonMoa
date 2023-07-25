@@ -37,26 +37,36 @@ public class CalendarDayController: ObservableObject {
 struct CalendarDayView: View {
     @ObservedObject var controller: CalendarDayController = CalendarDayController()
 
+    func getKoreanMonthString(_ monthAbbreviation: String) -> String {
+        let monthMap: [String: String] = [
+            "Jan": "1월",
+            "Feb": "2월",
+            "Mar": "3월",
+            "Apr": "4월",
+            "May": "5월",
+            "Jun": "6월",
+            "Jul": "7월",
+            "Aug": "8월",
+            "Sep": "9월",
+            "Oct": "10월",
+            "Nov": "11월",
+            "Dec": "12월"
+        ]
+        
+        return monthMap[monthAbbreviation] ?? ""
+    }
+    
     var body: some View {
         GeometryReader { reader in
             VStack {
                 HStack(alignment: .center, spacing: 0) {
-                    Button("Prev") {
-                        // 이전 날로 이동하는 버튼
-                        controller.setYearMonthDay(controller.yearMonthDay.addDay(value: -1))
-                    }
-                    .padding(8)
                     Spacer()
-                    // 현재 날짜를 표시하는 텍스트 뷰
-                    Text("\(controller.yearMonthDay.day), \(controller.monthShortString), \(String(controller.yearMonthDay.year))")
+                    // 선택한 날짜를 표시하는 텍스트 뷰
+                    Text("\(String(controller.yearMonthDay.year))년 \(getKoreanMonthString(controller.monthShortString)) \(controller.yearMonthDay.day)일")
                         .font(.title)
+                        .fontWeight(.semibold)
                         .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                     Spacer()
-                    Button("Next") {
-                        // 다음 날로 이동하는 버튼
-                        controller.setYearMonthDay(controller.yearMonthDay.addDay(value: 1))
-                    }
-                    .padding(8)
                 }
                 // MARK: - 일간 달력 요소 UI 작업
                 // 여기에서 작업하면, 달력의 각 날짜 위치에 그려짐.
