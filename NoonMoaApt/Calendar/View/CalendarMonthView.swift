@@ -54,21 +54,26 @@ struct CalendarMonthView: View {
             NavigationView {
                 GeometryReader { reader in
                     ZStack {
+                        
+                        Image("Eye_stamp")
+                            .resizable()
+                            .scaledToFit()
                         // 뒷배경
                         Button(action: {
                             isCalendarOpen = false
                         }) {
                             Color.clear
                                 .border(Color.blue)
+                                .background(.regularMaterial)
+                                .frame(height: reader.size.height * 0.46)
+                                .padding(.horizontal, 15)
                         }
-                    
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(.white)
-                            .opacity(0.5)
-                            .padding(.horizontal, 15)
-                            .background(.ultraThinMaterial)
-                            .frame(height: reader.size.height * 0.3)
-                            .cornerRadius(30)
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .foregroundColor(.white)
+//                            .opacity(0.5)
+//                            .frame(height: reader.size.height * 0.3)
+//                            .padding(.horizontal, 15)
+//                            .background(.ultraThinMaterial)
                         
                         VStack {
                             HStack(alignment: .center) {
@@ -144,7 +149,7 @@ struct CalendarMonthView: View {
 //                            .padding(.horizontal, reader.size.width * 0.06)
                         }
                         // MARK: - 달력 전체의 padding을 조절하는 변수
-                        .padding(.horizontal, reader.size.width * 0.06)
+                        .padding(.horizontal, reader.size.width * 0.1)
                     }
                     
                 }
