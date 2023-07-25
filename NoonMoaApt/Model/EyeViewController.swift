@@ -19,6 +19,7 @@ class EyeViewController: NSObject, ObservableObject {
                }
         session.run(ARFaceTrackingConfiguration())
     }
+    
 }
 
 extension EyeViewController: ARSessionDelegate {

@@ -170,16 +170,16 @@ struct EyeTestView: View {
                 
                 ZStack {
                     Ellipse()
-                        .fill(LinearGradient(colors: [Color(hex: 0xF2F2F2), Color(hex: 0xD9D9D9)], startPoint: .top, endPoint: .bottom))
+                        .fill(LinearGradient(colors: [Color(hex: 0x999999), Color(hex: 0x000000)], startPoint: .top, endPoint: .bottom))
                         .frame(width: shadowWidth, height: shadowHeight)
                         .offset(y: bodyHeight / 2)
-                        .opacity(0.7)
+                        .opacity(0.4)
                     
                     Ellipse()
                         .fill(LinearGradient(colors: [Color(hex: 0xD9D9D9), Color(hex: 0xF2F2F2)], startPoint: .top, endPoint: .bottom))
                         .overlay(
                             Ellipse()
-                                .stroke(Color.black, lineWidth: 1)
+                                .stroke(Color.black, lineWidth: 2)
                         )
                         .frame(width: bodyWidth, height: bodyHeight)
                         .overlay(
@@ -189,7 +189,7 @@ struct EyeTestView: View {
                                     .fill(Color.white)
                                     .overlay(
                                         Ellipse()
-                                            .stroke(Color.black, lineWidth: 1)
+                                            .stroke(Color.black, lineWidth: 2)
                                     )
                                     .frame(width: eyeWidth, height: eyeHeight)
                                     .overlay(
@@ -200,14 +200,14 @@ struct EyeTestView: View {
                                     )
                                     .clipShape(Ellipse())
                                     .offset(x: eyeOffsetX, y: eyeOffsetY)
-                                    .scaleEffect(CGFloat(faceOrientation.x) <= 0 ? max(0.9, (1 + CGFloat(faceOrientation.x) / 5)) : 1)
                                     .opacity(isBlinkingRight ? 0 : 1)
+
                                 //오른쪽 눈
                                 Ellipse()
                                     .fill(Color.white)
                                     .overlay(
                                         Ellipse()
-                                            .stroke(Color.black, lineWidth: 1)
+                                            .stroke(Color.black, lineWidth: 2)
                                     )
                                     .frame(width: eyeWidth, height: eyeHeight)
                                     .overlay(
@@ -218,9 +218,7 @@ struct EyeTestView: View {
                                     )
                                     .clipShape(Ellipse())
                                     .offset(x: eyeOffsetX, y: eyeOffsetY)
-                                    .scaleEffect(CGFloat(faceOrientation.x) > 0 ? max(0.9, (1 - CGFloat(faceOrientation.x) / 5)) : 1)
                                     .opacity(isBlinkingLeft ? 0 : 1)
-
                             }
                         )
                         .clipShape(Ellipse())

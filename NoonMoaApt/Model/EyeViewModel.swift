@@ -8,6 +8,9 @@ struct EyeViewModel {
     var lookAtPoint: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var faceOrientation: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     
+    var eyeGazeHistory: Array<CGFloat> = []
+    var numberOfHistoryUpdates: Int = 0
+    
     var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     
@@ -25,6 +28,7 @@ struct EyeViewModel {
         
         // .transform의 simd_float4x4의 column 0~3 중 column 2는 화면을 바라보는 축의 값이며, 그 중 x,y값은 사용자가 오른쪽 상단을 바라보았을 때 양수 값을 지닌다.
         faceOrientation = simd_float3(round(faceAnchor.transform.columns.2.x * 1000) / 1000, round(faceAnchor.transform.columns.2.y * 1000) / 1000, round(faceAnchor.transform.columns.2.z * 1000) / 1000)
+        
     }
     var isSmiling: Bool {
         smileLeft > 0.3 || smileRight > 0.3
@@ -35,5 +39,5 @@ struct EyeViewModel {
     var isBlinkingRight: Bool {
         blinkRight > 0.8
     }
-    
+
 }
