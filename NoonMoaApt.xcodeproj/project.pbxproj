@@ -47,6 +47,7 @@
 		E32E3E8A2A69526600B865E8 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = E32E3E892A69526600B865E8 /* FirebaseMessaging */; };
 		E32E3E8D2A69527F00B865E8 /* SwiftUICalendar in Frameworks */ = {isa = PBXBuildFile; productRef = E32E3E8C2A69527F00B865E8 /* SwiftUICalendar */; };
 		E338B7E72A6CB54D00944E62 /* PushNotiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E338B7E62A6CB54D00944E62 /* PushNotiController.swift */; };
+		E35DC8812A6EEB3300990AB6 /* MidnightUpdaterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35DC8802A6EEB3300990AB6 /* MidnightUpdaterController.swift */; };
 		E3CBB3E32A6972F900195326 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E12A6972F900195326 /* WeatherViewModel.swift */; };
 		E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3E22A6972F900195326 /* TimeViewModel.swift */; };
 		E3CBB3EF2A69731700195326 /* EyeTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBB3EB2A69731700195326 /* EyeTrackViewModel.swift */; };
@@ -117,6 +118,7 @@
 		E338B7E42A6CB4D200944E62 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoonMoaAptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E338B7E52A6CB4D200944E62 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoonMoaAptUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E338B7E62A6CB54D00944E62 /* PushNotiController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotiController.swift; sourceTree = "<group>"; };
+		E35DC8802A6EEB3300990AB6 /* MidnightUpdaterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidnightUpdaterController.swift; sourceTree = "<group>"; };
 		E3CBB3CB2A6967AA00195326 /* NoonMoaApt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NoonMoaApt.entitlements; sourceTree = "<group>"; };
 		E3CBB3E12A6972F900195326 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		E3CBB3E22A6972F900195326 /* TimeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeViewModel.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				E32E3E592A6951CE00B865E8 /* AttendanceViewModel.swift */,
 				E32E3E572A6951CE00B865E8 /* AttendanceCompletedViewModel.swift */,
 				E32E3E5A2A6951CE00B865E8 /* AptViewModel.swift */,
+				E35DC8802A6EEB3300990AB6 /* MidnightUpdaterController.swift */,
 				E32E3E522A6951CE00B865E8 /* CalendarSingleController.swift */,
 				E32E3E532A6951CE00B865E8 /* CalendarFullViewModel.swift */,
 				E32E3E582A6951CE00B865E8 /* ViewRouter.swift */,
@@ -498,6 +501,7 @@
 				E3F7392C2A6A540000E5F291 /* WeekView.swift in Sources */,
 				E3F739242A6A540000E5F291 /* CalendarMonthView.swift in Sources */,
 				F4A568B32A6A36B3004BD316 /* LottieView.swift in Sources */,
+				E35DC8812A6EEB3300990AB6 /* MidnightUpdaterController.swift in Sources */,
 				E32E3E6B2A6951CE00B865E8 /* CalendarSingleController.swift in Sources */,
 				E32E3E732A6951CE00B865E8 /* AptViewModel.swift in Sources */,
 				E3CBB3E42A6972F900195326 /* TimeViewModel.swift in Sources */,

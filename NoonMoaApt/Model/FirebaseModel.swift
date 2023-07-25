@@ -177,7 +177,7 @@ enum WeatherCondition: String, Codable {
 extension User {
     static let sampleData: [[User]] =
     [
-        [User(id: "AAAA", roomId: "1", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "1", token: "a",requestedBy: []),
+        [User(id: "AAAA", roomId: "1", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "1", token: "a",requestedBy: []),
          User(id: "BBBB", roomId: "2", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", attendanceSheetId: "2", token: "b",requestedBy: []),
          User(id: "CCCC", roomId: "3", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", attendanceSheetId: "3", token: "c",requestedBy: [])],
         [User(id: "DDDD", roomId: "4", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", attendanceSheetId: "4", token: "d",requestedBy: []),

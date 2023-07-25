@@ -14,10 +14,13 @@ import FirebaseMessaging
 struct NoonMoaAptApp: App {
     @Environment(\.scenePhase) var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    var viewRouter = ViewRouter()
     
     // Initialize a sample AttendanceRecord
     let attendanceRecord = AttendanceRecord(userId: UUID().uuidString, date: Date(), weatherCondition: "Sunny", eyeDirection: [0.1, 0.2, 0.3], aptId: "sampleAptId")
+    
+    var viewRouter = ViewRouter()
+    var midnightUpdater = MidnightUpdater()
+
 
     var body: some Scene {
         WindowGroup {
@@ -33,9 +36,10 @@ struct NoonMoaAptApp: App {
                 eyeTrack: EyeTrackViewModel()
             )
                 .environmentObject(viewRouter)
+                .environmentObject(midnightUpdater) // Pass to view here
         }
-        .onChange(of: scenePhase) { newScenePhase in
-            switch newScenePhase {
+        .onChange(of: scenePhase) { phase in
+            switch phase {
             case .active:
                 delegate.handleSceneActive()
             case .inactive:
@@ -54,6 +58,9 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     let gcmMessageIDKey = "gcm.message_id"
     var loginViewModel: LoginViewModel?
     var viewRouter = ViewRouter()
+    
+    var midnightUpdater: MidnightUpdater?
+    var timer: Timer?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
@@ -79,6 +86,18 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
+        
+        midnightUpdater = MidnightUpdater()
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+            let date = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
+            if hour == 0 && minute == 0 {
+                self.midnightUpdater?.updateAllUsersToSleep()
+            }
+        }
+
         return true
     }
     
@@ -162,7 +181,9 @@ extension AppDelegate: MessagingDelegate {
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-    // PushNoti 메세지 만드는 부분
+    // 1. foreground 상태일 때: remote 혹은 local 알림이 도착했을 때, 알림을 띄우기 전에 이 메서드를 실행
+    // 2. background 상태일 때: remote 알림이 도착했을 때, "알림을 띄우기 전"에 이 메서드를 실행
+    // 여기에서는 알림을 받아서, print문을 출력, completionHandler로 알림 배너 띄우기
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
@@ -177,24 +198,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler([[.banner, .badge, .sound]])
     }
     
+    // - remote, local 알림을 "눌렀을 때" 실행하는 메서드
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         
-        if let senderId = userInfo["senderId"] as? String {
-            let db = Firestore.firestore()
-            db.collection("User").document(senderId).updateData([
-                "clicked": true,
-                "lastActiveDate": FieldValue.serverTimestamp()
-            ]) { err in
-                if let err = err {
-                    print("Error updating user state: \(err)")
-                } else {
-                    print("User state successfully updated")
-                }
-            }
-        }
+//        if let senderId = userInfo["senderId"] as? String {
+//            let db = Firestore.firestore()
+//            db.collection("User").document(senderId).updateData([
+//                "clicked": true,
+//                "lastActiveDate": FieldValue.serverTimestamp()
+//            ]) { err in
+//                if let err = err {
+//                    print("Error updating user state: \(err)")
+//                } else {
+//                    print("User state successfully updated")
+//                }
+//            }
+//        }reerer
         
         completionHandler()
     }

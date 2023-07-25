@@ -15,7 +15,9 @@ struct AttendanceCompletedView: View {
     @StateObject private var viewModel: AttendanceCompletedViewModel
     var pushNotiController = PushNotiController()
     
-    private var userBTokenArr : [String] = ["cRRGWtqBU0bUg2JHqjHzfL:APA91bGiiIRQ5w2Wze1fAs149fwaymbjS-pU4z4HUlVD4sThpwwPzWjuVkXTrWPfuA-qEuuy34Ex5bR2sZFqAicAoZmKdFv5SsObHSwLWHvms3SmJ9jU9VF7qY2LOTdSbQXtbPA9KsDC"]
+    @EnvironmentObject var midnightUpdater: MidnightUpdater
+
+    private var userTokenArr : [String] = ["cRRGWtqBU0bUg2JHqjHzfL:APA91bGiiIRQ5w2Wze1fAs149fwaymbjS-pU4z4HUlVD4sThpwwPzWjuVkXTrWPfuA-qEuuy34Ex5bR2sZFqAicAoZmKdFv5SsObHSwLWHvms3SmJ9jU9VF7qY2LOTdSbQXtbPA9KsDC"]
     
     private var title: String = "title: [충격] 아무도 몰랐던 천재 헨리의 사생활..."
     private var content: String = "content: 매일 매일 닭가슴살 5개씩 섭취하는 것으로 밝혀져..."
@@ -26,10 +28,17 @@ struct AttendanceCompletedView: View {
     
     var body: some View {
         
+// 모든 User 상태를 .sleep로 바꾸는 버튼
+//        Button(action: {
+//            self.midnightUpdater.updateAllUsersToSleep()
+//        }) {
+//            Text("Test Sleep Update")
+//        }
+        
         Button {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                for userBToken in userBTokenArr {
-                    pushNotiController.sendPushNotification(userToken: userBToken, title: title, content: content)
+                for userToken in userTokenArr {
+                    pushNotiController.sendPushNotification(userToken: userToken, title: title, content: content)
                 }
             }
         } label: {
@@ -53,3 +62,15 @@ struct AttendanceCompletedView: View {
     }
 }
 
+
+// You also need to add a property wrapper for AppDelegate
+extension EnvironmentValues {
+    var appDelegate: AppDelegate {
+        get { self[AppDelegateKey.self] }
+        set { self[AppDelegateKey.self] = newValue }
+    }
+}
+
+private struct AppDelegateKey: EnvironmentKey {
+    static var defaultValue: AppDelegate = AppDelegate()
+}

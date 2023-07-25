@@ -117,18 +117,16 @@ class LoginViewModel: ObservableObject {
                             }
                         }
                         
-                        // Create a new user object
+                        // 존재하지 않은 계정일 때 사용하게 될 새로운 User 객체
                         let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
-                        
+
                         // Check if the user already exists in Firestore
                         let userRef = self.db.collection("User").document(user.id!)
                         userRef.getDocument { (document, error) in
                             if let document = document, document.exists {
-                                
+
                                 // The user already exists.
                                 print("User already exists. DO NOT assigning a new room.")
-                                self.updateUserInFirestore(user: user)
-                                self.assignRoomToUser(user: user)
                                 
                                 // Navigate
                                 if let userData = User(dictionary: document.data()!) {
@@ -149,6 +147,9 @@ class LoginViewModel: ObservableObject {
                                 }
                                 
                             } else {
+                                // Create a new user object
+                                let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+                                
                                 // The user is new, so we update them in Firestore and assign a room
                                 print("NEW User. Assigning a new room.")
                                 self.updateUserInFirestore(user: user)

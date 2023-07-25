@@ -53,6 +53,7 @@ class PushNotiController: ObservableObject {
         task.resume()
     }
     
+
     func requestPushNotification(to targetUserId: String) {
         guard let currentUser = Auth.auth().currentUser else {
             print("No current user")
@@ -60,18 +61,17 @@ class PushNotiController: ObservableObject {
         }
 
         let targetUserRef = db.collection("User").document(targetUserId)
-        targetUserRef.getDocument { (doc, err) in
+        targetUserRef.addSnapshotListener { (doc, err) in
             if let doc = doc, doc.exists, let data = doc.data() {
                 if let targetUser = User(dictionary: data) {
-                    
                     print("targetUser.token: \(targetUser.token)")
-                    print("targetUser.id: \(targetUser.id)")
+                    print("targetUserId: \(targetUserId)")
                     print("targetUser.userState: \(targetUser.userState)")
                     
                     // Check if the target user is not in 'Clicked' state
                     if targetUser.clicked == false {
                         
-                        print("\(targetUser.clicked)")
+                        print("targetUser.clicked: \(targetUser.clicked)")
                         
                         // Update currentUser's 'requestedBy' list in Firebase
                         self.db.collection("User").document(targetUserId).updateData([
@@ -79,14 +79,16 @@ class PushNotiController: ObservableObject {
                         ])
                         
                         // After updating 'requestedBy', change clicked to 'true'
-                       self.db.collection("User").document(targetUserId).updateData([
-                           "clicked": true])
+                        self.db.collection("User").document(targetUserId).updateData([
+                            "clicked": true])
                         
                         // Send push notification to targetUser
                         self.sendPushNotification(userToken: targetUser.token, title: "Request", content: "\(currentUser.uid) wants to contact you.")
                         
                     } else {
                         // If targetUser is in 'Clicked' state, just update currentUser's 'requestedBy' list
+                        // But don't send the push notification
+                        print("else")
                         self.db.collection("User").document(targetUserId).updateData([
                             "requestedBy": FieldValue.arrayUnion([currentUser.uid])
                         ])
@@ -100,6 +102,8 @@ class PushNotiController: ObservableObject {
             }
         }
     }
+
+
 
     func responsePushNotification() {
         guard let currentUser = Auth.auth().currentUser else {

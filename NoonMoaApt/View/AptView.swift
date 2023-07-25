@@ -66,11 +66,14 @@ struct AptView: View {
                                     ForEach(sampleUsers[rowIndex].indices, id: \.self) { columnIndex in
                                         let userIndex = Int(rowIndex) * 3 + Int(columnIndex)
                                         if userIndex < aptViewModel.users.count {
-                                            SceneButtons(roomUser: aptViewModel.users[userIndex], buttonText: $buttonText).environmentObject(weather)
-                                                .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            ZStack {
+                                                Text(aptViewModel.users[userIndex].id!)
+                                                SceneButtons(roomUser: aptViewModel.users[userIndex], buttonText: $buttonText).environmentObject(weather)
+                                                    .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            }
                                         } else {
                                             ZStack {
-                                                Text("\(sampleUsers[rowIndex][columnIndex].userState)")
+//                                                Text("\(sampleUsers[rowIndex][columnIndex].id!)")
                                                 SceneButtons(roomUser: sampleUsers[rowIndex][columnIndex], buttonText: $buttonText).environmentObject(weather)
                                                     .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                             }
