@@ -87,6 +87,44 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         
         UNUserNotificationCenter.current().delegate = self
         
+        
+        // Check if a user is already signed in.
+        if let user = Auth.auth().currentUser {
+            print("User \(user.uid) is signed in.")
+            
+            // Define userRef here
+            let db = Firestore.firestore()
+            let userRef = db.collection("User").document(user.uid)
+            
+            // Fetch user data and set up your app UI accordingly.
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let userData = User(dictionary: document.data()!) {
+                        DispatchQueue.main.async {
+                            switch userData.stateEnum {
+                            case .sleep:
+                                self.viewRouter.currentView = .attendance
+                            case .inactive:
+                                self.viewRouter.currentView = .apt
+                            default:
+                                self.viewRouter.currentView = .apt
+                            }
+                        }
+                    } else {
+                        print("Error: Document exists but unable to parse into User.")
+                    }
+                } else if let error = error {
+                    print("Error fetching user: \(error)")
+                }
+            }
+        } else {
+            print("No user is signed in.")
+            // No user is signed in. Show a sign-in screen, or handle accordingly.
+        }
+
+
+        
+        // 자정이 되면 모든 user의 userState를 .sleep으로 변경
         midnightUpdater = MidnightUpdater()
         timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
             let date = Date()
@@ -105,24 +143,30 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         Messaging.messaging().apnsToken = deviceToken
     }
     
+    // APP이 active 상태일 때 실행되는 메서드
     func handleSceneActive() {
-        // ... do something when active
         print("AppDelegate: ScenePhase: active")
-        
-        // Here you would update the user's state to .active
+
+        // Get the current user
         if let user = Auth.auth().currentUser {
             let db = Firestore.firestore()
-            db.collection("User").document(user.uid).updateData([
+            let userRef = db.collection("User").document(user.uid)
+            
+            // app을 켰을 때, userState를 active로 업데이트
+            userRef.updateData([
                 "userState": UserState.active.rawValue
             ]) { err in
                 if let err = err {
                     print("Error updating user state: \(err)")
                 } else {
-                    print("User state successfully updated to active")
+                    print("User state successfully updated to inactive")
                 }
             }
+        } else {
+            print("No user is signed in.")
         }
     }
+
 
     func handleSceneBackground() {
         // ... do something when in background
@@ -216,8 +260,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 //                    print("User state successfully updated")
 //                }
 //            }
-//        }reerer
-        
+//        }
         completionHandler()
     }
 }

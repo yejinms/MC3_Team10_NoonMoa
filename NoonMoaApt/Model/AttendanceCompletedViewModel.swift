@@ -68,7 +68,7 @@ class AttendanceCompletedViewModel: ObservableObject {
         }
         
         // Fetch the User document first
-        db.collection("User").document(userId).getDocument { [self] (document, error) in
+        db.collection("User").document(userId).getDocument { (document, error) in
             if let document = document, document.exists {
                 let user = try? document.data(as: User.self)
                 
