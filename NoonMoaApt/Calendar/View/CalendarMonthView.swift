@@ -47,32 +47,33 @@ struct CalendarMonthView: View {
         }
     }
     
+    @Binding var isCalendarOpen: Bool
+    
     var body: some View {
-        ZStack {
-            Color.black
-                .ignoresSafeArea()
-            
+       
             NavigationView {
                 GeometryReader { reader in
                     ZStack {
-                        
-                        Image("Eye_stamp")
-                            .resizable()
-                            .scaledToFit()
                         // 뒷배경
+                        Button(action: {
+                            isCalendarOpen = false
+                        }) {
+                            Color.clear
+                                .border(Color.blue)
+                        }
+                    
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundColor(.white)
                             .opacity(0.5)
                             .padding(.horizontal, 15)
-                            .background(
-                                .ultraThinMaterial, in:
-                                    RoundedRectangle(cornerRadius: 20)
-                            )
+                            .background(.ultraThinMaterial)
+                            .frame(height: reader.size.height * 0.3)
+                            .cornerRadius(30)
                         
                         VStack {
                             HStack(alignment: .center) {
+                                // 이전 달로 스크롤하는 버튼
                                 Button(action: {
-                                    // 이전 달로 스크롤하는 버튼
                                     controller.scrollTo(controller.yearMonth.addMonth(value: -1), isAnimate: true)
                                 }) {
                                     Image(systemName: "arrow.left")
@@ -88,8 +89,8 @@ struct CalendarMonthView: View {
                                     .fontWeight(.semibold)
                                     .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                                 Spacer()
+                                // 다음 달로 스크롤하는 버튼
                                 Button(action: {
-                                    // 다음 달로 스크롤하는 버튼
                                     controller.scrollTo(controller.yearMonth.addMonth(value: 1), isAnimate: true)
                                 }) {
                                     Image(systemName: "arrow.right")
@@ -100,7 +101,7 @@ struct CalendarMonthView: View {
                                 }
                             }
                             .padding(.top, reader.size.width * 0.04)
-                            .padding(.horizontal, reader.size.width * 0.06)
+                            .padding(.horizontal, reader.size.width * 0.02)
                             // 월간 캘린더 뷰
                             CalendarView(controller, header: { week in
                                 GeometryReader { geometry in
@@ -140,18 +141,19 @@ struct CalendarMonthView: View {
                                     }
                                 }
                             })
-                            .padding(.horizontal, reader.size.width * 0.06)
+//                            .padding(.horizontal, reader.size.width * 0.06)
                         }
                         // MARK: - 달력 전체의 padding을 조절하는 변수
-                        .padding(.horizontal, reader.size.width * 0.05)
+                        .padding(.horizontal, reader.size.width * 0.06)
                     }
+                    
                 }
                 .onChange(of: controller.yearMonth) { yearMonth in
                     print(yearMonth)
                 }
                 //            .navigationBarTitle("Embed header")
             }
-        }//ZStack
+       
     }
 }
 
@@ -164,6 +166,6 @@ func isPastOrToday(date: Date) -> Bool {
 struct CalendarCustomView_Previews: PreviewProvider {
     static var previews: some View {
         // 2023년 7월을 가진 컨트롤러를 이용해 미리보기를 생성합니다.
-        CalendarMonthView(controller: CalendarController(YearMonth(year: 2023, month: 7)))
+        CalendarMonthView(controller: CalendarController(YearMonth(year: 2023, month: 7)), isCalendarOpen: .constant(false))
     }
 }
