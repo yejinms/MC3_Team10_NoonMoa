@@ -65,11 +65,11 @@ struct SceneRoom: View {
         )
     }
 }
-
-struct SceneRoom_Previews: PreviewProvider {
-    @State static var user: User = User.sampleData[0][0]
-    
-    static var previews: some View {
-        SceneRoom(roomUser: $user)
-    }
-}
+//
+//struct SceneRoom_Previews: PreviewProvider {
+//    @State static var user: User = User.sampleData[0][0]
+//
+//    static var previews: some View {
+//        SceneRoom(roomUser: $user)
+//    }
+//}

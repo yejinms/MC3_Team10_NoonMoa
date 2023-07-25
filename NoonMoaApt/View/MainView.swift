@@ -23,8 +23,9 @@ struct MainView: View {
     var body: some View {
         switch viewRouter.currentView {
         case .login:
+//            OnboardingView()
             LoginView()
-                .environmentObject(LoginViewModel())
+                .environmentObject(LoginViewModel(viewRouter: ViewRouter()))
 //            CalendarMonthView()
         case .attendance:
             AttendanceView()
@@ -46,7 +47,7 @@ struct MainView: View {
                 .environmentObject(calendarSingleController)
         default:
             LoginView()
-                .environmentObject(LoginViewModel())
+                .environmentObject(LoginViewModel(viewRouter: ViewRouter()))
         }
     }
 }

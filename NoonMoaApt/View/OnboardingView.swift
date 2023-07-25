@@ -165,6 +165,7 @@ struct OnboardingView: View {
                                         AptView()
                                             .environmentObject(WeatherViewModel())
                                             .environmentObject(TimeViewModel())
+                                            .environmentObject(AptViewModel())
                                        , label: {
                             Text("시작하기")
                                 .font(.system(size: 20, weight: .semibold))

@@ -68,14 +68,14 @@ class AttendanceCompletedViewModel: ObservableObject {
         }
         
         // Fetch the User document first
-        db.collection("User").document(userId).getDocument { [self] (document, error) in
+        db.collection("User").document(userId).getDocument { (document, error) in
             if let document = document, document.exists {
                 let user = try? document.data(as: User.self)
                 
                 // Now update the User document with lastActiveDate and state only
                 self.db.collection("User").document(self.userId).setData([
                     "lastActiveDate": Date(),
-                    "state": UserState.active.rawValue
+                    "userState": UserState.active.rawValue
                 ], merge: true) { err in
                     if let err = err {
                         print("Error updating user: \(err)")

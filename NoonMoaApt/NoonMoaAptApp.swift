@@ -10,24 +10,18 @@ import Firebase
 import FirebaseCore
 import FirebaseMessaging
 
-
-//class AppDelegate: NSObject, UIApplicationDelegate {
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        FirebaseApp.configure()
-//        return true
-//    }
-//}
-
 @main
 struct NoonMoaAptApp: App {
-    // register app delegate for Firebase setup
+    @Environment(\.scenePhase) var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    var viewRouter = ViewRouter()
     
     // Initialize a sample AttendanceRecord
     let attendanceRecord = AttendanceRecord(userId: UUID().uuidString, date: Date(), weatherCondition: "Sunny", eyeDirection: [0.1, 0.2, 0.3], aptId: "sampleAptId")
-
     
+    var viewRouter = ViewRouter()
+    var midnightUpdater = MidnightUpdater()
+
+
     var body: some Scene {
         WindowGroup {
             MainView(
@@ -35,36 +29,43 @@ struct NoonMoaAptApp: App {
                 attendanceViewModel: AttendanceViewModel(),
                 calendarFullViewModel: CalendarFullViewModel(),
                 calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()),
-                loginViewModel: LoginViewModel(),
+                loginViewModel: LoginViewModel(viewRouter: ViewRouter()),
                 aptViewModel: AptViewModel(),
                 weather: WeatherViewModel(),
                 time: TimeViewModel(),
                 eyeTrack: EyeTrackViewModel()
             )
                 .environmentObject(viewRouter)
+                .environmentObject(midnightUpdater) // Pass to view here
+        }
+        .onChange(of: scenePhase) { phase in
+            switch phase {
+            case .active:
+                delegate.handleSceneActive()
+            case .inactive:
+                delegate.handleSceneInactive()
+            case .background:
+                delegate.handleSceneBackground()
+            @unknown default:
+                delegate.handleSceneUnexpectedState()
+            }
         }
     }
 }
-
-//토큰을 받았다
-//["token": "dl32yOMswUzphtj80tAsSX:APA91bHlKSrGp3ytRE-w4EXPxhM5X0ylgYHFEvkJqR9K-6TlJ7liPu1o9RQdLFOKux8DLik_hw9DqKb9S2o-FvHMkoPdIqaM-IOs7jRl_oQ-c-iaOcAMTpUSfnaFRyk8a5kAp435L6_E"]
-
 
 class AppDelegate: NSObject, UIApplicationDelegate{
     
     let gcmMessageIDKey = "gcm.message_id"
     var loginViewModel: LoginViewModel?
+    var viewRouter = ViewRouter()
     
-    // 앱이 켜졌을 때
+    var midnightUpdater: MidnightUpdater?
+    var timer: Timer?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
-        // 파이어베이스 설정
         FirebaseApp.configure()
         
-        // Setting Up Notifications...
-        // 원격 알림 등록
         if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
             
             let authOption: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -79,22 +80,124 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         
         application.registerForRemoteNotifications()
         
+        var pushNotiController = PushNotiController()
+        pushNotiController.responsePushNotification()
         
-        // Setting Up Cloud Messaging...
-        // 메세징 델리겟
         Messaging.messaging().delegate = self
         
         UNUserNotificationCenter.current().delegate = self
+        
+        
+        // Check if a user is already signed in.
+        if let user = Auth.auth().currentUser {
+            print("User \(user.uid) is signed in.")
+            
+            // Define userRef here
+            let db = Firestore.firestore()
+            let userRef = db.collection("User").document(user.uid)
+            
+            // Fetch user data and set up your app UI accordingly.
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let userData = User(dictionary: document.data()!) {
+                        DispatchQueue.main.async {
+                            switch userData.stateEnum {
+                            case .sleep:
+                                self.viewRouter.currentView = .attendance
+                            case .inactive:
+                                self.viewRouter.currentView = .apt
+                            default:
+                                self.viewRouter.currentView = .apt
+                            }
+                        }
+                    } else {
+                        print("Error: Document exists but unable to parse into User.")
+                    }
+                } else if let error = error {
+                    print("Error fetching user: \(error)")
+                }
+            }
+        } else {
+            print("No user is signed in.")
+            // No user is signed in. Show a sign-in screen, or handle accordingly.
+        }
+
+
+        
+        // 자정이 되면 모든 user의 userState를 .sleep으로 변경
+        midnightUpdater = MidnightUpdater()
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+            let date = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
+            if hour == 0 && minute == 0 {
+                self.midnightUpdater?.updateAllUsersToSleep()
+            }
+        }
+
         return true
     }
     
-    // fcm 토큰이 등록 되었을 때
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
+    
+    // APP이 active 상태일 때 실행되는 메서드
+    func handleSceneActive() {
+        print("AppDelegate: ScenePhase: active")
+
+        // Get the current user
+        if let user = Auth.auth().currentUser {
+            let db = Firestore.firestore()
+            let userRef = db.collection("User").document(user.uid)
+            
+            // app을 켰을 때, userState를 active로 업데이트
+            userRef.updateData([
+                "userState": UserState.active.rawValue
+            ]) { err in
+                if let err = err {
+                    print("Error updating user state: \(err)")
+                } else {
+                    print("User state successfully updated to inactive")
+                }
+            }
+        } else {
+            print("No user is signed in.")
+        }
+    }
+
+
+    func handleSceneBackground() {
+        // ... do something when in background
+        print("AppDelegate: ScenePhase: background")
+        
+        // Here you would update the user's state to .inactive
+        if let user = Auth.auth().currentUser {
+            let db = Firestore.firestore()
+            db.collection("User").document(user.uid).updateData([
+                "userState": UserState.inactive.rawValue
+            ]) { err in
+                if let err = err {
+                    print("Error updating user state: \(err)")
+                } else {
+                    print("User state successfully updated to inactive")
+                }
+            }
+        }
+    }
+
+    func handleSceneInactive() {
+        print("AppDelegate: ScenePhase: inactive")
+        // ... do something when inactive
+    }
+
+    func handleSceneUnexpectedState() {
+        print("AppDelegate: ScenePhase: unexpected state")
+        // ... do something when in unexpected state
+    }
 }
 
-// Cloud Messaging...
 extension AppDelegate: MessagingDelegate {
         
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
@@ -104,7 +207,6 @@ extension AppDelegate: MessagingDelegate {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         print(dataDict, "from_Appdelegate")
                 
-        // Store the FCM token in Firestore if a user is logged in
         if let user = Auth.auth().currentUser {
             db.collection("User").document(user.uid).setData(["token": fcmToken ?? ""], merge: true) { err in
                 if let err = err {
@@ -120,45 +222,45 @@ extension AppDelegate: MessagingDelegate {
     }
 }
 
-
-// User Notifications...[AKA InApp Notification...]
-
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  
-    // 푸시 메세지가 앱이 켜져있을 때 나올떄
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
+    
+    // 1. foreground 상태일 때: remote 혹은 local 알림이 도착했을 때, 알림을 띄우기 전에 이 메서드를 실행
+    // 2. background 상태일 때: remote 알림이 도착했을 때, "알림을 띄우기 전"에 이 메서드를 실행
+    // 여기에서는 알림을 받아서, print문을 출력, completionHandler로 알림 배너 띄우기
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
                                 -> Void) {
-      
-    let userInfo = notification.request.content.userInfo
-
-    
-    // Do Something With MSG Data...
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+        
+        let userInfo = notification.request.content.userInfo
+        
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        print(userInfo)
+        completionHandler([[.banner, .badge, .sound]])
     }
     
-    
-    print(userInfo)
-
-    completionHandler([[.banner, .badge, .sound]])
-  }
-
-    // 푸시메세지를 받았을 떄
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-
-    // Do Something With MSG Data...
-    if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
+    // - remote, local 알림을 "눌렀을 때" 실행하는 메서드
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+//        if let senderId = userInfo["senderId"] as? String {
+//            let db = Firestore.firestore()
+//            db.collection("User").document(senderId).updateData([
+//                "clicked": true,
+//                "lastActiveDate": FieldValue.serverTimestamp()
+//            ]) { err in
+//                if let err = err {
+//                    print("Error updating user state: \(err)")
+//                } else {
+//                    print("User state successfully updated")
+//                }
+//            }
+//        }
+        completionHandler()
     }
-      
-    print(userInfo)
-
-    completionHandler()
-  }
 }
