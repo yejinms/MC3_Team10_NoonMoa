@@ -1,7 +1,7 @@
 import ARKit
 import SwiftUI
 
-//TODO: 내 사용자 설정에 따라 bodyColor, eyeColor를 반영하는 func들어가야함.
+//TODO: 나중에는 내 사용자 설정에 따라 bodyColor, eyeColor를 반영하는 func들어가야함.
 
 struct EyeMyViewModel {
     var smileRight: Float = 0.0

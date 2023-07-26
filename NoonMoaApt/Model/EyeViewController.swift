@@ -6,7 +6,7 @@ class EyeViewController: NSObject, ObservableObject {
     var session = ARSession()
 
     override init() {
-        //AR 트래킹 사용 가능한지 확인하는 부분인데, xcode에서 크래시가 나서 일단 주석처리
+//        AR 트래킹 사용 가능한지 확인하는 부분인데, xcode에서 크래시가 나서 일단 주석처리
 //        guard ARFaceTrackingConfiguration.isSupported,
 //                       ARFaceTrackingConfiguration.supportsWorldTracking else {
 //                   // In reality you would want to fall back to another AR experience or present an error

@@ -5,6 +5,7 @@
 //  Created by 최민규 on 2023/07/16.
 //
 
+//내 눈과 이웃 눈에서 각각 inactive상태에 따라 각 인스턴스 값을 분기처리할 수 있지만, 그러면 추후 코드 수정이 오히려 용이하지 않을 것 같아서 하나의 Scene으로 분리하였습니다.
 import SwiftUI
 
 struct SceneInactiveEye: View {

@@ -1,5 +1,6 @@
 import SwiftUI
 
+//다양한 상황, 뷰모델에 맞춰서 사용할 수 있는 하나의 눈 뷰.
 struct EyeView: View {
     
     var isSmiling: Bool
