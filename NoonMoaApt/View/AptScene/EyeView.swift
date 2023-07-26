@@ -50,10 +50,6 @@ struct EyeView: View {
                     //몸통
                     Ellipse()
                         .fill(bodyColor)
-                        .overlay(
-                            Ellipse()
-                                .stroke(Color.black, lineWidth: 1)
-                        )
                         .frame(width: bodyWidth, height: bodyHeight)
                         .overlay(
                             HStack(spacing: eyeDistance) {
@@ -75,6 +71,14 @@ struct EyeView: View {
                                         Ellipse()
                                             .fill(eyeColor)
                                             .frame(width: eyeWidth, height: eyeHeight)
+                                            .overlay(
+                                            Circle()
+                                                .stroke(Color.black, lineWidth: 1)
+                                                .frame(width: eyeHeight, height: eyeHeight)
+                                                .offset(y: -eyeWidth / 2)
+                                            
+                                            )
+                                            .clipShape(Ellipse())
                                             .opacity(isBlinkingRight ? 1 : 0)
                                         )
                                     .overlay(
@@ -102,6 +106,14 @@ struct EyeView: View {
                                         Ellipse()
                                             .fill(eyeColor)
                                             .frame(width: eyeWidth, height: eyeHeight)
+                                            .overlay(
+                                            Circle()
+                                                .stroke(Color.black, lineWidth: 1)
+                                                .frame(width: eyeHeight, height: eyeHeight)
+                                                .offset(y: -eyeWidth / 2)
+                                            
+                                            )
+                                            .clipShape(Ellipse())
                                             .opacity(isBlinkingLeft ? 1 : 0)
                                         )
                                     .overlay(
@@ -113,6 +125,11 @@ struct EyeView: View {
                             }
                         )
                         .clipShape(Ellipse())
+                        //몸통 테두리
+                        .overlay(
+                            Ellipse()
+                                .stroke(Color.black, lineWidth: 1)
+                        )
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
             }//GeometryReader
