@@ -33,8 +33,7 @@ struct NoonMoaAptApp: App {
                 aptViewModel: AptViewModel(),
                 weather: WeatherViewModel(),
                 time: TimeViewModel(),
-                eyeTrack: EyeTrackViewModel()
-            )
+                eyeViewController: EyeViewController())
                 .environmentObject(viewRouter)
                 .environmentObject(midnightUpdater) // Pass to view here
         }

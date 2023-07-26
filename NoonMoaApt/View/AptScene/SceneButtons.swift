@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct SceneButtons: View {
-    
-    var roomUser: User
+
+    @Binding var roomUser: User
+    @Binding var buttonText: String
     
     @State private var lastActiveToggle: Bool = false
     @State private var lastWakenTimeToggle: Bool = false
-    
-    @Binding var buttonText: String
     
     var pushNotiController = PushNotiController()
     
