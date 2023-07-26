@@ -7,105 +7,229 @@
 
 import SwiftUI
 import Firebase
-import FirebaseAuth
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-import WeatherKit
 
 struct AttendanceView: View {
+    private let currentUser = Auth.auth().currentUser
+    
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceViewModel: AttendanceViewModel
+    @EnvironmentObject var weather: WeatherViewModel
+    @EnvironmentObject var eyeViewController: EyeViewController
     
-    private let currentUser = Auth.auth().currentUser
-    var stampPressed: Bool = false
+    @State private var isStamped: Bool = false
+    @State private var isScaleEffectPlayed: Bool = false
+    @State private var isBlurEffectPlayed: Bool = false
+    @State private var isShutterEffectPlayed: Bool = false
+    
+    @State private var savedSkyColor: LinearGradient = Color.sky.clearDay
+    @State private var savedSkyImage: Image = Image.assets.stampWeather.clearDay
+    @State private var savedIsSmiling: Bool = false
+    @State private var savedIsBlinkingLeft: Bool = false
+    @State private var savedIsBlinkingRight: Bool = false
+    @State private var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    @State private var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    @State private var savedBodyColor: Color = .userBlue
+    @State private var savedEyeColor: Color = .eyeBlue
     
     var body: some View {
-        GeometryReader { geo in
-            VStack (alignment: .leading) {
-                
-                // 페페의 데이터 확인용 코드
-                /*
-                Text("Hello, \(currentUser?.uid ?? "NoBody")")
-                Text("Weather: \(attendanceViewModel.weatherCondition)")
-                Text("Eye Direction: \(attendanceViewModel.eyeDirection.map{ String($0) }.joined(separator: ", "))")
-                Image(systemName: "tree")
-                    .frame(width: 150, height: 150)
-                
-                Button("Complete Attendance") {
-                    attendanceViewModel.createAttendanceRecord()
-                    viewRouter.currentView = .attendanceCompleted
-                }
-                */
-                
-                // 멘트 글씨 Group
-                VStack (alignment: .leading) {
-                    Text("\(mainSentence())")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.bottom, geo.size.height * 0.008)
-                    Text("\(subSentence())")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                }
-                .padding(.top, geo.size.height * 0.15)
-                .padding(.leading, geo.size.width * 0.07)
-                
-                Spacer()
-                
-                StampLDesign(isAttendanceView: true, isStamped: false)
-                
-                Spacer()
-                
-                // 눈도장 찍기 버튼
-                Button {
-                    attendanceViewModel.createAttendanceRecord()
-                    viewRouter.currentView = .attendanceCompleted
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 13)
-                            .fill(Color.warmBlack)
-                            .frame(height: geo.size.height * 0.066, alignment: .center)
-                            .padding(.horizontal, geo.size.width * 0.07)
-                        Text("눈도장 찍기")
-                            .foregroundColor(.white)
-                            .fontWeight(.semibold)
+        ZStack {
+            GeometryReader { geo in
+                VStack(alignment: .leading) {
+                    Spacer().frame(height: geo.size.height * 0.06)
+                    HStack {
+                        VStack(alignment: .leading) {
+                            if !isStamped {
+                                Text("좋은 아침이에요!")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 4)
+                                Text("매일 눈을 뜬다는 건 멋진 일이예요.\n오늘의 시작을 기록해주세요.")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                            } else {
+                                Text("오늘은 날씨가 꽤나 맑군요")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .padding(.bottom, 4)
+                                Text("오늘 하루도 상쾌하길 바라요!")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                            }
+                            Spacer()
+                        }
                     }
-                }
-                .padding(.bottom, geo.size.height * 0.07)
-
-            }
-        }
-        .ignoresSafeArea()
+                    .frame(height: geo.size.height * 0.16)
+                    .offset(x: 8)
+                    
+                    Spacer()
+                    
+                    if !isStamped {
+                        //출석체크 전 눈 움직이는 뷰
+                        StampLargeView(skyColor: Color.gradationGray, skyImage: Image(""), isSmiling: eyeViewController.eyeMyModel.isSmiling,
+                                       isBlinkingLeft: eyeViewController.eyeMyModel.isBlinkingLeft,
+                                       isBlinkingRight: eyeViewController.eyeMyModel.isBlinkingRight,
+                                       lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
+                                       faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
+                                       bodyColor: Color.white,
+                                       eyeColor: Color.white)
+                        .frame(width: geo.size.width, height: geo.size.width)
+                        .offset(y: -16)
+                        .blur(radius: isBlurEffectPlayed ? 5 : 0)
+                        
+                    } else {
+                        //출석체크 후 저장된 날씨와, 캐릭터의 움직임 좌표값으로 표현된 뷰
+                        StampLargeView(skyColor: savedSkyColor, skyImage: savedSkyImage, isSmiling: savedIsSmiling, isBlinkingLeft: savedIsBlinkingLeft, isBlinkingRight: savedIsBlinkingRight, lookAtPoint: savedLookAtPoint, faceOrientation: savedFaceOrientation, bodyColor: savedBodyColor, eyeColor: savedEyeColor)
+                            .frame(width: geo.size.width, height: geo.size.width)
+                            .offset(y: -16)
+                            .scaleEffect(isScaleEffectPlayed ? 0.9 : 1)
+                            .opacity(isShutterEffectPlayed ? 1 : 0)
+                        
+                    }
+                    
+                    Spacer()
+                    
+                    if !isStamped {
+                        // 눈도장 찍기 버튼
+                        Button (action: {
+                            DispatchQueue.main.async {
+                                withAnimation(.easeInOut(duration: 0.2).repeatCount(2, autoreverses: true)) {
+                                    isBlurEffectPlayed = true
+                                }
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation(.spring(response: 0.5, dampingFraction: 0.3).speed(1)) {
+                                    isStamped = true
+                                }
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                withAnimation(.linear.speed(1.5).repeatCount(1, autoreverses: true)) {
+                                    isShutterEffectPlayed = true
+                                }
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation(.spring(response: 0.5, dampingFraction: 0.3).speed(1)) {
+                                    isScaleEffectPlayed = true
+                                }
+                            }
+                            
+                            //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
+                            weather.getNowWeather()
+                            self.savedSkyColor = weather.savedSkyColor
+                            self.savedSkyImage = weather.savedSkyImage
+                            //ARView에서 움직이던 값을 저장한다.
+                            self.savedIsSmiling = eyeViewController.eyeMyModel.isSmiling
+                            self.savedIsBlinkingLeft = eyeViewController.eyeMyModel.isBlinkingLeft
+                            self.savedIsBlinkingRight = eyeViewController.eyeMyModel.isBlinkingRight
+                            self.savedLookAtPoint = eyeViewController.eyeMyModel.lookAtPoint
+                            self.savedFaceOrientation = eyeViewController.eyeMyModel.faceOrientation
+                            self.savedBodyColor = eyeViewController.eyeMyModel.bodyColor
+                            self.savedEyeColor = eyeViewController.eyeMyModel.eyeColor
+                        }) {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.warmBlack)
+                                .frame(height: 56)
+                                .overlay(
+                                    Text("눈도장 찍기")
+                                        .foregroundColor(.white)
+                                        .fontWeight(.semibold)
+                                        .padding()
+                                )
+                        }
+                    } else {
+                        HStack {
+                            // 다시찍기 버튼
+                            Button (action: {
+                                isStamped = false
+                                isScaleEffectPlayed = false
+                                isBlurEffectPlayed = false
+                                isShutterEffectPlayed = false
+                            }) {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color.warmBlack)
+                                    .frame(height: 56)
+                                    .overlay(
+                                        Text("다시 찍기")
+                                            .foregroundColor(.white)
+                                            .fontWeight(.semibold)
+                                            .padding()
+                                    )
+                            }
+                            // 시작하기 버튼
+                            Button (action: {
+                                //TODO: AttendanceCompleteViewModel에 정보를 저장합니다.
+                                viewRouter.currentView = .apt
+                            }) {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color.warmBlack)
+                                    .frame(height: 56)
+                                    .overlay(
+                                        Text("시작하기")
+                                            .foregroundColor(.white)
+                                            .fontWeight(.semibold)
+                                            .padding()
+                                    )
+                            }
+                        }//HStack
+                    }
+                }//VStack
+            }//GeometryReader
+            .padding(24)
+            
+        }//ZStack
     }
-}
-
-func mainSentence() -> String {
-    @StateObject var time: TimeViewModel = TimeViewModel()
-    var sentence: String = ""
-    
-        if time.isDayTime {
-            sentence = "좋은 아침이에요!"
-        } else {
-            sentence = "기분 좋은 오후군요!"
-        }
-    return sentence
-}
-
-func subSentence() -> String {
-    @StateObject var time: TimeViewModel = TimeViewModel()
-    var sentence: String = ""
-        
-    if time.isDayTime {
-        sentence = "매일 눈을 뜬다는 건 멋진 일이에요.\n눈도장으로 하루의 시작을 기록해주세요."
-    } else {
-        sentence = "오늘은 왠지 좋은 일이 생길 것 같아요.\n이 기분을 그대로 눈도장으로 남겨볼까요?"
-    }
-    return sentence
 }
 
 struct AttendanceView_Previews: PreviewProvider {
     static var previews: some View {
-        // chatGPT needed
         AttendanceView()
+            .environmentObject(AttendanceViewModel())
+            .environmentObject(WeatherViewModel())
+            .environmentObject(TimeViewModel())
+            .environmentObject(EyeViewController())
     }
 }
+
+//
+////TODO: 현재 시간에 따라서 새벽, 아침, 오후, 저녁 케이스에 따라 멘트를 변경해야함
+//func mainSentence() -> String {
+//    @StateObject var time: TimeViewModel = TimeViewModel()
+//    var sentence: String = ""
+//    
+//    if time.isDayTime {
+//        sentence = "좋은 아침이에요!"
+//    } else {
+//        sentence = "기분 좋은 오후군요!"
+//    }
+//    return sentence
+//}
+//
+////TODO: 시간에 따르기도 하고, 랜덤하기도 하게 멘트를 변경해보자
+//func subSentence() -> String {
+//    @StateObject var time: TimeViewModel = TimeViewModel()
+//    var sentence: String = ""
+//    
+//    if time.isDayTime {
+//        sentence = "매일 눈을 뜬다는 건 멋진 일이에요.\n눈도장으로 하루의 시작을 기록해주세요."
+//    } else {
+//        sentence = "오늘은 왠지 좋은 일이 생길 것 같아요.\n이 기분을 그대로 눈도장으로 남겨볼까요?"
+//    }
+//    return sentence
+//}
+
+
+
+
+
+// 페페의 데이터 확인용 코드
+/*
+ Text("Hello, \(currentUser?.uid ?? "NoBody")")
+ Text("Weather: \(attendanceViewModel.weatherCondition)")
+ Text("Eye Direction: \(attendanceViewModel.eyeDirection.map{ String($0) }.joined(separator: ", "))")
+ Image(systemName: "tree")
+ .frame(width: 150, height: 150)
+ 
+ Button("Complete Attendance") {
+ attendanceViewModel.createAttendanceRecord()
+ viewRouter.currentView = .attendanceCompleted
+ }
+ */

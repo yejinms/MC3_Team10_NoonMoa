@@ -19,9 +19,6 @@ struct EyeMyViewModel {
     var faceOrientationAverage: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var numberOfHistoryUpdates: Int = 10
     
-    var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    
     mutating func update(faceAnchor: ARFaceAnchor) {
         let blendShapes = faceAnchor.blendShapes
         

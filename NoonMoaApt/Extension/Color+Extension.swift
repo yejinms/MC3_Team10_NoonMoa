@@ -27,6 +27,7 @@ extension Color {
     
     static let systemGray = Color(hex: 0x787678)
     static let warmBlack = Color(hex: 0x333333)
+    static let gradationGray = LinearGradient(colors: [Color(hex: 0xDDDDDD), Color(hex: 0xFFFFFF)], startPoint: .top, endPoint: .bottom)
     
     struct stampBorder {
         static let clearDay = Color(hex: 0xABD5ED)
@@ -46,7 +47,7 @@ extension Color {
         static let rainyNight = LinearGradient(colors: [Color(hex: 0x565F81), Color(hex: 0xB3B9CD)], startPoint: .top, endPoint: .bottom)
         static let snowyDay = LinearGradient(colors: [Color(hex: 0xB8CBEF), Color(hex: 0xB4B7BD)], startPoint: .top, endPoint: .bottom)
         static let snowyNight = LinearGradient(colors: [Color(hex: 0x514B98), Color(hex: 0xBCBBC9)], startPoint: .top, endPoint: .bottom)
-        static let unStampedWhite = LinearGradient(colors: [Color(hex: 0xFFFFFF), Color(hex: 0xFFFFFF)], startPoint: .top, endPoint: .bottom)
+        static let unStampedWhite = LinearGradient(colors: [Color(hex: 0xFFFFFF).opacity(0.5), Color(hex: 0xFFFFFF).opacity(0.5)], startPoint: .top, endPoint: .bottom)
     }
     
     struct ground {
@@ -96,7 +97,18 @@ extension Image {
             static let snowyDay = Image("Weather_snowyDay")
             static let snowyNight = Image("Weather_snowyNight")
             static let thunder = Image("Weather_thunder")
-
+        }
+        
+        struct stampWeather {
+            static let clearDay = Image("LargeStamp_clearDay")
+            static let clearNight = Image("LargeStamp_clearDay")
+            static let cloudyDay = Image("LargeStamp_cloudyDay")
+            static let cloudyNight = Image("LargeStamp_cloudyNight")
+            static let rainyDay = Image("LargeStamp_rainyDay")
+            static let rainyNight = Image("LargeStamp_rainyNight")
+            static let snowyDay = Image("LargeStamp_snowyDay")
+            static let snowyNight = Image("LargeStamp_snowyDay")//snowy는 Day, Night 디자인 동일
+            static let thunder = Image("LargeStamp_thunder")
         }
         
     }

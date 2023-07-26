@@ -128,6 +128,9 @@ struct AptView_Previews: PreviewProvider {
         AptView()
             .environmentObject(WeatherViewModel())
             .environmentObject(TimeViewModel())
+            .environmentObject(ViewRouter())
+            .environmentObject(AptViewModel())
+            .environmentObject(EyeViewController())
     }
 }
 
