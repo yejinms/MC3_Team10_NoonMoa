@@ -8,7 +8,6 @@
 import SwiftUI
 import Firebase
 
-
 struct AttendanceCompletedView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceCompletedViewModel: AttendanceCompletedViewModel
@@ -27,50 +26,99 @@ struct AttendanceCompletedView: View {
     }
     
     var body: some View {
-        
-// 모든 User 상태를 .sleep로 바꾸는 버튼
-//        Button(action: {
-//            self.midnightUpdater.updateAllUsersToSleep()
-//        }) {
-//            Text("Test Sleep Update")
-//        }
-        
-        Button {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                for userToken in userTokenArr {
-                    pushNotiController.sendPushNotification(userToken: userToken, title: title, content: content)
+
+        VStack {
+            GeometryReader { geo in
+                VStack (alignment: .leading) {
+                    
+                    // 페페의 데이터 확인용 코드
+                    /*
+                     Text("Attendance Complete!")
+                     HStack {
+                     Button {
+                     viewRouter.currentView = .attendance
+                     } label: {
+                     Text("다시 찍기")
+                     }
+                     
+                     Button("시작하기") {
+                     attendanceCompletedViewModel.saveAttendanceRecord()
+                     attendanceCompletedViewModel.updateUserLastActiveDate()
+                     viewRouter.currentView = .apt
+                     }
+                     }
+                     */
+                    
+                    // 멘트 글씨 Group
+                    VStack (alignment: .leading) {
+                        Text("\(mainSentence())")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.bottom, geo.size.height * 0.008)
+                        Text("\(subSentence())")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.top, geo.size.height * 0.15)
+                    .padding(.leading, geo.size.width * 0.07)
+                    
+                    Spacer()
+                    
+                    StampLDesign(isAttendanceView: true, isStamped: true)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        // 눈도장 찍기 버튼
+                        Button {
+                            
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 13)
+                                    .fill(Color.warmBlack)
+                                    .frame(height: geo.size.height * 0.066, alignment: .center)
+                                    .padding(.leading, geo.size.width * 0.07)
+                                Text("다시 찍기")
+                                    .foregroundColor(.white)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        // 눈도장 찍기 버튼
+                        Button {
+                            
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 13)
+                                    .fill(Color.warmBlack)
+                                    .frame(height: geo.size.height * 0.066, alignment: .center)
+                                    .padding(.trailing, geo.size.width * 0.07)
+                                Text("시작하기")
+                                    .foregroundColor(.white)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+                    .padding(.bottom, geo.size.height * 0.07)
                 }
             }
-        } label: {
-            Text("user B에게 push noti 보내기")
+            .ignoresSafeArea()
         }
+    }
+}
+
+struct AttendanceCompletedView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create a mock AttendanceRecord object
+        let eyeDirections: [Float] = [0.5, 0.5, 0.5]
+        let record = AttendanceRecord(userId: "test", date: Date(), weatherCondition: "clear", eyeDirection: eyeDirections)
         
-        Text("Attendance Complete!")
-        HStack {
-            Button {
-                viewRouter.currentView = .attendance
-            } label: {
-                Text("다시 찍기")
-            }
-            
-            Button("시작하기") {
-                attendanceCompletedViewModel.saveAttendanceRecord()
-                attendanceCompletedViewModel.updateUserLastActiveDate()
-                viewRouter.currentView = .apt
-            }
-        }
+        // Create and configure an instance of the ViewRouter and MidnightUpdater
+        let viewRouter = ViewRouter()
+        let viewModel = AttendanceCompletedViewModel(record: record)
+        
+        // Provide these instances to the view
+        AttendanceCompletedView(record: record)
+            .environmentObject(viewRouter)
+            .environmentObject(viewModel)
     }
-}
-
-
-// You also need to add a property wrapper for AppDelegate
-extension EnvironmentValues {
-    var appDelegate: AppDelegate {
-        get { self[AppDelegateKey.self] }
-        set { self[AppDelegateKey.self] = newValue }
-    }
-}
-
-private struct AppDelegateKey: EnvironmentKey {
-    static var defaultValue: AppDelegate = AppDelegate()
 }

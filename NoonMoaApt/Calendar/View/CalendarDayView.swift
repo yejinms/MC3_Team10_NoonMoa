@@ -71,7 +71,7 @@ struct CalendarDayView: View {
                 // MARK: - 일간 달력 요소 UI 작업
                 // 여기에서 작업하면, 달력의 각 날짜 위치에 그려짐.
                 
-                StampLargeView(skyColor: Color.sky.clearDay, skyImage: "LargeStamp_clearDay")
+                StampLDesign(isAttendanceView: false, isStamped: true)
             }
         }
     }
