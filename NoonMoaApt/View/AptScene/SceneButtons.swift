@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SceneButtons: View {
 
+    @EnvironmentObject var eyeViewController: EyeViewController
+
     @Binding var roomUser: User
     @Binding var buttonText: String
     
@@ -110,6 +112,9 @@ struct SceneButtons: View {
                     buttonText = "\(roomUser.roomId ?? "")\nactive"
                     DispatchQueue.main.async {
                         pushNotiController.requestPushNotification(to: roomUser.id!)
+                    }
+                    if roomUser.roomId == "5" {
+                        eyeViewController.resetFaceAnchor()
                     }
                 }) {
                     Color.clear

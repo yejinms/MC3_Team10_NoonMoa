@@ -21,6 +21,17 @@ struct SceneNeighborEye: View {
                 eyeColor: eyeNeighborModel.eyeColor)
         .onAppear {
             eyeNeighborModel.update(roomUser: roomUser)
+            //이웃 눈의 랜덤한 움직임 함수 실행
+            withAnimation(.linear(duration: 3)) {
+                eyeNeighborModel.randomEyeMove(roomUser: roomUser)
+            }
+            Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+                DispatchQueue.main.async {
+                    withAnimation(.linear(duration: 3)) {
+                        eyeNeighborModel.randomEyeMove(roomUser: roomUser)
+                    }
+                }
+            }
         }
     }
 }

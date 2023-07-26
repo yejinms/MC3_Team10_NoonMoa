@@ -9,6 +9,8 @@ import SwiftUI
 
 class TimeViewModel: ObservableObject {
     
+    //TODO: 현재 시간에 따라서 새벽, 아침, 오후, 저녁 케이스에 따라 이미지가 Day, Night가 될 수 있게 뿌려주고, 텍스트가 변경될 수 있게 뿌려준다.
+
     //테스트용으로 비활성화
 //    @Published var currentTime = Calendar.current.component(.hour, from: Date())
 //

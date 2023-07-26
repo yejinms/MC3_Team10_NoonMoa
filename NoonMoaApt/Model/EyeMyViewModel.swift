@@ -10,17 +10,14 @@ struct EyeMyViewModel {
     var blinkRight: Float = 0.0
     var lookAtPoint: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var faceOrientation: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
-    var bodyColor: Color = .userBlue
-    var eyeColor: Color = .eyeBlue
+    var bodyColor: LinearGradient = .userBlue
+    var eyeColor: LinearGradient = .eyeBlue
     
     var lookAtPointHistory: Array<SIMD3<Float>> = []
     var lookAtPointAverage: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var faceOrientationHistory: Array<SIMD3<Float>> = []
     var faceOrientationAverage: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var numberOfHistoryUpdates: Int = 10
-    
-    var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     
     mutating func update(faceAnchor: ARFaceAnchor) {
         let blendShapes = faceAnchor.blendShapes

@@ -15,18 +15,10 @@ extension Color {
             let blue = Double(hex & 0xff) / 255.0
             self.init(red: red, green: green, blue: blue, opacity: alpha)
     }
-    static let userPink = Color(hex: 0xFD8A8A)
-    static let userYellow = Color(hex: 0xF1F7B5)
-    static let userCyan = Color(hex: 0xA8D1D1)
-    static let userBlue = Color(hex: 0x9Ea1D4)
-    
-    static let eyePink = Color(hex: 0xFFABAB)
-    static let eyeYellow = Color(hex: 0xF8FBD9)
-    static let eyeCyan = Color(hex: 0xC2DFDF)
-    static let eyeBlue = Color(hex: 0xBABCDF)
     
     static let systemGray = Color(hex: 0x787678)
     static let warmBlack = Color(hex: 0x333333)
+    static let gradationGray = LinearGradient(colors: [Color(hex: 0xDDDDDD), Color(hex: 0xFFFFFF)], startPoint: .top, endPoint: .bottom)
     
     struct stampBorder {
         static let clearDay = Color(hex: 0xABD5ED)
@@ -46,7 +38,7 @@ extension Color {
         static let rainyNight = LinearGradient(colors: [Color(hex: 0x565F81), Color(hex: 0xB3B9CD)], startPoint: .top, endPoint: .bottom)
         static let snowyDay = LinearGradient(colors: [Color(hex: 0xB8CBEF), Color(hex: 0xB4B7BD)], startPoint: .top, endPoint: .bottom)
         static let snowyNight = LinearGradient(colors: [Color(hex: 0x514B98), Color(hex: 0xBCBBC9)], startPoint: .top, endPoint: .bottom)
-        static let unStampedWhite = LinearGradient(colors: [Color(hex: 0xFFFFFF), Color(hex: 0xFFFFFF)], startPoint: .top, endPoint: .bottom)
+        static let unStampedWhite = LinearGradient(colors: [Color(hex: 0xFFFFFF).opacity(0.5), Color(hex: 0xFFFFFF).opacity(0.5)], startPoint: .top, endPoint: .bottom)
     }
     
     struct ground {
@@ -56,6 +48,21 @@ extension Color {
         static let pathBeige = LinearGradient(colors: [Color(hex: 0xE1DCD3), Color(hex: 0xF0EAE0)], startPoint: .top, endPoint: .bottom)
     }
 
+}
+
+extension LinearGradient {
+    
+    static let userPink = LinearGradient(colors: [Color(hex: 0xFFC8C8), Color(hex: 0xFD8A8A)], startPoint: .top, endPoint: .bottom)
+    static let userYellow = LinearGradient(colors: [Color(hex: 0xFBFEDA), Color(hex: 0xF1F7B5)], startPoint: .top, endPoint: .bottom)
+    static let userCyan = LinearGradient(colors: [Color(hex: 0xD0F0F0), Color(hex: 0xA8D1D1)], startPoint: .top, endPoint: .bottom)
+    static let userBlue = LinearGradient(colors: [Color(hex: 0xCBCDEC), Color(hex: 0x9Ea1D4)], startPoint: .top, endPoint: .bottom)
+    static let unStampedWhite = LinearGradient(colors: [Color(hex: 0xFFFFFF).opacity(0.5), Color(hex: 0xFFFFFF)], startPoint: .top, endPoint: .bottom)
+    
+    static let eyePink = LinearGradient(colors: [Color(hex: 0xFFC8C8), Color(hex: 0xFD8A8A)], startPoint: .top, endPoint: .bottom)
+    static let eyeYellow = LinearGradient(colors: [Color(hex: 0xFBFEDA), Color(hex: 0xF1F7B5)], startPoint: .top, endPoint: .bottom)
+    static let eyeCyan = LinearGradient(colors: [Color(hex: 0xD0F0F0), Color(hex: 0xA8D1D1)], startPoint: .top, endPoint: .bottom)
+    static let eyeBlue = LinearGradient(colors: [Color(hex: 0xCBCDEC), Color(hex: 0x9Ea1D4)], startPoint: .top, endPoint: .bottom)
+    
 }
 
 extension Image {
@@ -96,9 +103,31 @@ extension Image {
             static let snowyDay = Image("Weather_snowyDay")
             static let snowyNight = Image("Weather_snowyNight")
             static let thunder = Image("Weather_thunder")
-
+        }
+        
+        struct stampWeather {
+            static let clearDay = Image("LargeStamp_clearDay")
+            static let clearNight = Image("LargeStamp_clearDay")
+            static let cloudyDay = Image("LargeStamp_cloudyDay")
+            static let cloudyNight = Image("LargeStamp_cloudyNight")
+            static let rainyDay = Image("LargeStamp_rainyDay")
+            static let rainyNight = Image("LargeStamp_rainyNight")
+            static let snowyDay = Image("LargeStamp_snowyDay")
+            static let snowyNight = Image("LargeStamp_snowyDay")//snowy는 Day, Night 디자인 동일
+            static let thunder = Image("LargeStamp_thunder")
         }
         
     }
 }
     
+struct Lottie {
+    static let clearDay = String("clearD")
+    static let clearNight = String("clearN")
+    static let cloudyDay = String("cloudyD")
+    static let cloudyNight = String("cloudyN")
+    static let rainyDay = String("rainyD")
+    static let rainyNight = String("rainyN")
+    static let snowyDay = String("snowyDN")
+    static let snowyNight = String("snowyDN")
+    static let thunder = String("thunderDN")
+}

@@ -51,8 +51,10 @@ struct SceneRoom: View {
                     .clipShape(Rectangle())
                     .onAppear {
                         if roomUser.userState == "active" || roomUser.userState == "inactive" {
-                            withAnimation(.easeInOut(duration: 2)) {
-                                isBlindUp = true
+                            DispatchQueue.main.async {
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    isBlindUp = true
+                                }
                             }
                         }
                     }

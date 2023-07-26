@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct SceneWeather: View {
     @EnvironmentObject var weather: WeatherViewModel
@@ -16,42 +17,35 @@ struct SceneWeather: View {
         switch weather.currentWeather {
         case WeatherViewModel.clear:
             if time.isDayTime {
-                Image.assets.weather.clearDay
-                    .resizable()
+                LottieView(name: Lottie.clearDay, animationSpeed: 1)
                     .ignoresSafeArea()
+                
             } else {
-                Image.assets.weather.clearNight
-                    .resizable()
+                LottieView(name: Lottie.clearNight, animationSpeed: 1)
                     .ignoresSafeArea()
             }
         case WeatherViewModel.cloudy:
             if time.isDayTime {
-                Image.assets.weather.cloudyDay
-                    .resizable()
+                LottieView(name: Lottie.cloudyDay, animationSpeed: 1)
                     .ignoresSafeArea()
             } else {
-                Image.assets.weather.cloudyNight
-                    .resizable()
+                LottieView(name: Lottie.cloudyNight, animationSpeed: 1)
                     .ignoresSafeArea()
             }
         case WeatherViewModel.rainy:
             if time.isDayTime {
-                Image.assets.weather.rainyDay
-                    .resizable()
+                LottieView(name: Lottie.rainyDay, animationSpeed: 1)
                     .ignoresSafeArea()
             } else {
-                Image.assets.weather.rainyNight
-                    .resizable()
+                LottieView(name: Lottie.rainyNight, animationSpeed: 1)
                     .ignoresSafeArea()
             }
         case WeatherViewModel.snowy:
             if time.isDayTime {
-                Image.assets.weather.snowyDay
-                    .resizable()
+                LottieView(name: Lottie.snowyDay, animationSpeed: 1)
                     .ignoresSafeArea()
             } else {
-                Image.assets.weather.snowyNight
-                    .resizable()
+                LottieView(name: Lottie.snowyNight, animationSpeed: 1)
                     .ignoresSafeArea()
             }
         default: EmptyView()

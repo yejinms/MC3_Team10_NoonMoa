@@ -20,6 +20,8 @@ struct NoonMoaAptApp: App {
     
     var viewRouter = ViewRouter()
     var midnightUpdater = MidnightUpdater()
+    
+    
 
 
     var body: some Scene {
@@ -31,8 +33,8 @@ struct NoonMoaAptApp: App {
                 calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()),
                 loginViewModel: LoginViewModel(viewRouter: ViewRouter()),
                 aptViewModel: AptViewModel(),
-                weather: WeatherViewModel(),
-                time: TimeViewModel(),
+                weatherViewModel: WeatherViewModel(),
+                timeViewModel: TimeViewModel(),
                 eyeViewController: EyeViewController())
                 .environmentObject(viewRouter)
                 .environmentObject(midnightUpdater) // Pass to view here
