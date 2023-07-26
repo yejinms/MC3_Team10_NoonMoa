@@ -16,8 +16,8 @@ struct StampLargeView: View {
     var isBlinkingRight: Bool
     var lookAtPoint: SIMD3<Float>
     var faceOrientation: SIMD3<Float>
-    var bodyColor: Color
-    var eyeColor: Color
+    var bodyColor: LinearGradient
+    var eyeColor: LinearGradient
     
     var body: some View {
         GeometryReader { geo in
@@ -45,7 +45,7 @@ struct StampLargeView: View {
 
 struct StampLargeView_Previews: PreviewProvider {
     static var previews: some View {
-        StampLargeView(skyColor: Color.sky.clearDay, skyImage: Image.assets.stampWeather.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: Color.userCyan, eyeColor: Color.eyeCyan)
+        StampLargeView(skyColor: Color.sky.clearDay, skyImage: Image.assets.stampWeather.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userCyan, eyeColor: LinearGradient.eyeCyan)
     }
 }
 //

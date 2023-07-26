@@ -8,8 +8,8 @@ struct EyeView: View {
     var isBlinkingRight: Bool
     var lookAtPoint: SIMD3<Float>
     var faceOrientation: SIMD3<Float>
-    var bodyColor: Color
-    var eyeColor: Color
+    var bodyColor: LinearGradient
+    var eyeColor: LinearGradient
     
     var body: some View {
         ZStack {
@@ -86,6 +86,15 @@ struct EyeView: View {
                                         Ellipse()
                                             .stroke(Color.black, lineWidth: 1)
                                     )
+                                    .overlay(
+                                        //볼터치
+                                    Ellipse()
+                                        .fill(Color.red)
+                                        .frame(width: eyeWidth * 0.8, height: eyeWidth * 0.3)
+                                        .opacity(0.2)
+                                        .offset(x: -(eyeWidth * 0.2), y: eyeHeight * 0.5)
+                                        .opacity(isSmiling ? 1 : 0)
+                                    )
                                     .offset(x: eyeOffsetX, y: eyeOffsetY)
 
                                 //오른쪽 눈
@@ -121,6 +130,15 @@ struct EyeView: View {
                                         Ellipse()
                                             .stroke(Color.black, lineWidth: 1)
                                     )
+                                    .overlay(
+                                        //볼터치
+                                    Ellipse()
+                                        .fill(Color.red)
+                                        .frame(width: eyeWidth * 0.8, height: eyeWidth * 0.3)
+                                        .opacity(0.2)
+                                        .offset(x: (eyeWidth * 0.2), y: eyeHeight * 0.5)
+                                        .opacity(isSmiling ? 1 : 0)
+                                    )
                                     .offset(x: eyeOffsetX, y: eyeOffsetY)
                             }
                         )
@@ -148,13 +166,13 @@ struct TestView: View {
                     isBlinkingLeft: eyeViewController.eyeMyModel.isBlinkingLeft,
                     isBlinkingRight: eyeViewController.eyeMyModel.isBlinkingRight,
                     lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
-                faceOrientation: eyeViewController.eyeMyModel.faceOrientation, bodyColor: eyeViewController.eyeMyModel.bodyColor, eyeColor: eyeViewController.eyeMyModel.eyeColor )
+                faceOrientation: eyeViewController.eyeMyModel.faceOrientation, bodyColor: eyeViewController.eyeMyModel.bodyColor, eyeColor: eyeViewController.eyeMyModel.eyeColor)
     }
 }
 
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        TestView()
+        TestView().environmentObject(EyeViewController())
     }
 }
 

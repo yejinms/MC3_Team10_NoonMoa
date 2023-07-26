@@ -17,13 +17,21 @@ struct AptView: View {
     @State private var users: [[User]] = User.sampleData
     @State private var buttonText: String = ""
     @State private var isCalendarOpen: Bool = false
+    
+    //임시변수
+    @State private var isCalendarMonthOpen: Bool = false
+    @State private var isCalendarDayOpen: Bool = false
 
+
+    @State private var isAptEffectPlayed: Bool = false
+    
     var body: some View {
         ZStack{
             //배경 레이어
             SceneBackground()
                 .environmentObject(weather)
                 .environmentObject(time)
+                .scaleEffect(isAptEffectPlayed ? 1 : 1.3)
             
             //아파트 레이어
             GeometryReader { proxy in
@@ -49,11 +57,18 @@ struct AptView: View {
                 .offset(y: proxy.size.height - proxy.size.width * 1.5)
                 //화면만큼 내린 다음에 아파트 크기 비율인 1:1.5에 따라 올려 보정?
             }
+            .scaleEffect(isAptEffectPlayed ? 1 : 1.3)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1)) {
+                    isAptEffectPlayed = true
+                }
+            }
             
             //날씨 레이어
             SceneWeather()
                 .environmentObject(weather)
                 .environmentObject(time)
+                .opacity(isAptEffectPlayed ? 1 : 0.5)
             
             //버튼 레이어
             GeometryReader { proxy in
@@ -85,20 +100,75 @@ struct AptView: View {
                 .environmentObject(weather)
                 .environmentObject(time)
             
+            
+            //임시코드
+            Image("CalendarMonth_Temp")
+                .resizable()
+                .ignoresSafeArea()
+                .onTapGesture {
+                    isCalendarMonthOpen = false
+                    isCalendarDayOpen = true
+                }
+                .overlay( // 외부 공간 눌렀을 때 캘린더 닫힘
+                    Color.white
+                        .frame(height: 400)
+                    .offset(y: 270)
+                    .opacity(0.01)
+                    .onTapGesture {
+                        isCalendarMonthOpen = false
+                        isCalendarDayOpen = false
+                        isCalendarOpen = false
+                    }
+                )
+                .opacity(isCalendarMonthOpen ? 1 : 0)
+
+            Image("CalendarDay_Temp")
+                .resizable()
+                .ignoresSafeArea()
+                .onTapGesture {
+                    isCalendarMonthOpen = true
+                    isCalendarDayOpen = false
+                }
+                .overlay( // 외부 공간 눌렀을 때 캘린더 닫힘
+                    Color.white
+                    .frame(height: 400)
+                    .offset(y: 270)
+                    .opacity(0.01)
+                    .onTapGesture {
+                        isCalendarMonthOpen = false
+                        isCalendarDayOpen = false
+                        isCalendarOpen = false
+                    }
+                )
+                .opacity(isCalendarDayOpen ? 1 : 0)
+            
             // 상단 캘린더 & 설정 버튼
             GeometryReader { proxy in
                 HStack (spacing: 16) {
                     Spacer()
                     
                     Button { // 캘린더 버튼
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            isCalendarOpen = true
-                        }
+                            if isCalendarOpen {
+                                isCalendarOpen = false
+                                isCalendarMonthOpen = false
+                                isCalendarDayOpen = false
+                            } else {
+                                isCalendarOpen = true
+                                isCalendarMonthOpen = true
+                                isCalendarDayOpen = false
+                            }
                     } label: {
-                        Image("calendar_unselected")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: proxy.size.width * 0.08)
+                        if isCalendarOpen {
+                            Image("calendar_selected")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: proxy.size.width * 0.08)
+                        } else {
+                            Image("calendar_unselected")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: proxy.size.width * 0.08)
+                        }
                     }
                     
                     Button { // 설정 버튼
@@ -112,9 +182,9 @@ struct AptView: View {
                 }
                 .padding(.trailing, proxy.size.width * 0.06)
             }
-            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
-                .opacity(isCalendarOpen ? 1 : 0)
-                                                                                                                                     
+//            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
+//                .frame(height: 400)
+//                .opacity(isCalendarOpen ? 1 : 0)
             
         }//ZStack
         .onAppear {
@@ -133,79 +203,3 @@ struct AptView_Previews: PreviewProvider {
             .environmentObject(EyeViewController())
     }
 }
-
-
-
-//230721_페페가 합치면서 수정한 코드
-//import SwiftUI
-//
-//struct AptView: View {
-//    @EnvironmentObject var viewRouter: ViewRouter
-//    @EnvironmentObject var aptViewModel: AptViewModel
-//    @EnvironmentObject var weather: WeatherViewModel
-//    @EnvironmentObject var time: TimeViewModel
-//
-//    var body: some View {
-//        ZStack {
-//            //배경 레이어
-//            SceneBackground()
-//                .environmentObject(weather)
-//                .environmentObject(time)
-//
-//            //아파트 레이어
-//            GeometryReader { proxy in
-//                ZStack {
-//                    GeometryReader { geo in
-//                        SceneApt()
-//                        VStack(spacing: 16) {
-//                            ForEach(aptViewModel.rooms, id: \.id) { room in
-//                                HStack(spacing: 12) {
-//                                    ZStack {
-//                                        SceneRoom(roomUser: room.number)
-//                                            .frame(width: (geo.size.width - 48) / 3)
-//                                        if let user = aptViewModel.users.first(where: { $0.id == room.userId }) {
-//                                            VStack {
-//                                                Text("State: \(user.stateEnum.rawValue)")
-//                                                Text("Eye Color: \(user.eyeColorEnum.rawValue)")
-//                                                Text("Last Active Date: \(user.lastActiveDate ?? Date())")
-//                                            }
-//                                            .font(.footnote)
-//                                            .frame(width: (geo.size.width - 48) / 3)
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        .offset(x: 12, y: 32)
-//                    }
-//                }
-//                .padding()
-//                .ignoresSafeArea()
-//                .offset(y: proxy.size.height - proxy.size.width * 1.5)
-//            }
-//
-//            //날씨 레이어
-//            SceneWeather()
-//                .environmentObject(weather)
-//                .environmentObject(time)
-//
-//            // 기능테스트위한 임시 뷰
-//            FunctionTestView()
-//                .environmentObject(weather)
-//                .environmentObject(time)
-//
-//        }
-//        .onAppear {
-//            aptViewModel.fetchCurrentUserApt()
-//        }
-//    }
-//}
-//
-//struct AptView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AptView()
-//            .environmentObject(AptViewModel())
-//            .environmentObject(WeatherViewModel())
-//            .environmentObject(TimeViewModel())
-//    }
-//}

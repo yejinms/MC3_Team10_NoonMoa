@@ -28,8 +28,8 @@ struct AttendanceView: View {
     @State private var savedIsBlinkingRight: Bool = false
     @State private var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     @State private var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    @State private var savedBodyColor: Color = .userBlue
-    @State private var savedEyeColor: Color = .eyeBlue
+    @State private var savedBodyColor: LinearGradient = .userBlue
+    @State private var savedEyeColor: LinearGradient = .eyeBlue
     
     var body: some View {
         ZStack {
@@ -70,11 +70,14 @@ struct AttendanceView: View {
                                        isBlinkingRight: eyeViewController.eyeMyModel.isBlinkingRight,
                                        lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
                                        faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
-                                       bodyColor: Color.white,
-                                       eyeColor: Color.white)
+                                       bodyColor: LinearGradient.unStampedWhite,
+                                       eyeColor: LinearGradient.unStampedWhite)
                         .frame(width: geo.size.width, height: geo.size.width)
                         .offset(y: -16)
                         .blur(radius: isBlurEffectPlayed ? 5 : 0)
+                        .onTapGesture {
+                            eyeViewController.resetFaceAnchor()
+                        }
                         
                     } else {
                         //출석체크 후 저장된 날씨와, 캐릭터의 움직임 좌표값으로 표현된 뷰
@@ -92,12 +95,17 @@ struct AttendanceView: View {
                         // 눈도장 찍기 버튼
                         Button (action: {
                             DispatchQueue.main.async {
-                                withAnimation(.easeInOut(duration: 0.2).repeatCount(2, autoreverses: true)) {
+                                withAnimation(.easeInOut(duration: 0.2).repeatCount(1, autoreverses: true)) {
                                     isBlurEffectPlayed = true
                                 }
                             }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                withAnimation(.easeInOut(duration: 0.4).repeatCount(1, autoreverses: true)) {
+                                    isBlurEffectPlayed = false
+                                }
+                            }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                withAnimation(.spring(response: 0.5, dampingFraction: 0.3).speed(1)) {
+                                withAnimation(.easeIn(duration: 0.1)) {
                                     isStamped = true
                                 }
                             }
@@ -105,6 +113,20 @@ struct AttendanceView: View {
                                 withAnimation(.linear.speed(1.5).repeatCount(1, autoreverses: true)) {
                                     isShutterEffectPlayed = true
                                 }
+                                
+                                //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
+                                weather.getNowWeather()
+                                self.savedSkyColor = weather.savedSkyColor
+                                self.savedSkyImage = weather.savedSkyImage
+                                //ARView에서 움직이던 값을 저장한다.
+                                self.savedIsSmiling = eyeViewController.eyeMyModel.isSmiling
+                                self.savedIsBlinkingLeft = eyeViewController.eyeMyModel.isBlinkingLeft
+                                self.savedIsBlinkingRight = eyeViewController.eyeMyModel.isBlinkingRight
+                                self.savedLookAtPoint = eyeViewController.eyeMyModel.lookAtPoint
+                                self.savedFaceOrientation = eyeViewController.eyeMyModel.faceOrientation
+                                self.savedBodyColor = eyeViewController.eyeMyModel.bodyColor
+                                self.savedEyeColor = eyeViewController.eyeMyModel.eyeColor
+                                
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 withAnimation(.spring(response: 0.5, dampingFraction: 0.3).speed(1)) {
@@ -112,18 +134,6 @@ struct AttendanceView: View {
                                 }
                             }
                             
-                            //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
-                            weather.getNowWeather()
-                            self.savedSkyColor = weather.savedSkyColor
-                            self.savedSkyImage = weather.savedSkyImage
-                            //ARView에서 움직이던 값을 저장한다.
-                            self.savedIsSmiling = eyeViewController.eyeMyModel.isSmiling
-                            self.savedIsBlinkingLeft = eyeViewController.eyeMyModel.isBlinkingLeft
-                            self.savedIsBlinkingRight = eyeViewController.eyeMyModel.isBlinkingRight
-                            self.savedLookAtPoint = eyeViewController.eyeMyModel.lookAtPoint
-                            self.savedFaceOrientation = eyeViewController.eyeMyModel.faceOrientation
-                            self.savedBodyColor = eyeViewController.eyeMyModel.bodyColor
-                            self.savedEyeColor = eyeViewController.eyeMyModel.eyeColor
                         }) {
                             RoundedRectangle(cornerRadius: 16)
                                 .fill(Color.warmBlack)

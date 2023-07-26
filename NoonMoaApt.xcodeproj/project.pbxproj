@@ -24,6 +24,15 @@
 		DA2FAEA02A71406200862732 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA2FAE9F2A71406200862732 /* GoogleService-Info.plist */; };
 		DA904E332A6A361700CC14D9 /* StampLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA904E312A6A361700CC14D9 /* StampLargeView.swift */; };
 		DA904E342A6A361700CC14D9 /* StampButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA904E322A6A361700CC14D9 /* StampButtons.swift */; };
+		DAEE7E052A719E5500D7FACA /* cloudyN.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7DFD2A719E5400D7FACA /* cloudyN.json */; };
+		DAEE7E062A719E5500D7FACA /* clearD.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7DFE2A719E5400D7FACA /* clearD.json */; };
+		DAEE7E072A719E5500D7FACA /* clearN.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7DFF2A719E5400D7FACA /* clearN.json */; };
+		DAEE7E082A719E5500D7FACA /* snowyDN.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7E002A719E5500D7FACA /* snowyDN.json */; };
+		DAEE7E092A719E5500D7FACA /* cloudyD.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7E012A719E5500D7FACA /* cloudyD.json */; };
+		DAEE7E0A2A719E5500D7FACA /* thunderDN.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7E022A719E5500D7FACA /* thunderDN.json */; };
+		DAEE7E0B2A719E5500D7FACA /* rainyN.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7E032A719E5500D7FACA /* rainyN.json */; };
+		DAEE7E0C2A719E5500D7FACA /* rainyD.json in Resources */ = {isa = PBXBuildFile; fileRef = DAEE7E042A719E5500D7FACA /* rainyD.json */; };
+		DAEE7E102A719F8800D7FACA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DAEE7E0F2A719F8800D7FACA /* Lottie */; };
 		E32E3E182A6951B600B865E8 /* NoonMoaAptApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E172A6951B600B865E8 /* NoonMoaAptApp.swift */; };
 		E32E3E1F2A6951B700B865E8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E32E3E1E2A6951B700B865E8 /* Preview Assets.xcassets */; };
 		E32E3E642A6951CE00B865E8 /* AttendanceCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */; };
@@ -111,6 +120,14 @@
 		DA2FAE9F2A71406200862732 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA904E312A6A361700CC14D9 /* StampLargeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StampLargeView.swift; sourceTree = "<group>"; };
 		DA904E322A6A361700CC14D9 /* StampButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StampButtons.swift; sourceTree = "<group>"; };
+		DAEE7DFD2A719E5400D7FACA /* cloudyN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cloudyN.json; sourceTree = "<group>"; };
+		DAEE7DFE2A719E5400D7FACA /* clearD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clearD.json; sourceTree = "<group>"; };
+		DAEE7DFF2A719E5400D7FACA /* clearN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clearN.json; sourceTree = "<group>"; };
+		DAEE7E002A719E5500D7FACA /* snowyDN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = snowyDN.json; sourceTree = "<group>"; };
+		DAEE7E012A719E5500D7FACA /* cloudyD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cloudyD.json; sourceTree = "<group>"; };
+		DAEE7E022A719E5500D7FACA /* thunderDN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = thunderDN.json; sourceTree = "<group>"; };
+		DAEE7E032A719E5500D7FACA /* rainyN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainyN.json; sourceTree = "<group>"; };
+		DAEE7E042A719E5500D7FACA /* rainyD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainyD.json; sourceTree = "<group>"; };
 		E32E3E172A6951B600B865E8 /* NoonMoaAptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoonMoaAptApp.swift; sourceTree = "<group>"; };
 		E32E3E1E2A6951B700B865E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E32E3E4A2A6951CE00B865E8 /* AttendanceCompletedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceCompletedView.swift; sourceTree = "<group>"; };
@@ -163,6 +180,7 @@
 				E32E3E862A69526600B865E8 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				E32E3E882A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				E32E3E802A69526600B865E8 /* FirebaseFirestore in Frameworks */,
+				DAEE7E102A719F8800D7FACA /* Lottie in Frameworks */,
 				E32E3E7E2A69526600B865E8 /* FirebaseAuthCombine-Community in Frameworks */,
 				E32E3E822A69526600B865E8 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				E32E3E7C2A69526600B865E8 /* FirebaseAuth in Frameworks */,
@@ -212,6 +230,21 @@
 				DA904E322A6A361700CC14D9 /* StampButtons.swift */,
 			);
 			path = CalendarScene;
+			sourceTree = "<group>";
+		};
+		DAEE7E0D2A719E5E00D7FACA /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				DAEE7DFE2A719E5400D7FACA /* clearD.json */,
+				DAEE7DFF2A719E5400D7FACA /* clearN.json */,
+				DAEE7E012A719E5500D7FACA /* cloudyD.json */,
+				DAEE7DFD2A719E5400D7FACA /* cloudyN.json */,
+				DAEE7E042A719E5500D7FACA /* rainyD.json */,
+				DAEE7E032A719E5500D7FACA /* rainyN.json */,
+				DAEE7E002A719E5500D7FACA /* snowyDN.json */,
+				DAEE7E022A719E5500D7FACA /* thunderDN.json */,
+			);
+			path = Lottie;
 			sourceTree = "<group>";
 		};
 		E32E3E0B2A6951B600B865E8 = {
@@ -293,6 +326,7 @@
 		E3CBB3E52A69730700195326 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				DAEE7E0D2A719E5E00D7FACA /* Lottie */,
 				E3F739332A6A552300E5F291 /* Color+Extension.swift */,
 			);
 			path = Extension;
@@ -359,6 +393,7 @@
 				E32E3E872A69526600B865E8 /* FirebaseInAppMessagingSwift-Beta */,
 				E32E3E892A69526600B865E8 /* FirebaseMessaging */,
 				E32E3E8C2A69527F00B865E8 /* SwiftUICalendar */,
+				DAEE7E0F2A719F8800D7FACA /* Lottie */,
 			);
 			productName = NoonMoaApt;
 			productReference = 8A6FB9EA2A70FC18009827C1 /* NoonMoaApt.app */;
@@ -435,6 +470,7 @@
 			packageReferences = (
 				E32E3E782A69526600B865E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E32E3E8B2A69527F00B865E8 /* XCRemoteSwiftPackageReference "SwiftUICalendar" */,
+				DAEE7E0E2A719F8800D7FACA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = E32E3E0B2A6951B600B865E8;
 			projectDirPath = "";
@@ -452,9 +488,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAEE7E092A719E5500D7FACA /* cloudyD.json in Resources */,
+				DAEE7E0A2A719E5500D7FACA /* thunderDN.json in Resources */,
+				DAEE7E0B2A719E5500D7FACA /* rainyN.json in Resources */,
+				DAEE7E062A719E5500D7FACA /* clearD.json in Resources */,
 				E3F739392A6A575F00E5F291 /* Assets.xcassets in Resources */,
 				E32E3E1F2A6951B700B865E8 /* Preview Assets.xcassets in Resources */,
+				DAEE7E052A719E5500D7FACA /* cloudyN.json in Resources */,
+				DAEE7E072A719E5500D7FACA /* clearN.json in Resources */,
 				DA2FAEA02A71406200862732 /* GoogleService-Info.plist in Resources */,
+				DAEE7E082A719E5500D7FACA /* snowyDN.json in Resources */,
+				DAEE7E0C2A719E5500D7FACA /* rainyD.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +907,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DAEE7E0E2A719F8800D7FACA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		E32E3E782A69526600B865E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -882,6 +934,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DAEE7E0F2A719F8800D7FACA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAEE7E0E2A719F8800D7FACA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		E32E3E792A69526600B865E8 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E32E3E782A69526600B865E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -54,27 +54,6 @@ struct CalendarMonthView: View {
             NavigationView {
                 GeometryReader { reader in
                     ZStack {
-                        
-                        Image("Eye_stamp")
-                            .resizable()
-                            .scaledToFit()
-                        // 뒷배경
-                        Button(action: {
-                            isCalendarOpen = false
-                        }) {
-                            Color.clear
-                                .border(Color.blue)
-                                .background(.regularMaterial)
-                                .frame(height: reader.size.height * 0.46)
-                                .padding(.horizontal, 15)
-                        }
-//                        RoundedRectangle(cornerRadius: 20)
-//                            .foregroundColor(.white)
-//                            .opacity(0.5)
-//                            .frame(height: reader.size.height * 0.3)
-//                            .padding(.horizontal, 15)
-//                            .background(.ultraThinMaterial)
-                        
                         VStack {
                             HStack(alignment: .center) {
                                 // 이전 달로 스크롤하는 버튼
@@ -92,7 +71,6 @@ struct CalendarMonthView: View {
                                 Text("\(String(controller.yearMonth.year))년 \(monthMap[controller.yearMonth.monthShortString] ?? "")")
                                     .font(.title2)
                                     .fontWeight(.semibold)
-                                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                                 Spacer()
                                 // 다음 달로 스크롤하는 버튼
                                 Button(action: {
@@ -107,6 +85,7 @@ struct CalendarMonthView: View {
                             }
                             .padding(.top, reader.size.width * 0.04)
                             .padding(.horizontal, reader.size.width * 0.02)
+                            
                             // 월간 캘린더 뷰
                             CalendarView(controller, header: { week in
                                 GeometryReader { geometry in
@@ -137,7 +116,7 @@ struct CalendarMonthView: View {
                                                 let calendar = Calendar.current
                                                 let components = DateComponents(year: date.year, month: date.month, day: date.day) // YearMonthDay 객체에서 년/월/일을 가져와 DateComponents로 변환
                                                 if let convertedDate = calendar.date(from: components) {
-                                                    if isPastOrToday(date: convertedDate) {
+                                                    if isToday(date: convertedDate) {
                                                         StampButtons()
                                                     }
                                                 }
@@ -148,24 +127,29 @@ struct CalendarMonthView: View {
                             })
 //                            .padding(.horizontal, reader.size.width * 0.06)
                         }
+                        .background( // 배경 blur
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.white)
+                                .opacity(0.01)
+                                .background(.regularMaterial)
+                        )
                         // MARK: - 달력 전체의 padding을 조절하는 변수
-                        .padding(.horizontal, reader.size.width * 0.1)
+                        .padding(.horizontal, 15)
                     }
                     
                 }
                 .onChange(of: controller.yearMonth) { yearMonth in
                     print(yearMonth)
                 }
-                //            .navigationBarTitle("Embed header")
             }
-       
     }
 }
 
-// 해나 - 오늘 & 오늘보다 이전 날짜인지를 알려주는 함수
-func isPastOrToday(date: Date) -> Bool {
+// 해나 - 오늘 날짜인지를 알려주는 함수 (오늘 & 오늘보다 이전 날짜인지를 알려주는 함수)
+func isToday(date: Date) -> Bool {
     let today = Calendar.current.startOfDay(for: Date())
-    return date <= today
+    // return date <= today
+    return date == today
 }
 
 struct CalendarCustomView_Previews: PreviewProvider {
