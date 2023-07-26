@@ -10,7 +10,8 @@ import SwiftUI
 struct AptView: View {
     @EnvironmentObject var weather: WeatherViewModel
     @EnvironmentObject var time: TimeViewModel
-    
+    @EnvironmentObject var eyeViewController: EyeViewController
+
     @State private var users: [[User]] = User.sampleData
     @State private var buttonText: String = ""
 
@@ -31,6 +32,7 @@ struct AptView: View {
                                 HStack(spacing: 12) {
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         SceneRoom(roomUser: $users[rowIndex][userIndex])
+                                            .environmentObject(eyeViewController)
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                     }
                                 }

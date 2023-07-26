@@ -8,15 +8,9 @@
 import SwiftUI
 
 struct SceneRoom: View {
-    @ObservedObject var eyeViewController = EyeViewController()
-    
+    @EnvironmentObject var eyeViewController: EyeViewController
     @Binding var roomUser: User
-    
     @State private var isBlindUp: Bool = false
-    @State var eyeGazeActive: Bool = true
-    @State var lookAtPoint: CGPoint?
-    @State var isWinking: Bool = false
-    @State var eyeGazeAverage: CGPoint?
     
     var body: some View {
         GeometryReader { geo in
@@ -32,20 +26,18 @@ struct SceneRoom: View {
                 Image.assets.room.light
                     .resizable()
                     .scaledToFit()
-                
-                    .border(Color.red)
+                            
                 if roomUser.userState == "active" {
-                    
-                    EyeView(isSmiling: eyeViewController.eyeModel.isSmiling,
-                            isBlinkingLeft: eyeViewController.eyeModel.isBlinkingLeft,
-                            isBlinkingRight: eyeViewController.eyeModel.isBlinkingRight,
-                            lookAtPoint: eyeViewController.eyeModel.lookAtPoint,
-                            faceOrientation: eyeViewController.eyeModel.faceOrientation)
-                    .frame(width: geo.size.width * 0.75, height: geo.size.width / 1.2)
-                    
-                } else if roomUser.userState == "inactive" {
-                    EyeInactive(roomUser: $roomUser)
-                        .frame(width: geo.size.width * 0.75, height: geo.size.width / 1.2)
+                    if roomUser.roomId == "5" {
+                        SceneMyEye()
+                            .environmentObject(eyeViewController)
+                    } else {
+                        SceneNeighborEye(roomUser: $roomUser)
+                    }
+                } else if roomUser.userState == "inactive" || roomUser.userState == "sleep" {
+                    SceneInactiveEye(roomUser: $roomUser)
+                } else if roomUser.userState == "vacant" {
+                    EmptyView()
                 }
                 
                 Image.assets.room.blindUp
@@ -80,7 +72,7 @@ struct SceneRoom: View {
 }
 
 struct SceneRoom_Previews: PreviewProvider {
-    @State static var user: User = User.sampleData[0][0]
+    @State static var user: User = User.sampleData[1][0]
     
     static var previews: some View {
         SceneRoom(roomUser: $user)

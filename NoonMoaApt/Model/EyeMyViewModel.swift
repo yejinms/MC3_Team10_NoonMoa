@@ -1,12 +1,17 @@
 import ARKit
+import SwiftUI
 
-struct EyeViewModel {
+//TODO: 내 사용자 설정에 따라 bodyColor, eyeColor를 반영하는 func들어가야함.
+
+struct EyeMyViewModel {
     var smileRight: Float = 0.0
     var smileLeft: Float = 0.0
     var blinkLeft: Float = 0.0
     var blinkRight: Float = 0.0
     var lookAtPoint: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var faceOrientation: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
+    var bodyColor: Color = .userBlue
+    var eyeColor: Color = .eyeBlue
     
     var lookAtPointHistory: Array<SIMD3<Float>> = []
     var lookAtPointAverage: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
@@ -32,7 +37,8 @@ struct EyeViewModel {
         // .transform의 simd_float4x4의 column 0~3 중 column 2는 화면을 바라보는 축의 값이며, 그 중 x,y값은 사용자가 오른쪽 상단을 바라보았을 때 양수 값을 지닌다.
         faceOrientation = simd_float3(round(faceAnchor.transform.columns.2.x * 1000) / 1000, round(faceAnchor.transform.columns.2.y * 1000) / 1000, round(faceAnchor.transform.columns.2.z * 1000) / 1000)
         
-        //히스토리에 지정된 숫자만큼만 배열에 저장하고, 이를 평균을 내서 값을 돌려준다.
+        
+        //눈 움직임 부드럽계: 히스토리에 지정된 숫자만큼만 배열에 저장하고, 이를 평균을 내서 값을 돌려준다.
         lookAtPointHistory.append(lookAtPoint)
         if lookAtPointHistory.count > numberOfHistoryUpdates {
             lookAtPointHistory.removeFirst(lookAtPointHistory.count - numberOfHistoryUpdates)
@@ -41,7 +47,7 @@ struct EyeViewModel {
         lookAtPointAverage = lookAtPointSuffix.averagePoint
         lookAtPoint = lookAtPointAverage
         
-        //히스토리에 지정된 숫자만큼만 배열에 저장하고, 이를 평균을 내서 값을 돌려준다.
+        //얼굴 움직임 부드럽게: 히스토리에 지정된 숫자만큼만 배열에 저장하고, 이를 평균을 내서 값을 돌려준다.
         faceOrientationHistory.append(faceOrientation)
         if faceOrientationHistory.count > numberOfHistoryUpdates {
             faceOrientationHistory.removeFirst(faceOrientationHistory.count - numberOfHistoryUpdates)

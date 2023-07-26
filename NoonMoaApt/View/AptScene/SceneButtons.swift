@@ -10,12 +10,10 @@ import SwiftUI
 struct SceneButtons: View {
     
     @Binding var roomUser: User
+    @Binding var buttonText: String
     
     @State private var lastActiveToggle: Bool = false
     @State private var lastWakenTimeToggle: Bool = false
-    
-    @Binding var buttonText: String
-
     
     var body: some View {
         
