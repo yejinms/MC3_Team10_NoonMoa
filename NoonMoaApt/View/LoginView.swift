@@ -11,7 +11,7 @@ import AuthenticationServices
 
 struct LoginView: View {
     @EnvironmentObject var viewRouter: ViewRouter
-    @StateObject var loginData = LoginViewModel()
+    @StateObject var loginData = LoginViewModel(viewRouter: ViewRouter())
     
     var body: some View {
         VStack {

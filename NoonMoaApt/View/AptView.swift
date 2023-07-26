@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct AptView: View {
     @EnvironmentObject var weather: WeatherViewModel
     @EnvironmentObject var time: TimeViewModel
-    
+    @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var aptViewModel: AptViewModel
+    @EnvironmentObject var eyeViewController: EyeViewController
     @State private var users: [[User]] = User.sampleData
     @State private var buttonText: String = ""
     @State private var isCalendarOpen: Bool = false
@@ -32,8 +35,8 @@ struct AptView: View {
                                 HStack(spacing: 12) {
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         SceneRoom(roomUser: $users[rowIndex][userIndex])
+                                            .environmentObject(eyeViewController)
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
-                                        //디자인요소에서 보더는 빼는 것이 좋아보이고 radius는 8로 하는 것이 좋을 것으로 생각됨
                                     }
                                 }
                             }
@@ -114,6 +117,9 @@ struct AptView: View {
                                                                                                                                      
             
         }//ZStack
+        .onAppear {
+            aptViewModel.fetchCurrentUserApt()
+        }
     }
 }
 

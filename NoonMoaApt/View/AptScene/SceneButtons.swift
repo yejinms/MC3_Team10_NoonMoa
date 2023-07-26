@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SceneButtons: View {
-    
+
     @Binding var roomUser: User
+    @Binding var buttonText: String
     
     @State private var lastActiveToggle: Bool = false
     @State private var lastWakenTimeToggle: Bool = false
     
-    @Binding var buttonText: String
-
+    var pushNotiController = PushNotiController()
     
     var body: some View {
         
@@ -108,6 +108,9 @@ struct SceneButtons: View {
             case "active":
                 Button(action: {
                     buttonText = "\(roomUser.roomId ?? "")\nactive"
+                    DispatchQueue.main.async {
+                        pushNotiController.requestPushNotification(to: roomUser.id!)
+                    }
                 }) {
                     Color.clear
                         .cornerRadius(8)
@@ -131,10 +134,10 @@ struct SceneButtons: View {
     }
 }
 
-struct SceneButtons_Previews: PreviewProvider {
-    @State static var user: User = User.sampleData[1][1]
-    @State static var buttonText: String = ""
-    static var previews: some View {
-        SceneButtons(roomUser: $user, buttonText: $buttonText)
-    }
-}
+//struct SceneButtons_Previews: PreviewProvider {
+//    @State static var user: User = User.sampleData[1][1]
+//    @State static var buttonText: String = ""
+//    static var previews: some View {
+//        SceneButtons(roomUser: $user, buttonText: $buttonText)
+//    }
+//}

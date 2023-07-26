@@ -22,11 +22,11 @@ struct FunctionTestView: View {
                     }) {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)
-                            .frame(width: 96, height: 48)
+                            .frame(width: 80, height: 48)
                             .overlay(
                                 Text("Day/Night")
                                     .foregroundColor(.black)
-                                    .font(.body)
+                                    .font(.caption)
                             )
                             .opacity(0.2)
                     }
@@ -37,24 +37,36 @@ struct FunctionTestView: View {
                     }) {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)
-                            .frame(width: 96, height: 48)
+                            .frame(width: 80, height: 48)
                             .overlay(
                                 Text("Weather\nShuffle")
                                     .foregroundColor(.black)
-                                    .font(.body)
+                                    .font(.caption)
                             )
                             .opacity(0.2)
                     }
-                 Spacer()
                     RoundedRectangle(cornerRadius: 8)
                         .fill(.white)
-                        .frame(width: 148, height: 48)
+                        .frame(width: 80, height: 48)
                         .overlay(
                             Text(buttonText)
                                 .foregroundColor(.black)
-                                .font(.body)
+                                .font(.caption)
                         )
                         .opacity(0.2)
+                    Button(action: {
+                        EyeViewController().resetFaceAnchor()
+                    }) {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.white)
+                            .frame(width: 80, height: 48)
+                            .overlay(
+                                Text("Reset\nFace")
+                                    .foregroundColor(.black)
+                                    .font(.caption)
+                            )
+                            .opacity(0.2)
+                    }
                 }
                 .padding()
                 Spacer()

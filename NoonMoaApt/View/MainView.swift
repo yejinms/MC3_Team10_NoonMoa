@@ -18,14 +18,13 @@ struct MainView: View {
     
     @StateObject var weather: WeatherViewModel
     @StateObject var time: TimeViewModel
-    @StateObject var eyeTrack: EyeTrackViewModel
+    @StateObject var eyeViewController: EyeViewController
 
     var body: some View {
         switch viewRouter.currentView {
         case .login:
             LoginView()
-                .environmentObject(LoginViewModel())
-//            CalendarMonthView()
+                .environmentObject(LoginViewModel(viewRouter: ViewRouter()))
         case .attendance:
             AttendanceView()
                 .environmentObject(AttendanceViewModel())
@@ -35,9 +34,11 @@ struct MainView: View {
                 .environmentObject(AttendanceCompletedViewModel(record: record))
         case .apt:
             AptView()
-                .environmentObject(AptViewModel())
-                .environmentObject(WeatherViewModel())
-                .environmentObject(TimeViewModel())
+                .environmentObject(aptViewModel)
+                .environmentObject(weather)
+                .environmentObject(time)
+                .environmentObject(eyeViewController)
+
         case .CalendarFull:
             CalendarFullView()
                 .environmentObject(CalendarFullViewModel())
@@ -46,7 +47,7 @@ struct MainView: View {
                 .environmentObject(calendarSingleController)
         default:
             LoginView()
-                .environmentObject(LoginViewModel())
+                .environmentObject(LoginViewModel(viewRouter: ViewRouter()))
         }
     }
 }

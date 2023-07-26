@@ -11,13 +11,13 @@ struct StampLargeView: View {
     
     var skyColor: LinearGradient
     var skyImage: String
-    var isSmiling: Bool
-    var isBlinkingLeft: Bool
-    var isBlinkingRight: Bool
-    var lookAtPoint: SMD3<Float>
-    var faceOrientation: SMD3<Float>
-    var bodyColor: Color
-    var eyeColor: Color
+//    var isSmiling: Bool
+//    var isBlinkingLeft: Bool
+//    var isBlinkingRight: Bool
+//    var lookAtPoint: SIMD3<Float>
+//    var faceOrientation: SIMD3<Float>
+//    var bodyColor: Color
+//    var eyeColor: Color
     
     var scale: CGFloat
     
