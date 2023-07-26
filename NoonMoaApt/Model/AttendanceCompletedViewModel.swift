@@ -38,6 +38,7 @@ class AttendanceCompletedViewModel: ObservableObject {
                 do {
                     let newRecordRef = try db.collection("AttendanceRecord").addDocument(from: newRecord)
                     self.attendanceRecord = newRecord
+                    print("AttendanceRecord")
                     
                     // Create a new AttendanceSheet if it doesn't exist
                     let attendanceSheetRef = db.collection("AttendanceSheet").document(userId)
@@ -80,8 +81,8 @@ class AttendanceCompletedViewModel: ObservableObject {
                 
                 // Now update the User document with lastActiveDate and state only
                 self.db.collection("User").document(self.userId).setData([
-                    "lastActiveDate": Date(),
-                    "userState": UserState.active.rawValue
+                    "lastActiveDate": Date()
+//                    "userState": UserState.active.rawValue
                 ], merge: true) { err in
                     if let err = err {
                         print("Error updating user: \(err)")

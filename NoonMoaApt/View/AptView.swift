@@ -7,12 +7,14 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct AptView: View {
     @EnvironmentObject var weather: WeatherViewModel
     @EnvironmentObject var time: TimeViewModel
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var aptViewModel: AptViewModel
+<<<<<<< HEAD
     @EnvironmentObject var eyeViewController: EyeViewController
     @State private var users: [[User]] = User.sampleData
     @State private var buttonText: String = ""
@@ -24,6 +26,20 @@ struct AptView: View {
 
 
     @State private var isAptEffectPlayed: Bool = false
+=======
+    
+    @State private var sampleUsers: [[User]] = User.sampleData
+    //    @State private var users: [User] = []
+    @State private var buttonText: String = ""
+    @State private var isCalendarOpen: Bool = false
+    
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
+>>>>>>> 3104802 (Feat/#27 구현 AttendanceSheetId 미완)
     
     var body: some View {
         ZStack{
@@ -77,11 +93,29 @@ struct AptView: View {
                         VStack(spacing: 16) {
                             ForEach(users.indices, id: \.self) { rowIndex in
                                 HStack(spacing: 12) {
+<<<<<<< HEAD
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         
                                         SceneButtons(roomUser: $users[rowIndex][userIndex], buttonText: $buttonText).environmentObject(weather)
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                         //방 이미지 자체의 비율 1:1.2 통한 높이 산정
+=======
+                                    ForEach(sampleUsers[rowIndex].indices, id: \.self) { columnIndex in
+                                        let userIndex = Int(rowIndex) * 3 + Int(columnIndex)
+                                        if userIndex < aptViewModel.users.count {
+                                            ZStack {
+                                                Text(aptViewModel.users[userIndex].id!)
+                                                SceneButtons(roomUser: aptViewModel.users[userIndex], buttonText: $buttonText).environmentObject(weather)
+                                                    .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            }
+                                        } else {
+                                            ZStack {
+                                                //                                                Text("\(sampleUsers[rowIndex][columnIndex].id!)")
+                                                SceneButtons(roomUser: sampleUsers[rowIndex][columnIndex], buttonText: $buttonText).environmentObject(weather)
+                                                    .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
+                                            }
+                                        }
+>>>>>>> 3104802 (Feat/#27 구현 AttendanceSheetId 미완)
                                     }
                                 }
                             }
@@ -182,13 +216,36 @@ struct AptView: View {
                 }
                 .padding(.trailing, proxy.size.width * 0.06)
             }
+<<<<<<< HEAD
 //            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
 //                .frame(height: 400)
 //                .opacity(isCalendarOpen ? 1 : 0)
+=======
+            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
+                .opacity(isCalendarOpen ? 1 : 0)
+            
+>>>>>>> 3104802 (Feat/#27 구현 AttendanceSheetId 미완)
             
         }//ZStack
         .onAppear {
             aptViewModel.fetchCurrentUserApt()
+            if let user = Auth.auth().currentUser {
+                firestoreManager.syncDB()
+                let userRef = db.collection("User").document(user.uid)
+                
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        if let userData = document.data(), let userState = userData["userState"] as? String {
+                            print("AppDelegate | handleSceneActive | userState: \(userState)")
+                            self.db.collection("User").document(user.uid).updateData([
+                                "userState": UserState.active.rawValue
+                            ])
+                        }
+                    } else {
+                        print("No user is signed in.")
+                    }
+                }
+            }
         }
     }
 }

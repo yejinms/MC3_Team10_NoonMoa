@@ -41,7 +41,6 @@ struct launchScreenView: View {
                                 if let document = document, document.exists {
                                     if let userData = document.data(), let userState = userData["userState"] as? String {
                                         DispatchQueue.main.async {
-                                            print("=====================")
                                             print("AppDelegate | application | userState: \(userState)")
                                             if userState == UserState.sleep.rawValue {
                                                 self.viewRouter.nextView = .attendance

@@ -64,6 +64,7 @@ struct OnboardingView: View {
     
     @State var tag:Int? = nil
     @State private var currentTab = 0
+    @AppStorage("isOnboardingDone") var isOnboardingDone: Bool = false
     
     var body: some View {
         
@@ -164,6 +165,7 @@ struct OnboardingView: View {
                     //마지막 탭일 때
                     else {
                         Button {
+                            isOnboardingDone = true
                             viewRouter.nextView = .login
                         } label: {
                             Text("시작하기")

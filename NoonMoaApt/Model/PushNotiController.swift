@@ -135,7 +135,6 @@ class PushNotiController: ObservableObject {
             
             // init
             self.db.collection("User").document(currentUser.uid).updateData([
-                "userState": UserState.active.rawValue,
                 "requestedBy": []
             ])
         }
