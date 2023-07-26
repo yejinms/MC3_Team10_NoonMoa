@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 class MidnightUpdater: ObservableObject{
     func updateAllUsersToSleep() {

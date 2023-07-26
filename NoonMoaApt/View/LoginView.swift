@@ -12,6 +12,7 @@ import AuthenticationServices
 struct LoginView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @StateObject var loginData = LoginViewModel(viewRouter: ViewRouter())
+    @AppStorage("isLogInDone") var isLogInDone: Bool = false
     
     var body: some View {
         VStack {
@@ -37,9 +38,10 @@ struct LoginView: View {
                         return
                     }
                     
-                    
                     loginData.authenticate(credential: credential)
-                    viewRouter.currentView = .attendance
+                    // 임시방편, 미봉책
+                    isLogInDone = true
+                    viewRouter.nextView = .attendance
                     
                 case .failure(let error):
                     print(error.localizedDescription)

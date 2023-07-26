@@ -184,7 +184,6 @@ struct AttendanceView: View {
                 }//VStack
             }//GeometryReader
             .padding(24)
-            
         }//ZStack
     }
 }

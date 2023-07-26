@@ -8,12 +8,18 @@
 // LoginViewModel
 import Foundation
 import Firebase
+import FirebaseFirestore
 import CryptoKit
 import AuthenticationServices
 
 class LoginViewModel: ObservableObject {
     
-    let db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     private let dummyData = DummyData()
     
     @Published var nonce = ""
@@ -118,40 +124,19 @@ class LoginViewModel: ObservableObject {
                         }
                         
                         // 존재하지 않은 계정일 때 사용하게 될 새로운 User 객체
-                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
 
                         // Check if the user already exists in Firestore
                         let userRef = self.db.collection("User").document(user.id!)
                         userRef.getDocument { (document, error) in
                             if let document = document, document.exists {
-
                                 // The user already exists.
                                 print("User already exists. DO NOT assigning a new room.")
                                 
-                                // Navigate
-                                if let userData = User(dictionary: document.data()!) {
-                                    switch userData.stateEnum {
-                                    case .sleep:
-                                        DispatchQueue.main.async {
-                                            self.viewRouter.currentView = .attendance
-                                        }
-                                    case .inactive:
-                                        DispatchQueue.main.async {
-                                            self.viewRouter.currentView = .apt
-                                        }
-                                    default:
-                                        DispatchQueue.main.async {
-                                            self.viewRouter.currentView = .apt
-                                        }
-                                    }
-                                }
-                                
                             } else {
-                                // Create a new user object
-                                let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.inactive.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
-                                
                                 // The user is new, so we update them in Firestore and assign a room
                                 print("NEW User. Assigning a new room.")
+                                
                                 self.updateUserInFirestore(user: user)
                                 self.assignRoomToUser(user: user)
                             }
@@ -166,19 +151,25 @@ class LoginViewModel: ObservableObject {
     }
     
     func updateUserInFirestore(user: User) {
-        let db = Firestore.firestore()
-        do {
-            try db.collection("User").document(user.id!).setData(from: user)
-        } catch let error {
-            print("Error writing user to Firestore: \(error)")
-        }
+        firestoreManager.syncDB()
+            let userData: [String: Any] = [
+                "id": user.id ?? "",
+                "roomId": user.roomId ?? "",
+                "aptId": user.aptId ?? "",
+                "userState": user.userState,
+                "lastActiveDate": user.lastActiveDate ?? Date(),
+                "eyeColor": user.eyeColor,
+                "attendanceSheetId": user.attendanceSheetId ?? "",
+                "token": user.token,
+                "requestedBy": user.requestedBy
+            ]
+            self.db.collection("User").document(user.id!).setData(userData)
     }
     
     
     // Assign a room to a user and update the Apt and Room collections
     func assignRoomToUser(user: User) {
-        let db = Firestore.firestore()
-        
+        firestoreManager.syncDB()
         // Get the emptyRooms document
         let emptyRoomsRef = db.collection("globals").document("emptyRooms")
         emptyRoomsRef.getDocument { (document, error) in
@@ -194,7 +185,7 @@ class LoginViewModel: ObservableObject {
                                     
                     let roomToAssign = emptyRooms.removeFirst()
                                     
-                    let roomToAssignRef = db.collection("Room").document(roomToAssign)
+                    let roomToAssignRef = self.db.collection("Room").document(roomToAssign)
                     roomToAssignRef.getDocument { document, error in
                         guard let document = document, document.exists, let aptId = document.get("aptId") as? String else {
                             if let error = error {
@@ -205,7 +196,7 @@ class LoginViewModel: ObservableObject {
                         
                         print(aptId)
                                         
-                        let newUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.active.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+                        let newUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
 
                         // Update the emptyRooms document
                         emptyRoomsRef.setData(["rooms": emptyRooms], merge: true) { err in
@@ -229,7 +220,7 @@ class LoginViewModel: ObservableObject {
                         }
 
                         // Update the user in the Apt collection
-                        let aptRef = db.collection("Apt").document(aptId)
+                        let aptRef = self.db.collection("Apt").document(aptId)
                         aptRef.updateData(["rooms": FieldValue.arrayUnion([roomToAssign])]) { err in
                             if let err = err {
                                 print("Error updating apt: \(err)")
@@ -240,7 +231,7 @@ class LoginViewModel: ObservableObject {
                     }
                 } else {
                     // Get the current number of rooms from a global counter
-                    let roomCounterRef = db.collection("globals").document("roomCounter")
+                    let roomCounterRef = self.db.collection("globals").document("roomCounter")
                     roomCounterRef.getDocument { (document, error) in
                         if let document = document, document.exists {
                             // Get the current room count
@@ -266,7 +257,7 @@ class LoginViewModel: ObservableObject {
                             }
                             
                             // Update the Apt collection
-                            let aptCounterRef = db.collection("globals").document("aptCounter")
+                            let aptCounterRef = self.db.collection("globals").document("aptCounter")
                             aptCounterRef.getDocument { (document, error) in
                                 if let document = document, document.exists {
                                     // Get the current apt count
@@ -286,11 +277,14 @@ class LoginViewModel: ObservableObject {
                                         newUser.aptId = newApt.id
                                         
                                         // Add the new apt to the Apt collection
-                                        do {
-                                            try db.collection("Apt").document(newApt.id!).setData(from: newApt)
-                                        } catch let error {
-                                            print("Error adding new apt to Firestore: \(error)")
-                                        }
+                                        let newAptData: [String: Any] = [
+                                            "id": newApt.id ?? "",
+                                            "number": newApt.number,
+                                            "rooms": newApt.rooms,
+                                            "roomCount": newApt.roomCount
+                                        ]
+
+                                        self.db.collection("Apt").document(newApt.id!).setData(newAptData)
                                         
                                         // Update the global apt counter
                                         aptCounterRef.setData(["count": aptCount], merge: true) { err in
@@ -308,7 +302,7 @@ class LoginViewModel: ObservableObject {
                                         newUser.aptId = "\(aptCount)"
                                         
                                         // Add the new room to the current apt
-                                        let currentAptRef = db.collection("Apt").document("\(aptCount)")
+                                        let currentAptRef = self.db.collection("Apt").document("\(aptCount)")
                                         
                                         // Update the room with the current apt id
                                         room.aptId = "\(aptCount)"
@@ -326,18 +320,28 @@ class LoginViewModel: ObservableObject {
                                     }
                                     
                                     // Add the new room to the Room collection
-                                    do {
-                                        try db.collection("Room").document(room.id!).setData(from: room)
-                                    } catch let error {
-                                        print("Error adding new room to Firestore: \(error)")
-                                    }
+                                    let newRoomData: [String: Any] = [
+                                        "id": room.id ?? "",
+                                        "aptId": room.aptId,
+                                        "number": room.number,
+                                        "userId": room.userId
+                                        ]
+                                        self.db.collection("Room").document(room.id!).setData(newRoomData)
                                     
                                     // Update the user in the User collection
-                                    do {
-                                        try db.collection("User").document(newUser.id!).setData(from: newUser)
-                                    } catch let error {
-                                        print("Error updating user in Firestore: \(error)")
-                                    }
+                                    var newUserData: [String: Any]
+                                        newUserData = [
+                                            "id": newUser.id ?? "",
+                                            "roomId": newUser.roomId ?? "",
+                                            "aptId": newUser.aptId ?? "",
+                                            "userState": newUser.userState,
+                                            "lastActiveDate": newUser.lastActiveDate ?? "",
+                                            "eyeColor": newUser.eyeColor,
+                                            "attendanceSheetId": newUser.attendanceSheetId ?? "",
+                                            "token": newUser.token,
+                                            "requestedBy": newUser.requestedBy
+                                        ]
+                                    self.db.collection("User").document(newUser.id!).setData(newUserData)
                                 } else {
                                     print("Document does not exist11")
                                 }
@@ -397,3 +401,4 @@ class LoginViewModel: ObservableObject {
         return result
     }
 }
+

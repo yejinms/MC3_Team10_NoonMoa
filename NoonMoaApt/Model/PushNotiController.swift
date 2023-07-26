@@ -10,14 +10,11 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 class PushNotiController: ObservableObject {
     
-    private let db: Firestore
-    
-    init() {
-        self.db = Firestore.firestore()
-    }
+    private let db = Firestore.firestore()
     
     // 푸시 알림 보내는 함수
     func sendPushNotification(userToken: String, title: String, content: String) {
