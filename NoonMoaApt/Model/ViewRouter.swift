@@ -20,7 +20,7 @@ enum ViewState {
 }
 
 class ViewRouter: ObservableObject {
-    @Published var currentView: ViewState = .login
+    @Published var currentView: ViewState = .launchScreen
     var nextView: ViewState = .launchScreen {
         didSet {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {

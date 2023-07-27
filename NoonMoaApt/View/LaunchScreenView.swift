@@ -29,7 +29,7 @@ struct launchScreenView: View {
             .scaledToFit()
             .ignoresSafeArea()
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     // 로그인 했을 때, 기존 계정이 있는지 확인하는 로직
                     // 기존에 계정이 있으면, 자동 로그인 하고 AptView로 이동
                     // 기존에 계정이 없으면, LoginView로 이동
@@ -69,7 +69,7 @@ struct launchScreenView: View {
                 }
             }
     }
-}
+//}
 
 struct launchScreenView_Previews: PreviewProvider {
     static var previews: some View {

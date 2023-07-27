@@ -196,8 +196,8 @@ class LoginViewModel: ObservableObject {
                         
                         print(aptId)
                                         
-                        let newUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
-
+                        let updatedUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+        
                         // Update the emptyRooms document
                         emptyRoomsRef.setData(["rooms": emptyRooms], merge: true) { err in
                             guard err == nil else {
@@ -206,9 +206,9 @@ class LoginViewModel: ObservableObject {
                             }
                             print("Global empty rooms updated")
                         }
-
+        
                         // Update the user in the User collection
-                        self.updateUserInFirestore(user: newUser)
+                        self.updateUserInFirestore(user: updatedUser)
                         
                         // Update the user in the Room collection
                         roomToAssignRef.updateData(["userId": user.id!]) { err in
@@ -218,7 +218,7 @@ class LoginViewModel: ObservableObject {
                                 print("Room successfully updated")
                             }
                         }
-
+        
                         // Update the user in the Apt collection
                         let aptRef = self.db.collection("Apt").document(aptId)
                         aptRef.updateData(["rooms": FieldValue.arrayUnion([roomToAssign])]) { err in
@@ -244,8 +244,8 @@ class LoginViewModel: ObservableObject {
                             var room = Room(id: "\(roomCount)", aptId: nil, number: roomCount, userId: user.id!)
                             
                             // Update the user with the new room id
-                            var newUser = user
-                            newUser.roomId = room.id
+                            var updatedUser = user
+                            updatedUser.roomId = room.id
                             
                             // Update the global room counter
                             roomCounterRef.setData(["count": roomCount], merge: true) { err in
@@ -274,7 +274,7 @@ class LoginViewModel: ObservableObject {
                                         }
                                         
                                         // Update the user with the new apt id
-                                        newUser.aptId = newApt.id
+                                        updatedUser.aptId = newApt.id
                                         
                                         // Add the new apt to the Apt collection
                                         let newAptData: [String: Any] = [
@@ -299,7 +299,7 @@ class LoginViewModel: ObservableObject {
                                         self.dummyData.createDummyData(aptId: newApt.id!)
                                     } else {
                                         // Update the user with the current apt id
-                                        newUser.aptId = "\(aptCount)"
+                                        updatedUser.aptId = "\(aptCount)"
                                         
                                         // Add the new room to the current apt
                                         let currentAptRef = self.db.collection("Apt").document("\(aptCount)")
@@ -329,19 +329,19 @@ class LoginViewModel: ObservableObject {
                                         self.db.collection("Room").document(room.id!).setData(newRoomData)
                                     
                                     // Update the user in the User collection
-                                    var newUserData: [String: Any]
-                                        newUserData = [
-                                            "id": newUser.id ?? "",
-                                            "roomId": newUser.roomId ?? "",
-                                            "aptId": newUser.aptId ?? "",
-                                            "userState": newUser.userState,
-                                            "lastActiveDate": newUser.lastActiveDate ?? "",
-                                            "eyeColor": newUser.eyeColor,
-                                            "attendanceSheetId": newUser.attendanceSheetId ?? "",
-                                            "token": newUser.token,
-                                            "requestedBy": newUser.requestedBy
+                                    var userData: [String: Any]
+                                        userData = [
+                                            "id": user.id ?? "",
+                                            "roomId": updatedUser.roomId ?? "",
+                                            "aptId": updatedUser.aptId ?? "",
+                                            "userState": user.userState,
+                                            "lastActiveDate": user.lastActiveDate ?? "",
+                                            "eyeColor": user.eyeColor,
+                                            "attendanceSheetId": user.attendanceSheetId ?? "",
+                                            "token": user.token,
+                                            "requestedBy": user.requestedBy
                                         ]
-                                    self.db.collection("User").document(newUser.id!).setData(newUserData)
+                                    self.db.collection("User").document(user.id!).setData(userData)
                                 } else {
                                     print("Document does not exist11")
                                 }
