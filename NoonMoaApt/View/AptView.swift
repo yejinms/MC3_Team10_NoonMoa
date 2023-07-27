@@ -107,11 +107,11 @@ struct AptView: View {
                 .offset(y: proxy.size.height - proxy.size.width * 1.5)
                 //화면만큼 내린 다음에 아파트 크기 비율인 1:1.5에 따라 올려 보정?
             }
-//
-//            //기능테스트위한 임시 뷰
-//            FunctionTestView(buttonText: $buttonText)
-//                .environmentObject(weather)
-//                .environmentObject(time)
+
+            //기능테스트위한 임시 뷰
+            FunctionTestView(buttonText: $buttonText)
+                .environmentObject(weather)
+                .environmentObject(time)
             
             
             //임시코드
