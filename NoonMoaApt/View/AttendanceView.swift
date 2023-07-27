@@ -72,7 +72,7 @@ struct AttendanceView: View {
                                        lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
                                        faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
                                        bodyColor: LinearGradient.unStampedWhite,
-                                       eyeColor: LinearGradient.unStampedWhite)
+                                       eyeColor: LinearGradient.unStampedWhite, cheekColor: LinearGradient.cheekGray)
                         .frame(width: geo.size.width, height: geo.size.width)
                         .offset(y: -16)
                         .blur(radius: isBlurEffectPlayed ? 5 : 0)
@@ -82,7 +82,7 @@ struct AttendanceView: View {
                         
                     } else {
                         //출석체크 후 저장된 날씨와, 캐릭터의 움직임 좌표값으로 표현된 뷰
-                        StampLargeView(skyColor: savedSkyColor, skyImage: savedSkyImage, isSmiling: savedIsSmiling, isBlinkingLeft: savedIsBlinkingLeft, isBlinkingRight: savedIsBlinkingRight, lookAtPoint: savedLookAtPoint, faceOrientation: savedFaceOrientation, bodyColor: savedBodyColor, eyeColor: savedEyeColor)
+                        StampLargeView(skyColor: savedSkyColor, skyImage: savedSkyImage, isSmiling: savedIsSmiling, isBlinkingLeft: savedIsBlinkingLeft, isBlinkingRight: savedIsBlinkingRight, lookAtPoint: savedLookAtPoint, faceOrientation: savedFaceOrientation, bodyColor: savedBodyColor, eyeColor: savedEyeColor, cheekColor: LinearGradient.cheekRed)
                             .frame(width: geo.size.width, height: geo.size.width)
                             .offset(y: -16)
                             .scaleEffect(isScaleEffectPlayed ? 0.9 : 1)

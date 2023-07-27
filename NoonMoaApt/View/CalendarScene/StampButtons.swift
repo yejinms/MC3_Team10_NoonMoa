@@ -21,6 +21,7 @@ struct StampButtons: View {
     var faceOrientation: SIMD3<Float>
     var bodyColor: LinearGradient
     var eyeColor: LinearGradient
+    var cheekColor: LinearGradient
     
     var body: some View {
         
@@ -34,7 +35,7 @@ struct StampButtons: View {
                     .resizable()
                     .scaledToFit()
                     .clipShape(RoundedRectangle(cornerRadius: 50))
-                EyeView(isSmiling: isSmiling, isBlinkingLeft: isBlinkingLeft, isBlinkingRight: isBlinkingRight, lookAtPoint: lookAtPoint, faceOrientation: faceOrientation, bodyColor: bodyColor, eyeColor: eyeColor)
+                EyeView(isSmiling: isSmiling, isBlinkingLeft: isBlinkingLeft, isBlinkingRight: isBlinkingRight, lookAtPoint: lookAtPoint, faceOrientation: faceOrientation, bodyColor: bodyColor, eyeColor: eyeColor, cheekColor: cheekColor)
                     .frame(width: geo.size.width * 0.7)
                 Circle()
                     .strokeBorder(Color.black, lineWidth: 1)
@@ -48,7 +49,7 @@ struct StampButtons: View {
 
 struct StampButtons_Previews: PreviewProvider {
     static var previews: some View {
-        StampButtons(skyColor: Color.sky.clearDay, skyImage: Image.assets.circleStamp.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userBlue, eyeColor: LinearGradient.eyeBlue)
+        StampButtons(skyColor: Color.sky.clearDay, skyImage: Image.assets.circleStamp.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userBlue, eyeColor: LinearGradient.eyeBlue, cheekColor: LinearGradient.cheekRed)
             .environmentObject(WeatherViewModel())
             .environmentObject(TimeViewModel())
     }

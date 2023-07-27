@@ -18,7 +18,7 @@ struct SceneNeighborEye: View {
                 lookAtPoint: eyeNeighborModel.lookAtPoint,
                 faceOrientation: eyeNeighborModel.faceOrientation,
                 bodyColor: eyeNeighborModel.bodyColor,
-                eyeColor: eyeNeighborModel.eyeColor)
+                eyeColor: eyeNeighborModel.eyeColor, cheekColor: eyeNeighborModel.cheekColor)
         .onAppear {
             eyeNeighborModel.update(roomUser: roomUser)
             //이웃 눈의 랜덤한 움직임 함수 실행
