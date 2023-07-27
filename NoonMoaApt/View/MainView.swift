@@ -28,6 +28,7 @@ struct MainView: View {
         case .attendance:
             AttendanceView()
                 .environmentObject(attendanceViewModel)
+                .environmentObject(attendanceCompletedViewModel)
                 .environmentObject(weatherViewModel)
                 .environmentObject(timeViewModel)
                 .environmentObject(eyeViewController)

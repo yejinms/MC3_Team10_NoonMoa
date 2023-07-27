@@ -13,7 +13,8 @@ struct AttendanceView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceViewModel: AttendanceViewModel
-    @EnvironmentObject var weather: WeatherViewModel
+    @EnvironmentObject var attendanceCompletedViewModel: AttendanceCompletedViewModel
+    @EnvironmentObject var weatherViewModel: WeatherViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
     
     @State private var isStamped: Bool = false
@@ -22,7 +23,7 @@ struct AttendanceView: View {
     @State private var isShutterEffectPlayed: Bool = false
     
     @State private var savedSkyColor: LinearGradient = Color.sky.clearDay
-    @State private var savedSkyImage: Image = Image.assets.stampWeather.clearDay
+    @State private var savedSkyImage: Image = Image.assets.largeStamp.clearDay
     @State private var savedIsSmiling: Bool = false
     @State private var savedIsBlinkingLeft: Bool = false
     @State private var savedIsBlinkingRight: Bool = false
@@ -115,9 +116,10 @@ struct AttendanceView: View {
                                 }
                                 
                                 //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
-                                weather.getNowWeather()
-                                self.savedSkyColor = weather.savedSkyColor
-                                self.savedSkyImage = weather.savedSkyImage
+                                weatherViewModel.getCurrentWeather()
+                                weatherViewModel.getColorFromCurrentWeather()
+                                self.savedSkyColor = weatherViewModel.savedSkyColor
+                                self.savedSkyImage = weatherViewModel.savedSkyImage
                                 //ARView에서 움직이던 값을 저장한다.
                                 self.savedIsSmiling = eyeViewController.eyeMyModel.isSmiling
                                 self.savedIsBlinkingLeft = eyeViewController.eyeMyModel.isBlinkingLeft
@@ -168,6 +170,9 @@ struct AttendanceView: View {
                             Button (action: {
                                 //TODO: AttendanceCompleteViewModel에 정보를 저장합니다.
                                 viewRouter.currentView = .apt
+                                attendanceCompletedViewModel.saveAttendanceRecord(record: regenAttendanceRecord())
+//                                아래는 실행되지 않을 것임
+//                                attendanceCompletedViewModel.updateUserLastActiveDate()
                             }) {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color.warmBlack)
@@ -184,8 +189,15 @@ struct AttendanceView: View {
                 }//VStack
             }//GeometryReader
             .padding(24)
-            
         }//ZStack
+    }
+    func regenAttendanceRecord() -> AttendanceRecord {
+
+        let userId = "\(currentUser?.uid ?? "")"
+        let weatherCondition = weatherViewModel.currentWeather
+        let eyeDirection = [savedFaceOrientation.x, savedFaceOrientation.y, savedFaceOrientation.z]
+        
+        return AttendanceRecord(userId: userId, date: Date(), weatherCondition: weatherCondition, eyeDirection: eyeDirection)
     }
 }
 
