@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftUICalendar
 import Firebase
+import FirebaseFirestore
 
 class CalendarFullViewModel: ObservableObject {
     @Published var attendanceRecords: [AttendanceRecord] = []
@@ -15,7 +16,12 @@ class CalendarFullViewModel: ObservableObject {
     @Published var selectedRecord: AttendanceRecord? = nil
     @Published var selectedDate: Date? = nil  // add this line
     
-    private var db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     init() {
         fetchUserAttendanceRecords()

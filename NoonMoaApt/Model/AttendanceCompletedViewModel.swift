@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 class AttendanceCompletedViewModel: ObservableObject {
     @Published var userId: String
@@ -15,7 +16,12 @@ class AttendanceCompletedViewModel: ObservableObject {
     @Published var attendanceRecord: AttendanceRecord? = nil
     @Published var user: User? = nil
     
-    private var db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     init(record: AttendanceRecord) {
         self.userId = record.userId
@@ -32,6 +38,7 @@ class AttendanceCompletedViewModel: ObservableObject {
                 do {
                     let newRecordRef = try db.collection("AttendanceRecord").addDocument(from: newRecord)
                     self.attendanceRecord = newRecord
+                    print("AttendanceRecord")
                     
                     // Create a new AttendanceSheet if it doesn't exist
                     let attendanceSheetRef = db.collection("AttendanceSheet").document(userId)
@@ -74,8 +81,8 @@ class AttendanceCompletedViewModel: ObservableObject {
                 
                 // Now update the User document with lastActiveDate and state only
                 self.db.collection("User").document(self.userId).setData([
-                    "lastActiveDate": Date(),
-                    "userState": UserState.active.rawValue
+                    "lastActiveDate": Date()
+//                    "userState": UserState.active.rawValue
                 ], merge: true) { err in
                     if let err = err {
                         print("Error updating user: \(err)")

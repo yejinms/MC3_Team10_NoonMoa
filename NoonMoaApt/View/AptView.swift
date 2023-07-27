@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct AptView: View {
     @EnvironmentObject var weather: WeatherViewModel
@@ -14,7 +15,7 @@ struct AptView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var aptViewModel: AptViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
-    @State private var users: [[User]] = User.sampleData
+    @State private var users: [[User]] = User.UTData
     @State private var buttonText: String = ""
     @State private var isCalendarOpen: Bool = false
     
@@ -24,6 +25,13 @@ struct AptView: View {
 
 
     @State private var isAptEffectPlayed: Bool = false
+    
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     var body: some View {
         ZStack{
@@ -185,10 +193,26 @@ struct AptView: View {
 //            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
 //                .frame(height: 400)
 //                .opacity(isCalendarOpen ? 1 : 0)
-            
         }//ZStack
         .onAppear {
             aptViewModel.fetchCurrentUserApt()
+            if let user = Auth.auth().currentUser {
+                firestoreManager.syncDB()
+                let userRef = db.collection("User").document(user.uid)
+                
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        if let userData = document.data(), let userState = userData["userState"] as? String {
+                            print("AppDelegate | handleSceneActive | userState: \(userState)")
+                            self.db.collection("User").document(user.uid).updateData([
+                                "userState": UserState.active.rawValue
+                            ])
+                        }
+                    } else {
+                        print("No user is signed in.")
+                    }
+                }
+            }
         }
     }
 }

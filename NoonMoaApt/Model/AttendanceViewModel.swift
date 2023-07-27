@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 class AttendanceViewModel: ObservableObject {
     @Published var weatherCondition = WeatherCondition.clear.rawValue
@@ -14,7 +15,12 @@ class AttendanceViewModel: ObservableObject {
     @Published var attendanceRecord: AttendanceRecord? = nil
     @Published var currentRecord: AttendanceRecord?
     
-    private let db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     private let currentUser = Auth.auth().currentUser
     
 

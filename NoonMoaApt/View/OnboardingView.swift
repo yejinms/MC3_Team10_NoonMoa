@@ -60,8 +60,11 @@ struct OnboardingTabView: View {
 
 //온보딩뷰 화면 그리기
 struct OnboardingView: View {
+    @EnvironmentObject var viewRouter: ViewRouter
+    
     @State var tag:Int? = nil
     @State private var currentTab = 0
+    @AppStorage("isOnboardingDone") var isOnboardingDone: Bool = false
     
     var body: some View {
         
@@ -161,12 +164,10 @@ struct OnboardingView: View {
                     }
                     //마지막 탭일 때
                     else {
-                        NavigationLink(destination:
-                                        AptView()
-                                            .environmentObject(WeatherViewModel())
-                                            .environmentObject(TimeViewModel())
-                                            .environmentObject(AptViewModel())
-                                       , label: {
+                        Button {
+                            isOnboardingDone = true
+                            viewRouter.nextView = .login
+                        } label: {
                             Text("시작하기")
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.white)
@@ -175,7 +176,7 @@ struct OnboardingView: View {
                                         .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
                                         .frame(width: 345, height: 56)
                                 )
-                        })
+                        }
                     }
                     
                     //띄우기

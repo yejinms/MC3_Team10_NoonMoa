@@ -1,4 +1,3 @@
-//
 //  MC3_NoonMoaApp.swift
 //  MC3_NoonMoa
 //
@@ -7,23 +6,23 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 import FirebaseCore
 import FirebaseMessaging
+import AuthenticationServices
+
 
 @main
 struct NoonMoaAptApp: App {
-    @Environment(\.scenePhase) var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
-    // Initialize a sample AttendanceRecord
-    let attendanceRecord = AttendanceRecord(userId: UUID().uuidString, date: Date(), weatherCondition: "Sunny", eyeDirection: [0.1, 0.2, 0.3], aptId: "sampleAptId")
+    @Environment(\.scenePhase) var scenePhase
     
     var viewRouter = ViewRouter()
     var midnightUpdater = MidnightUpdater()
     
+    // Initialize a sample AttendanceRecord
+    let attendanceRecord = AttendanceRecord(userId: UUID().uuidString, date: Date(), weatherCondition: "Sunny", eyeDirection: [0.1, 0.2, 0.3], aptId: "sampleAptId")
     
-
-
     var body: some Scene {
         WindowGroup {
             MainView(
@@ -31,13 +30,14 @@ struct NoonMoaAptApp: App {
                 attendanceViewModel: AttendanceViewModel(),
                 calendarFullViewModel: CalendarFullViewModel(),
                 calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()),
-                loginViewModel: LoginViewModel(viewRouter: ViewRouter()),
+                loginViewModel: LoginViewModel(viewRouter: delegate.viewRouter),
                 aptViewModel: AptViewModel(),
                 weatherViewModel: WeatherViewModel(),
                 timeViewModel: TimeViewModel(),
-                eyeViewController: EyeViewController())
-                .environmentObject(viewRouter)
-                .environmentObject(midnightUpdater) // Pass to view here
+                eyeViewController: EyeViewController()
+            )
+            .environmentObject(delegate.viewRouter)
+            .environmentObject(midnightUpdater) // Pass to view here
         }
         .onChange(of: scenePhase) { phase in
             switch phase {
@@ -54,16 +54,42 @@ struct NoonMoaAptApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate{
+
+class AppDelegate: NSObject, UIApplicationDelegate {
     
+    let viewRouter = ViewRouter() // @Published var
     let gcmMessageIDKey = "gcm.message_id"
     var loginViewModel: LoginViewModel?
-    var viewRouter = ViewRouter()
-    
     var midnightUpdater: MidnightUpdater?
     var timer: Timer?
+    var isAppActiveFirst: Bool = true  // handleSceneActive를 처음 실행하는지를 판단하는 불 변수
+    
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        setUpPushNotifications(application: application)
+        
+        // 자정이 되면 모든 user의 userState를 .sleep으로 변경
+        midnightUpdater = MidnightUpdater()
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+            let date = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
+            if hour == 0 && minute == 0 {
+                self.midnightUpdater?.updateAllUsersToSleep()
+            }
+        }
+        return true
+    }
+    
+    // Method to set up push notifications
+    func setUpPushNotifications(application: UIApplication) {
         FirebaseApp.configure()
         
         if #available(iOS 10.0, *) {
@@ -88,43 +114,6 @@ class AppDelegate: NSObject, UIApplicationDelegate{
         
         UNUserNotificationCenter.current().delegate = self
         
-        
-        // Check if a user is already signed in.
-        if let user = Auth.auth().currentUser {
-            print("User \(user.uid) is signed in.")
-            
-            // Define userRef here
-            let db = Firestore.firestore()
-            let userRef = db.collection("User").document(user.uid)
-            
-            // Fetch user data and set up your app UI accordingly.
-            userRef.getDocument { (document, error) in
-                if let document = document, document.exists {
-                    if let userData = User(dictionary: document.data()!) {
-                        DispatchQueue.main.async {
-                            switch userData.stateEnum {
-                            case .sleep:
-                                self.viewRouter.currentView = .attendance
-                            case .inactive:
-                                self.viewRouter.currentView = .apt
-                            default:
-                                self.viewRouter.currentView = .apt
-                            }
-                        }
-                    } else {
-                        print("Error: Document exists but unable to parse into User.")
-                    }
-                } else if let error = error {
-                    print("Error fetching user: \(error)")
-                }
-            }
-        } else {
-            print("No user is signed in.")
-            // No user is signed in. Show a sign-in screen, or handle accordingly.
-        }
-
-
-        
         // 자정이 되면 모든 user의 userState를 .sleep으로 변경
         midnightUpdater = MidnightUpdater()
         timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
@@ -136,63 +125,99 @@ class AppDelegate: NSObject, UIApplicationDelegate{
                 self.midnightUpdater?.updateAllUsersToSleep()
             }
         }
-
-        return true
     }
+
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
     
-    // APP이 active 상태일 때 실행되는 메서드
+    // 앱이 foreground일 때 실행
     func handleSceneActive() {
         print("AppDelegate: ScenePhase: active")
-
-        // Get the current user
-        if let user = Auth.auth().currentUser {
-            let db = Firestore.firestore()
-            let userRef = db.collection("User").document(user.uid)
-            
-            // app을 켰을 때, userState를 active로 업데이트
-            userRef.updateData([
-                "userState": UserState.active.rawValue
-            ]) { err in
-                if let err = err {
-                    print("Error updating user state: \(err)")
-                } else {
-                    print("User state successfully updated to inactive")
+        
+        if isAppActiveFirst {
+            // 앱을 처음 켤 때에는 이 블록을 실행
+            isAppActiveFirst = false
+        } else {
+            // When the app is active, update the user's state to .active
+            if let user = Auth.auth().currentUser {
+                firestoreManager.syncDB()
+                let userRef = db.collection("User").document(user.uid)
+    
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        if let userData = document.data(), let userState = userData["userState"] as? String {
+                            print("AppDelegate | handleSceneActive | userState: \(userState)")
+                            if userState == UserState.sleep.rawValue {
+                                _ = 0
+                            } else {
+                                self.db.collection("User").document(user.uid).updateData([
+                                    "userState": UserState.active.rawValue
+                                ])
+                            }
+                        }
+                    } else {
+                        print("No user is signed in.")
+                    }
                 }
             }
-        } else {
-            print("No user is signed in.")
         }
     }
-
-
+    
+    // 앱이 background일 때 실행
     func handleSceneBackground() {
-        // ... do something when in background
         print("AppDelegate: ScenePhase: background")
         
-        // Here you would update the user's state to .inactive
+        // When the app is in the background, update the user's state to .inactive
         if let user = Auth.auth().currentUser {
-            let db = Firestore.firestore()
-            db.collection("User").document(user.uid).updateData([
-                "userState": UserState.inactive.rawValue
-            ]) { err in
-                if let err = err {
-                    print("Error updating user state: \(err)")
+            firestoreManager.syncDB()
+            let userRef = db.collection("User").document(user.uid)
+            
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let userData = document.data(), let userState = userData["userState"] as? String {
+                        if userState == UserState.sleep.rawValue {
+                            _ = 0
+                        } else {
+                            self.db.collection("User").document(user.uid).updateData([
+                                "userState": UserState.inactive.rawValue
+                            ])
+                        }
+                    }
                 } else {
-                    print("User state successfully updated to inactive")
+                    print("No user is signed in.")
                 }
             }
         }
     }
-
+    
     func handleSceneInactive() {
         print("AppDelegate: ScenePhase: inactive")
-        // ... do something when inactive
+//        // ... do something when inactive
+//        // When the app is in the background, update the user's state to .inactive
+//        if let user = Auth.auth().currentUser {
+//            firestoreManager.syncDB()
+//            let userRef = db.collection("User").document(user.uid)
+//
+//            userRef.getDocument { (document, error) in
+//                if let document = document, document.exists {
+//                    if let userData = document.data(), let userState = userData["userState"] as? String {
+//                        if userState == UserState.sleep.rawValue {
+//                            _ = 0
+//                        } else {
+//                            self.db.collection("User").document(user.uid).updateData([
+//                                "userState": UserState.inactive.rawValue
+//                            ])
+//                        }
+//                    }
+//                } else {
+//                    print("No user is signed in.")
+//                }
+//            }
+//        }
     }
-
+    
     func handleSceneUnexpectedState() {
         print("AppDelegate: ScenePhase: unexpected state")
         // ... do something when in unexpected state
@@ -200,20 +225,20 @@ class AppDelegate: NSObject, UIApplicationDelegate{
 }
 
 extension AppDelegate: MessagingDelegate {
-        
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("토큰을 받았다")
         
-        let db = Firestore.firestore()
+        firestoreManager.syncDB()
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         print(dataDict, "from_Appdelegate")
-                
+        
         if let user = Auth.auth().currentUser {
             db.collection("User").document(user.uid).setData(["token": fcmToken ?? ""], merge: true) { err in
                 if let err = err {
                     print("Error writing token to Firestore: \(err)")
                 } else {
-                    print(db.collection("User").document(user.uid))
+                    print(self.db.collection("User").document(user.uid))
                     print("Token successfully written!")
                 }
             }
@@ -248,20 +273,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        
-//        if let senderId = userInfo["senderId"] as? String {
-//            let db = Firestore.firestore()
-//            db.collection("User").document(senderId).updateData([
-//                "clicked": true,
-//                "lastActiveDate": FieldValue.serverTimestamp()
-//            ]) { err in
-//                if let err = err {
-//                    print("Error updating user state: \(err)")
-//                } else {
-//                    print("User state successfully updated")
-//                }
-//            }
-//        }
         completionHandler()
     }
 }
