@@ -33,7 +33,7 @@ struct MainView: View {
                 .environmentObject(LoginViewModel(viewRouter: ViewRouter()))
         case .attendance:
             let record = attendanceViewModel.ensureCurrentRecord()
-            AttendanceView(record: record)
+            AttendanceView()
                 .environmentObject(attendanceViewModel)
                 .environmentObject(weatherViewModel)
                 .environmentObject(timeViewModel)
