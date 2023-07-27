@@ -80,7 +80,7 @@ class PushNotiController: ObservableObject {
                             "requestedBy": FieldValue.arrayUnion([currentUser.uid])
                         ])
                         
-                        // After updating 'requestedBy', change clicked to 'true'
+                        // After updating 'requestedBy', change clicked  to 'true'
                         self.db.collection("User").document(targetUserId).updateData([
                             "clicked": true])
                         

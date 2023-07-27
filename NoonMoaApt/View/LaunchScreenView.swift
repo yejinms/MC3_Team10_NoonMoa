@@ -26,7 +26,7 @@ struct launchScreenView: View {
     var body: some View {
         Image("Splash")
             .resizable()
-            .scaledToFit()
+            .scaledToFill()
             .ignoresSafeArea()
             .onAppear {
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
