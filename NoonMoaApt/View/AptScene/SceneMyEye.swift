@@ -18,7 +18,7 @@ struct SceneMyEye: View {
                 lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
                 faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
                 bodyColor: eyeViewController.eyeMyModel.bodyColor,
-                eyeColor: eyeViewController.eyeMyModel.eyeColor)
+                eyeColor: eyeViewController.eyeMyModel.eyeColor, cheekColor: eyeViewController.eyeMyModel.cheekColor)
     }
 }
 

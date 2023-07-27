@@ -63,6 +63,9 @@ extension LinearGradient {
     static let eyeCyan = LinearGradient(colors: [Color(hex: 0xD0F0F0), Color(hex: 0xA8D1D1)], startPoint: .top, endPoint: .bottom)
     static let eyeBlue = LinearGradient(colors: [Color(hex: 0xCBCDEC), Color(hex: 0x9Ea1D4)], startPoint: .top, endPoint: .bottom)
     
+    static let cheekGray = LinearGradient(colors: [Color(hex: 0x888888), Color(hex: 0xAAAAAA)], startPoint: .top, endPoint: .bottom)
+    static let cheekRed = LinearGradient(colors: [Color(hex: 0xFF6666), Color(hex: 0xFF0000)], startPoint: .top, endPoint: .bottom)
+    
 }
 
 extension Image {

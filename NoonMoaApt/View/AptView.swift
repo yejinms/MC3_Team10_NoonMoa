@@ -19,12 +19,17 @@ struct AptView: View {
     @State private var buttonText: String = ""
     @State private var isCalendarOpen: Bool = false
     
+    //아파트 등장 애니메이션
+    @State private var isAptEffectPlayed: Bool = false
+    
+    //글자 타이핑 이펙트
+    @State private var displayedText: String = ""
+    @State private var fullText: String = ""
+    let typingInterval = 0.15
+    
     //임시변수
     @State private var isCalendarMonthOpen: Bool = false
     @State private var isCalendarDayOpen: Bool = false
-
-
-    @State private var isAptEffectPlayed: Bool = false
     
     private var firestoreManager: FirestoreManager {
         FirestoreManager.shared
@@ -102,11 +107,11 @@ struct AptView: View {
                 .offset(y: proxy.size.height - proxy.size.width * 1.5)
                 //화면만큼 내린 다음에 아파트 크기 비율인 1:1.5에 따라 올려 보정?
             }
-            
-            //기능테스트위한 임시 뷰
-            FunctionTestView(buttonText: $buttonText)
-                .environmentObject(weather)
-                .environmentObject(time)
+//
+//            //기능테스트위한 임시 뷰
+//            FunctionTestView(buttonText: $buttonText)
+//                .environmentObject(weather)
+//                .environmentObject(time)
             
             
             //임시코드
@@ -120,16 +125,16 @@ struct AptView: View {
                 .overlay( // 외부 공간 눌렀을 때 캘린더 닫힘
                     Color.white
                         .frame(height: 400)
-                    .offset(y: 270)
-                    .opacity(0.01)
-                    .onTapGesture {
-                        isCalendarMonthOpen = false
-                        isCalendarDayOpen = false
-                        isCalendarOpen = false
-                    }
+                        .offset(y: 270)
+                        .opacity(0.01)
+                        .onTapGesture {
+                            isCalendarMonthOpen = false
+                            isCalendarDayOpen = false
+                            isCalendarOpen = false
+                        }
                 )
                 .opacity(isCalendarMonthOpen ? 1 : 0)
-
+            
             Image("CalendarDay_Temp")
                 .resizable()
                 .ignoresSafeArea()
@@ -139,14 +144,14 @@ struct AptView: View {
                 }
                 .overlay( // 외부 공간 눌렀을 때 캘린더 닫힘
                     Color.white
-                    .frame(height: 400)
-                    .offset(y: 270)
-                    .opacity(0.01)
-                    .onTapGesture {
-                        isCalendarMonthOpen = false
-                        isCalendarDayOpen = false
-                        isCalendarOpen = false
-                    }
+                        .frame(height: 400)
+                        .offset(y: 270)
+                        .opacity(0.01)
+                        .onTapGesture {
+                            isCalendarMonthOpen = false
+                            isCalendarDayOpen = false
+                            isCalendarOpen = false
+                        }
                 )
                 .opacity(isCalendarDayOpen ? 1 : 0)
             
@@ -156,15 +161,15 @@ struct AptView: View {
                     Spacer()
                     
                     Button { // 캘린더 버튼
-                            if isCalendarOpen {
-                                isCalendarOpen = false
-                                isCalendarMonthOpen = false
-                                isCalendarDayOpen = false
-                            } else {
-                                isCalendarOpen = true
-                                isCalendarMonthOpen = true
-                                isCalendarDayOpen = false
-                            }
+                        if isCalendarOpen {
+                            isCalendarOpen = false
+                            isCalendarMonthOpen = false
+                            isCalendarDayOpen = false
+                        } else {
+                            isCalendarOpen = true
+                            isCalendarMonthOpen = true
+                            isCalendarDayOpen = false
+                        }
                     } label: {
                         if isCalendarOpen {
                             Image("calendar_selected")
@@ -190,9 +195,20 @@ struct AptView: View {
                 }
                 .padding(.trailing, proxy.size.width * 0.06)
             }
-//            CalendarMonthView(isCalendarOpen: $isCalendarOpen)
-//                .frame(height: 400)
-//                .opacity(isCalendarOpen ? 1 : 0)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Spacer().frame(height: 56)
+                    Text(displayedText)
+                        .foregroundColor(.white)
+                        .font(.title3)
+                        .bold()
+                        .shadow(color: .gray, radius: 6, x: 0, y: 4)
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding(.horizontal, 32)
         }//ZStack
         .onAppear {
             aptViewModel.fetchCurrentUserApt()
@@ -214,7 +230,37 @@ struct AptView: View {
                 }
             }
         }
+        //안내방송
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                displayedText = ""
+                fullText = "아,아...안내방송 드립니다.\n2023년 07월 27일\n오늘 날씨는 맑을 것으로 예상됩니다..."
+                startTyping()
+            }
+        }
+        .onChange(of: displayedText) { _ in
+            if displayedText.count == fullText.count {
+                withAnimation(.easeInOut(duration: 2).delay(2)) {
+                    displayedText = ""
+                }
+            }
+        }
     }
+
+private func startTyping() {
+    var currentIndex = 0
+    let timer = Timer.scheduledTimer(withTimeInterval: typingInterval, repeats: true) { timer in
+        if currentIndex < fullText.count {
+            let index = fullText.index(fullText.startIndex, offsetBy: currentIndex)
+            displayedText += String(fullText[index])
+            currentIndex += 1
+        } else {
+            timer.invalidate()
+        }
+    }
+    timer.fire()
+}
+
 }
 
 struct AptView_Previews: PreviewProvider {

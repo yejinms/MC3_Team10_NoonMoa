@@ -15,6 +15,7 @@ struct EyeNeighborViewModel {
     var faceOrientation: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var bodyColor: LinearGradient = .userBlue
     var eyeColor: LinearGradient = .eyeBlue
+    var cheekColor: LinearGradient = .cheekRed
     
     mutating func update(roomUser: User) {
         switch roomUser.eyeColor {

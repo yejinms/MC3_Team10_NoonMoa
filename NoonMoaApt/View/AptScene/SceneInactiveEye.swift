@@ -21,7 +21,8 @@ struct SceneInactiveEye: View {
                 lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0),
                 faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0),
                 bodyColor: eyeNeighborModel.bodyColor,
-                eyeColor: eyeNeighborModel.eyeColor)
+                eyeColor: eyeNeighborModel.eyeColor,
+                cheekColor: eyeNeighborModel.cheekColor)
         .onAppear {
             eyeNeighborModel.update(roomUser: roomUser)
         }
