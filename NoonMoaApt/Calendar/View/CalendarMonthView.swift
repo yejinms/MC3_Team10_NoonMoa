@@ -117,7 +117,7 @@ struct CalendarMonthView: View {
                                                 let components = DateComponents(year: date.year, month: date.month, day: date.day) // YearMonthDay 객체에서 년/월/일을 가져와 DateComponents로 변환
                                                 if let convertedDate = calendar.date(from: components) {
                                                     if isToday(date: convertedDate) {
-                                                        StampButtons()
+//                                                        StampButtons()
                                                     }
                                                 }
                                             }

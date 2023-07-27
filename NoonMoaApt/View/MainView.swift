@@ -35,6 +35,7 @@ struct MainView: View {
             let record = attendanceViewModel.ensureCurrentRecord()
             AttendanceView()
                 .environmentObject(attendanceViewModel)
+                .environmentObject(attendanceCompletedViewModel)
                 .environmentObject(weatherViewModel)
                 .environmentObject(timeViewModel)
                 .environmentObject(eyeViewController)

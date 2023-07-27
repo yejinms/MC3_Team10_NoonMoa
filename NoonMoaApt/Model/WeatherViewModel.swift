@@ -9,6 +9,7 @@ import SwiftUI
 
 //TODO: TimeViewModel을 여기에 통합시키는게 나을까?
 class WeatherViewModel: ObservableObject {
+    @Published var currentWeatherRaw: String = "clear123"
     @Published var currentWeather: String = "clear"
     @Published var savedSkyColor: LinearGradient = Color.sky.clearDay
     @Published var savedSkyImage: Image = Image.assets.weather.clearDay
@@ -23,25 +24,34 @@ extension WeatherViewModel {
 }
 
 extension WeatherViewModel {
-    func getNowWeather() {
+    func getCurrentWeather() {
+        //TODO: 웨더킷으로부터 현재 날씨 받아와서 currentWeatherRaw에 넣을 것
+        switch self.currentWeatherRaw {
+        case "clear123":
+            currentWeather = "clear"
+        default : break
+        }
+    }
+    
+    func getColorFromCurrentWeather() {
     //TODO: db에서 string으로 날씨 받아서 self.currentWeather에 부여할 것
         
         switch self.currentWeather {
         case "clear":
             savedSkyColor = Color.sky.clearDay
-            savedSkyImage = Image.assets.stampWeather.clearDay
+            savedSkyImage = Image.assets.largeStamp.clearDay
         case "cloudy":
             savedSkyColor = Color.sky.cloudyDay
-            savedSkyImage = Image.assets.stampWeather.cloudyDay
+            savedSkyImage = Image.assets.largeStamp.cloudyDay
         case "rainy":
             savedSkyColor = Color.sky.rainyDay
-            savedSkyImage = Image.assets.stampWeather.rainyDay
+            savedSkyImage = Image.assets.largeStamp.rainyDay
         case "snowy":
             savedSkyColor = Color.sky.snowyDay
-            savedSkyImage = Image.assets.stampWeather.snowyDay
+            savedSkyImage = Image.assets.largeStamp.snowyDay
         case "thunder":
             savedSkyColor = Color.sky.cloudyDay
-            savedSkyImage = Image.assets.stampWeather.thunder
+            savedSkyImage = Image.assets.largeStamp.thunder
         default : break
         }
     }
