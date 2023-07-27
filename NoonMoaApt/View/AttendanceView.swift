@@ -13,6 +13,7 @@ struct AttendanceView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceViewModel: AttendanceViewModel
+    @EnvironmentObject var attendanceCompletedViewModel: AttendanceCompletedViewModel
     @EnvironmentObject var weather: WeatherViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
     
@@ -168,6 +169,8 @@ struct AttendanceView: View {
                             Button (action: {
                                 //TODO: AttendanceCompleteViewModel에 정보를 저장합니다.
                                 viewRouter.currentView = .apt
+                                attendanceCompletedViewModel.saveAttendanceRecord()
+                                attendanceCompletedViewModel.updateUserLastActiveDate()
                             }) {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color.warmBlack)

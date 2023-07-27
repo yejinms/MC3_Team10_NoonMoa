@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 class AttendanceCompletedViewModel: ObservableObject {
     @Published var userId: String
@@ -15,7 +16,12 @@ class AttendanceCompletedViewModel: ObservableObject {
     @Published var attendanceRecord: AttendanceRecord? = nil
     @Published var user: User? = nil
     
-    private var db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     init(record: AttendanceRecord) {
         self.userId = record.userId

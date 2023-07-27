@@ -9,7 +9,12 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class DummyData: ObservableObject {
-    private var db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
 
     // Create dummy data
     func createDummyData(aptId: String) {

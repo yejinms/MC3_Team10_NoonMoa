@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 class AptViewModel: ObservableObject {
     @Published var apt: Apt?
@@ -16,7 +17,12 @@ class AptViewModel: ObservableObject {
     @Published var roomUserMap: [String: User] = [:] // New published property
 
     
-    let db = Firestore.firestore()
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     private var userListener: ListenerRegistration?
     
     // Fetch current user's apartment
