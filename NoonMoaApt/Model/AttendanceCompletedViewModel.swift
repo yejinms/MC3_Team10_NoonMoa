@@ -24,8 +24,8 @@ class AttendanceCompletedViewModel: ObservableObject {
         self.attendanceRecord = record
     }
     
-    func saveAttendanceRecord() {
-        let newRecord = AttendanceRecord(userId: userId, date: Date(), weatherCondition: weatherCondition, eyeDirection: eyeDirection)
+    func saveAttendanceRecord(record: AttendanceRecord) {
+        let newRecord = record
         
         db.collection("User").document(userId).getDocument { [self] (document, error) in
             if let document = document, document.exists {

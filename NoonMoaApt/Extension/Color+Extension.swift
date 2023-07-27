@@ -105,7 +105,7 @@ extension Image {
             static let thunder = Image("Weather_thunder")
         }
         
-        struct stampWeather {
+        struct largeStamp {
             static let clearDay = Image("LargeStamp_clearDay")
             static let clearNight = Image("LargeStamp_clearDay")
             static let cloudyDay = Image("LargeStamp_cloudyDay")
@@ -116,6 +116,19 @@ extension Image {
             static let snowyNight = Image("LargeStamp_snowyDay")//snowy는 Day, Night 디자인 동일
             static let thunder = Image("LargeStamp_thunder")
         }
+        
+        struct circleStamp {
+            static let clearDay = Image("CircleStamp_clearDay")
+            static let clearNight = Image("CircleStamp_clearDay")
+            static let cloudyDay = Image("CircleStamp_cloudyDay")
+            static let cloudyNight = Image("CircleStamp_cloudyNight")
+            static let rainyDay = Image("CircleStamp_rainyDay")
+            static let rainyNight = Image("CircleStamp_rainyNight")
+            static let snowyDay = Image("CircleStamp_snowyDay")
+            static let snowyNight = Image("CircleStamp_snowyDay")//snowy는 Day, Night 디자인 동일
+            static let thunder = Image("CircleStamp_thunder")
+        }
+        
         
     }
 }
