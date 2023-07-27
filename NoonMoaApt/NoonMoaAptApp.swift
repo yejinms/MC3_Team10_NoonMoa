@@ -112,8 +112,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         Messaging.messaging().delegate = self
         
-        UNUserNotificationCenter.current().delegate = self
-        
         // 자정이 되면 모든 user의 userState를 .sleep으로 변경
         midnightUpdater = MidnightUpdater()
         timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
@@ -127,7 +125,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
 
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
@@ -250,7 +247,7 @@ extension AppDelegate: MessagingDelegate {
 
 @available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    
+
     // 1. foreground 상태일 때: remote 혹은 local 알림이 도착했을 때, 알림을 띄우기 전에 이 메서드를 실행
     // 2. background 상태일 때: remote 알림이 도착했을 때, "알림을 띄우기 전"에 이 메서드를 실행
     // 여기에서는 알림을 받아서, print문을 출력, completionHandler로 알림 배너 띄우기
@@ -258,16 +255,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
                                 -> Void) {
-        
+
         let userInfo = notification.request.content.userInfo
-        
+
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
         print(userInfo)
         completionHandler([[.banner, .badge, .sound]])
     }
-    
+
     // - remote, local 알림을 "눌렀을 때" 실행하는 메서드
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
