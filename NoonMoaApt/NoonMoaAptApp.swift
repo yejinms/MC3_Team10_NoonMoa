@@ -1,4 +1,3 @@
- //
 //  MC3_NoonMoaApp.swift
 //  MC3_NoonMoa
 //
@@ -56,15 +55,14 @@ struct NoonMoaAptApp: App {
 }
 
 
-class AppDelegate: NSObject, UIApplicationDelegate{
+class AppDelegate: NSObject, UIApplicationDelegate {
     
     let viewRouter = ViewRouter() // @Published var
     let gcmMessageIDKey = "gcm.message_id"
     var loginViewModel: LoginViewModel?
     var midnightUpdater: MidnightUpdater?
     var timer: Timer?
-    // handleSceneActive를 처음 실행하는지를 판단하는 불 변수
-    var isAppActiveFirst: Bool = true
+    var isAppActiveFirst: Bool = true  // handleSceneActive를 처음 실행하는지를 판단하는 불 변수
     
     private var firestoreManager: FirestoreManager {
         FirestoreManager.shared
@@ -74,6 +72,24 @@ class AppDelegate: NSObject, UIApplicationDelegate{
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        setUpPushNotifications(application: application)
+        
+        // 자정이 되면 모든 user의 userState를 .sleep으로 변경
+        midnightUpdater = MidnightUpdater()
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+            let date = Date()
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minute = calendar.component(.minute, from: date)
+            if hour == 0 && minute == 0 {
+                self.midnightUpdater?.updateAllUsersToSleep()
+            }
+        }
+        return true
+    }
+    
+    // Method to set up push notifications
+    func setUpPushNotifications(application: UIApplication) {
         FirebaseApp.configure()
         
         if #available(iOS 10.0, *) {
@@ -109,8 +125,8 @@ class AppDelegate: NSObject, UIApplicationDelegate{
                 self.midnightUpdater?.updateAllUsersToSleep()
             }
         }
-        return true
     }
+
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken

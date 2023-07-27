@@ -17,7 +17,7 @@ struct SceneButtons: View {
     @State private var lastActiveToggle: Bool = false
     @State private var lastWakenTimeToggle: Bool = false
     
-    var pushNotiController = PushNotiController()
+    let pushNotiController = PushNotiController()
     
     var body: some View {
         

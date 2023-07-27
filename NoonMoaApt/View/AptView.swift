@@ -15,7 +15,7 @@ struct AptView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var aptViewModel: AptViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
-    @State private var users: [[User]] = User.sampleData
+    @State private var users: [[User]] = User.UTData
     @State private var buttonText: String = ""
     @State private var isCalendarOpen: Bool = false
     
