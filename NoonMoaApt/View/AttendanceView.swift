@@ -203,8 +203,8 @@ struct AttendanceView: View {
         
         firestoreManager.syncDB()
         // Get the emptyRooms document
-        let emptyRoomsRef = db.collection("User").document("emptyRooms")
-        emptyRoomsRef.getDocument { (document, error) in
+//        let emptyRoomsRef = db.collection("User").document("emptyRooms")
+//        emptyRoomsRef.getDocument { (document, error) in
             
         let userId = "\(currentUser?.uid ?? "")"
         let weatherCondition = weatherViewModel.currentWeather
