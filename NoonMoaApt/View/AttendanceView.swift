@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 struct AttendanceView: View {
     private let currentUser = Auth.auth().currentUser
@@ -31,6 +32,13 @@ struct AttendanceView: View {
     @State private var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
     @State private var savedBodyColor: LinearGradient = .userBlue
     @State private var savedEyeColor: LinearGradient = .eyeBlue
+    
+    private var firestoreManager: FirestoreManager {
+        FirestoreManager.shared
+    }
+    private var db: Firestore {
+        firestoreManager.db
+    }
     
     var body: some View {
         ZStack {
@@ -192,7 +200,12 @@ struct AttendanceView: View {
         }//ZStack
     }
     func regenAttendanceRecord() -> AttendanceRecord {
-
+        
+        firestoreManager.syncDB()
+        // Get the emptyRooms document
+        let emptyRoomsRef = db.collection("User").document("emptyRooms")
+        emptyRoomsRef.getDocument { (document, error) in
+            
         let userId = "\(currentUser?.uid ?? "")"
         let weatherCondition = weatherViewModel.currentWeather
         let eyeDirection = [savedFaceOrientation.x, savedFaceOrientation.y, savedFaceOrientation.z]

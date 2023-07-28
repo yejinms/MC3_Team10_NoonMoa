@@ -32,6 +32,7 @@ class AttendanceCompletedViewModel: ObservableObject {
     
     func saveAttendanceRecord(record: AttendanceRecord) {
         let newRecord = record
+        print("AttendanceRecord newRecord.userId: \(newRecord.userId)")
         
         db.collection("User").document(userId).getDocument { [self] (document, error) in
             if let document = document, document.exists {

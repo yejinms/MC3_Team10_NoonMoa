@@ -109,10 +109,10 @@ struct AptView: View {
             }
 
             //기능테스트위한 임시 뷰
-            FunctionTestView(buttonText: $buttonText)
-                .environmentObject(weather)
-                .environmentObject(time)
-            
+//            FunctionTestView(buttonText: $buttonText)
+//                .environmentObject(weather)
+//                .environmentObject(time)
+//            
             
             //임시코드
             Image("CalendarMonth_Temp")
