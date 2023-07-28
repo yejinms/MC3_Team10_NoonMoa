@@ -56,6 +56,8 @@ struct SceneRoom: View {
                                     isBlindUp = true
                                 }
                             }
+                        } else if roomUser.userState == "vacant" {
+                            isBlindUp = true
                         }
                     }
                 

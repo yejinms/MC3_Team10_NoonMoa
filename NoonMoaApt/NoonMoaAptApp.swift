@@ -63,6 +63,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     var midnightUpdater: MidnightUpdater?
     var timer: Timer?
     var isAppActiveFirst: Bool = true  // handleSceneActive를 처음 실행하는지를 판단하는 불 변수
+    var messagingToken: String?
+
     
     private var firestoreManager: FirestoreManager {
         FirestoreManager.shared
@@ -107,8 +109,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         
-        var pushNotiController = PushNotiController()
-        pushNotiController.responsePushNotification()
+//        var pushNotiController = PushNotiController()
+//        pushNotiController.responsePushNotification()
         
         Messaging.messaging().delegate = self
         
@@ -224,24 +226,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("토큰을 받았다")
-        
-        firestoreManager.syncDB()
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        print(dataDict, "from_Appdelegate")
-        
-        if let user = Auth.auth().currentUser {
-            db.collection("User").document(user.uid).setData(["token": fcmToken ?? ""], merge: true) { err in
-                if let err = err {
-                    print("Error writing token to Firestore: \(err)")
-                } else {
-                    print(self.db.collection("User").document(user.uid))
-                    print("Token successfully written!")
-                }
-            }
-        } else {
-            print("No user is signed in.")
-        }
+        messagingToken = fcmToken
+        print("Firebase registration token: \(fcmToken ?? "")")
     }
 }
 
