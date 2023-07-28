@@ -192,14 +192,14 @@ extension User {
     [
         [User(id: "97nC5V1qSrd1MlJL4DJ0xS14oNI2", roomId: "1", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", token: "a",requestedBy: []),
          User(id: "LVD1FKOGAiZvl1q7h0tQV2jaCWt1", roomId: "2", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeYellow", token: "b",requestedBy: []),
-         User(id: "CCCC", roomId: "3", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", token: "c",requestedBy: [])],
+         User(id: "CCCC", roomId: "3", aptId: "1", userState: "vacant", lastActiveDate: Date(), eyeColor: "eyeCyan", token: "c",requestedBy: [])],
         [User(id: "DDDD", roomId: "4", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", token: "d",requestedBy: []),
          User(id: "MkYY1Dn7maYT9kpDqgPciXpZNd52", roomId: "5", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", token: "e",requestedBy: []),
          User(id: "9zgkBdmQ0GQVIQYYuDfiD5itsrg2", roomId: "6", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeCyan", token: "f",requestedBy: [])],
         [User(id: "GGGG", roomId: "7", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeYellow", token: "g",requestedBy: []),
          User(id: "HHHH", roomId: "8", aptId: "1", userState: "sleep", lastActiveDate: Date(), eyeColor: "eyeBlue", token: "h",requestedBy: []),
          User(id: "1JFs01h8p7RlVn7FUvU92sxSeZB3", roomId: "9", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", token: "i",requestedBy: [])],
-        [User(id: "JJJJ", roomId: "10", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyePink", token: "j",requestedBy: []),
+        [User(id: "JJJJ", roomId: "10", aptId: "1", userState: "vacant", lastActiveDate: Date(), eyeColor: "eyePink", token: "j",requestedBy: []),
          User(id: "KKKK", roomId: "11", aptId: "1", userState: "active", lastActiveDate: Date(), eyeColor: "eyeBlue", token: "k",requestedBy: []),
          User(id: "LLLL", roomId: "12", aptId: "1", userState: "inactive", lastActiveDate: Date(), eyeColor: "eyeCyan", token: "l",requestedBy: [])]
     ]

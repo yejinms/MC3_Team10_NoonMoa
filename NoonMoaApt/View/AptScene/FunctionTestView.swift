@@ -100,6 +100,19 @@ struct FunctionTestView: View {
                         )
                         .opacity(0.1)
                 }
+                Button(action: {
+                    viewRouter.currentView = .onBoarding
+                }) {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.white)
+                        .frame(width: 80, height: 48)
+                        .overlay(
+                            Text("OnBoarding\nView")
+                                .foregroundColor(.black)
+                                .font(.caption)
+                        )
+                        .opacity(0.1)
+                }
             }
             .padding(.horizontal)
             Spacer()
