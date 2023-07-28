@@ -172,7 +172,7 @@ struct AttendanceView: View {
                                 viewRouter.currentView = .apt
                                 attendanceCompletedViewModel.saveAttendanceRecord(record: regenAttendanceRecord())
 //                                아래는 실행되지 않을 것임
-//                                attendanceCompletedViewModel.updateUserLastActiveDate()
+                                attendanceCompletedViewModel.updateUserLastActiveDate()
                             }) {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color.warmBlack)

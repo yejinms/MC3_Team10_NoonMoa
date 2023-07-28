@@ -33,7 +33,7 @@ class AttendanceViewModel: ObservableObject {
     func createAttendanceRecord() {
         currentRecord = AttendanceRecord(userId: currentUser?.uid ?? "", date: Date(), weatherCondition: weatherCondition, eyeDirection: eyeDirection)
     }
-    
+
     func ensureCurrentRecord() -> AttendanceRecord {
         if currentRecord == nil {
             createAttendanceRecord()

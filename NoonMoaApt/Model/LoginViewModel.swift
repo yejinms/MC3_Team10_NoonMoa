@@ -26,7 +26,7 @@ class LoginViewModel: ObservableObject {
     @Published var fcmToken: String = ""
     var viewRouter = ViewRouter()
 
-    init(viewRouter: ViewRouter) {  // Add this initializer
+    init(viewRouter: ViewRouter) {
         self.viewRouter = viewRouter
     }
 
@@ -114,17 +114,17 @@ class LoginViewModel: ObservableObject {
                             return
                         }
 
-                        if let document = document, document.exists {
-                            if let token = document.get("token") as? String {
-                                // Store the token in a variable
-                                self.fcmToken = token
-                            } else {
-                                print("Error: token field is missing or is not a string")
+                        Messaging.messaging().token { token, error in
+                            if let error = error {
+                                print("Error fetching FCM registration token: \(error)")
+                            } else if let token = token {
+                                print("FCM registration token: \(token)")
+                                self.fcmToken = token // save the new token to the user
                             }
                         }
                         
                         // 존재하지 않은 계정일 때 사용하게 될 새로운 User 객체
-                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+                        let user = User(id: authResult.user.uid, roomId: nil, aptId: nil, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, token: self.fcmToken, requestedBy: [])
 
                         // Check if the user already exists in Firestore
                         let userRef = self.db.collection("User").document(user.id!)
@@ -145,9 +145,6 @@ class LoginViewModel: ObservableObject {
                 }
             }
         }
-
-
-
     }
     
     func updateUserInFirestore(user: User) {
@@ -159,11 +156,10 @@ class LoginViewModel: ObservableObject {
                 "userState": user.userState,
                 "lastActiveDate": user.lastActiveDate ?? Date(),
                 "eyeColor": user.eyeColor,
-                "attendanceSheetId": user.attendanceSheetId ?? "",
-                "token": user.token,
+                "token": self.fcmToken,
                 "requestedBy": user.requestedBy
             ]
-            self.db.collection("User").document(user.id!).setData(userData)
+            self.db.collection("User").document(user.id!).updateData(userData)
     }
     
     
@@ -196,7 +192,7 @@ class LoginViewModel: ObservableObject {
                         
                         print(aptId)
                                         
-                        let updatedUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, attendanceSheetId: nil, token: self.fcmToken, requestedBy: [])
+                        let updatedUser = User(id: user.id!, roomId: roomToAssign, aptId: aptId, userState: UserState.sleep.rawValue, lastActiveDate: nil, eyeColor: EyeColor.blue.rawValue, token: self.fcmToken, requestedBy: [])
         
                         // Update the emptyRooms document
                         emptyRoomsRef.setData(["rooms": emptyRooms], merge: true) { err in
@@ -297,6 +293,7 @@ class LoginViewModel: ObservableObject {
                                         
                                         // Create dummy data for the new apt
                                         self.dummyData.createDummyData(aptId: newApt.id!)
+                                        
                                     } else {
                                         // Update the user with the current apt id
                                         updatedUser.aptId = "\(aptCount)"
@@ -337,8 +334,7 @@ class LoginViewModel: ObservableObject {
                                             "userState": user.userState,
                                             "lastActiveDate": user.lastActiveDate ?? "",
                                             "eyeColor": user.eyeColor,
-                                            "attendanceSheetId": user.attendanceSheetId ?? "",
-                                            "token": user.token,
+                                            "token": self.fcmToken,
                                             "requestedBy": user.requestedBy
                                         ]
                                     self.db.collection("User").document(user.id!).setData(userData)

@@ -35,6 +35,7 @@ struct launchScreenView: View {
                     // 기존에 계정이 없으면, LoginView로 이동
                     
                     if isLogInDone {
+                        print("isLogInDone")
                         if let user = Auth.auth().currentUser {
                             let userRef = db.collection("User").document(user.uid)
                             userRef.getDocument { (document, error) in
