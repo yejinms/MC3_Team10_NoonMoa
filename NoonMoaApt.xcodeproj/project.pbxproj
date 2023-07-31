@@ -108,6 +108,8 @@
 		8A7FF4A32A77AC070075BA78 /* AttendanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceModel.swift; sourceTree = "<group>"; };
 		8A7FF4A52A77AC1A0075BA78 /* CustomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewModel.swift; sourceTree = "<group>"; };
 		8A7FF4AD2A77ACAC0075BA78 /* SceneBroadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneBroadcast.swift; sourceTree = "<group>"; };
+		8A7FF4B32A7812E10075BA78 /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptTests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoaApt/build/Debug-iphoneos/NoonMoaAptTests.xctest"; sourceTree = "<absolute>"; };
+		8A7FF4B42A7812E10075BA78 /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptUITests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoaApt/build/Debug-iphoneos/NoonMoaAptUITests.xctest"; sourceTree = "<absolute>"; };
 		8A84C29E2A6ED2DF001A9094 /* SceneMyEye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneMyEye.swift; sourceTree = "<group>"; };
 		8A84C2A02A6ED2E9001A9094 /* SceneNeighborEye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneNeighborEye.swift; sourceTree = "<group>"; };
 		8AD230352A699F4C00C967B5 /* SceneButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneButtons.swift; sourceTree = "<group>"; };
@@ -131,8 +133,6 @@
 		DAEE7E032A719E5500D7FACA /* rainyN.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainyN.json; sourceTree = "<group>"; };
 		DAEE7E042A719E5500D7FACA /* rainyD.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rainyD.json; sourceTree = "<group>"; };
 		E3025D792A702C15000BB6E9 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
-		E31084C32A72338B00E9BBFE /* NoonMoaAptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptTests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoaApt/build/Debug-iphoneos/NoonMoaAptTests.xctest"; sourceTree = "<absolute>"; };
-		E31084C42A72338B00E9BBFE /* NoonMoaAptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = NoonMoaAptUITests.xctest; path = "/Users/oreobro/Documents/AppleDeveloperAcademy/NoonMoaApt/build/Debug-iphoneos/NoonMoaAptUITests.xctest"; sourceTree = "<absolute>"; };
 		E32E3E172A6951B600B865E8 /* NoonMoaAptApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoonMoaAptApp.swift; sourceTree = "<group>"; };
 		E32E3E1E2A6951B700B865E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E32E3E4B2A6951CE00B865E8 /* AttendanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
@@ -428,7 +428,7 @@
 			);
 			name = NoonMoaAptTests;
 			productName = NoonMoaAptTests;
-			productReference = E31084C32A72338B00E9BBFE /* NoonMoaAptTests.xctest */;
+			productReference = 8A7FF4B32A7812E10075BA78 /* NoonMoaAptTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E32E3E2D2A6951B700B865E8 /* NoonMoaAptUITests */ = {
@@ -446,7 +446,7 @@
 			);
 			name = NoonMoaAptUITests;
 			productName = NoonMoaAptUITests;
-			productReference = E31084C42A72338B00E9BBFE /* NoonMoaAptUITests.xctest */;
+			productReference = 8A7FF4B42A7812E10075BA78 /* NoonMoaAptUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
