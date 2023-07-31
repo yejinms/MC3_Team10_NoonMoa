@@ -1,7 +1,7 @@
 import ARKit
 
 class EyeViewController: NSObject, ObservableObject {
-    @Published var eyeMyModel = EyeMyViewModel()
+    @Published var eyeMyViewModel = EyeMyViewModel()
 
     var session = ARSession()
 

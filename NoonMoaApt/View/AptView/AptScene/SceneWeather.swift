@@ -9,8 +9,7 @@ import SwiftUI
 import Lottie
 
 struct SceneWeather: View {
-    @EnvironmentObject var weather: WeatherViewModel
-    @EnvironmentObject var time: TimeViewModel
+    @EnvironmentObject var aptViewModel: AptViewModel
     
     var body: some View {
         

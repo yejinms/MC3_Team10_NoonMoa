@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SceneBackground: View {
-    @EnvironmentObject var weather: WeatherViewModel
-    @EnvironmentObject var time: TimeViewModel
+    @EnvironmentObject var aptViewModel: AptViewModel
     
     var body: some View {
         

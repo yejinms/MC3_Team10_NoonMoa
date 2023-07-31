@@ -10,8 +10,6 @@ import Firebase
 import FirebaseFirestore
 
 struct AptView: View {
-    @EnvironmentObject var weather: WeatherViewModel
-    @EnvironmentObject var time: TimeViewModel
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var aptViewModel: AptViewModel
     @EnvironmentObject var eyeViewController: EyeViewController

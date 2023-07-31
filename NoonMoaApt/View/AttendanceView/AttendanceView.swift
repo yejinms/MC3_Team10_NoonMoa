@@ -14,8 +14,7 @@ struct AttendanceView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var attendanceViewModel: AttendanceViewModel
-    @EnvironmentObject var attendanceCompletedViewModel: AttendanceCompletedViewModel
-    @EnvironmentObject var weatherViewModel: WeatherViewModel
+    @EnvironmentObject var customViewModel: CustomViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
     
     @State private var isStamped: Bool = false
@@ -124,18 +123,17 @@ struct AttendanceView: View {
                                 }
                                 
                                 //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
-                                weatherViewModel.getCurrentWeather()
-                                weatherViewModel.getColorFromCurrentWeather()
-                                self.savedSkyColor = weatherViewModel.savedSkyColor
-                                self.savedSkyImage = weatherViewModel.savedSkyImage
+                                
+//                                self.savedSkyColor = custo
+//                                self.savedSkyImage = weatherViewModel.savedSkyImage
                                 //ARView에서 움직이던 값을 저장한다.
-                                self.savedIsSmiling = eyeViewController.eyeMyModel.isSmiling
-                                self.savedIsBlinkingLeft = eyeViewController.eyeMyModel.isBlinkingLeft
-                                self.savedIsBlinkingRight = eyeViewController.eyeMyModel.isBlinkingRight
-                                self.savedLookAtPoint = eyeViewController.eyeMyModel.lookAtPoint
-                                self.savedFaceOrientation = eyeViewController.eyeMyModel.faceOrientation
-                                self.savedBodyColor = eyeViewController.eyeMyModel.bodyColor
-                                self.savedEyeColor = eyeViewController.eyeMyModel.eyeColor
+                                self.savedIsSmiling = eyeViewController.eyeMyViewModel.isSmiling
+                                self.savedIsBlinkingLeft = eyeViewController.eyeMyViewModel.isBlinkingLeft
+                                self.savedIsBlinkingRight = eyeViewController.eyeMyViewModel.isBlinkingRight
+                                self.savedLookAtPoint = eyeViewController.eyeMyViewModel.lookAtPoint
+                                self.savedFaceOrientation = eyeViewController.eyeMyViewModel.faceOrientation
+                                self.savedBodyColor = eyeViewController.eyeMyViewModel.bodyColor
+                                self.savedEyeColor = eyeViewController.eyeMyViewModel.eyeColor
                                 
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -217,54 +215,9 @@ struct AttendanceView: View {
 struct AttendanceView_Previews: PreviewProvider {
     static var previews: some View {
         AttendanceView()
+            .environmentObject(ViewRouter())
             .environmentObject(AttendanceViewModel())
-            .environmentObject(WeatherViewModel())
-            .environmentObject(TimeViewModel())
+            .environmentObject(CustomViewModel())
             .environmentObject(EyeViewController())
     }
 }
-
-//
-////TODO: 현재 시간에 따라서 새벽, 아침, 오후, 저녁 케이스에 따라 멘트를 변경해야함
-//func mainSentence() -> String {
-//    @StateObject var time: TimeViewModel = TimeViewModel()
-//    var sentence: String = ""
-//    
-//    if time.isDayTime {
-//        sentence = "좋은 아침이에요!"
-//    } else {
-//        sentence = "기분 좋은 오후군요!"
-//    }
-//    return sentence
-//}
-//
-////TODO: 시간에 따르기도 하고, 랜덤하기도 하게 멘트를 변경해보자
-//func subSentence() -> String {
-//    @StateObject var time: TimeViewModel = TimeViewModel()
-//    var sentence: String = ""
-//    
-//    if time.isDayTime {
-//        sentence = "매일 눈을 뜬다는 건 멋진 일이에요.\n눈도장으로 하루의 시작을 기록해주세요."
-//    } else {
-//        sentence = "오늘은 왠지 좋은 일이 생길 것 같아요.\n이 기분을 그대로 눈도장으로 남겨볼까요?"
-//    }
-//    return sentence
-//}
-
-
-
-
-
-// 페페의 데이터 확인용 코드
-/*
- Text("Hello, \(currentUser?.uid ?? "NoBody")")
- Text("Weather: \(attendanceViewModel.weatherCondition)")
- Text("Eye Direction: \(attendanceViewModel.eyeDirection.map{ String($0) }.joined(separator: ", "))")
- Image(systemName: "tree")
- .frame(width: 150, height: 150)
- 
- Button("Complete Attendance") {
- attendanceViewModel.createAttendanceRecord()
- viewRouter.currentView = .attendanceCompleted
- }
- */
