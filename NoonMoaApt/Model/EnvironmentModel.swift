@@ -13,7 +13,7 @@ class EnvironmentModel: ObservableObject {
     //rawData to be uploaded to the server
     var rawWeather: String = ""
     var rawTime: Date = Date()
-    var rawtSunriseTime: Date = Date()
+    var rawSunriseTime: Date = Date()
     var rawSunsetTime: Date = Date()
     
     //rawData -> currentEnvironmentData
@@ -57,15 +57,16 @@ class EnvironmentModel: ObservableObject {
     //앱을 시작할 때 실행시키며, 10분단위로 실행시킨다. 이 모델을 따르는 뷰는 자동으로 업데이트 된다.
     func getCurrentEnvironment() {
         getCurrentRawEnvironment()
-        convertRawDataToEnvironment(isInputCurrentData: true, weather: rawWeather, time: rawTime, sunrise: rawtSunriseTime, sunset: rawSunsetTime)
+        convertRawDataToEnvironment(isInputCurrentData: true, weather: rawWeather, time: rawTime, sunrise: rawSunriseTime, sunset: rawSunsetTime)
         convertEnvironmentToViewData(isInputCurrentData: true, weather: currentWeather, time: currentTime, isThunder: currentIsThunder)
     }
     
     func getCurrentRawEnvironment() {
-        //        rawWeather = 웨더킷에서 현재 날씨값 String 받아오기
-        //        rawSunriseTime = 웨더킷에서 받아오기
-        //        rawSunsetTime = 웨더킷에서 받아오기
-        //        rawTime = 현재 시간}
+        //웨더킷?
+            rawWeather = "1"
+            rawSunriseTime = Date()
+            rawSunsetTime = Date()
+            rawTime = Date()
     }
     
     func saveRawEnvironmentToAttendanceModel()  {

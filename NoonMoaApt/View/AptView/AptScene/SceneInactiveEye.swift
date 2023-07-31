@@ -11,7 +11,7 @@ import SwiftUI
 struct SceneInactiveEye: View {
     
     @Binding var roomUser: User
-    @EnvironmentObject var eyeNeighborModel: EyeNeighborViewModel
+    @EnvironmentObject var eyeNeighborViewModel: EyeNeighborViewModel
 
     var body: some View {
        
@@ -20,11 +20,11 @@ struct SceneInactiveEye: View {
                 isBlinkingRight: true,
                 lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0),
                 faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0),
-                bodyColor: eyeNeighborModel.bodyColor,
-                eyeColor: eyeNeighborModel.eyeColor,
-                cheekColor: eyeNeighborModel.cheekColor)
+                bodyColor: eyeNeighborViewModel.bodyColor,
+                eyeColor: eyeNeighborViewModel.eyeColor,
+                cheekColor: eyeNeighborViewModel.cheekColor)
         .onAppear {
-            eyeNeighborModel.update(roomUser: roomUser)
+            eyeNeighborViewModel.update(roomUser: roomUser)
         }
     }
 }
