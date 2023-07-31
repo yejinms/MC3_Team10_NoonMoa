@@ -48,7 +48,7 @@ struct NoonMoaAptApp: App {
                      calendarSingleController: CalendarSingleController(viewModel: CalendarFullViewModel()),
                      loginViewModel: LoginViewModel(viewRouter: ViewRouter()),
                      aptModel: AptModel(),
-                     eyeViewController: EyeViewController())
+                     eyeViewController: EyeViewController(), eyeNeighborViewModel: EyeNeighborViewModel())
             .environmentObject(delegate.viewRouter)
             .environmentObject(midnightUpdater) // Pass to view here
         }

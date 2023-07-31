@@ -59,11 +59,15 @@ class EnvironmentModel: ObservableObject {
         getCurrentRawEnvironment()
         convertRawDataToEnvironment(isInputCurrentData: true, weather: rawWeather, time: rawTime, sunrise: rawSunriseTime, sunset: rawSunsetTime)
         convertEnvironmentToViewData(isInputCurrentData: true, weather: currentWeather, time: currentTime, isThunder: currentIsThunder)
+        print("weather: \(currentWeather)")
+        print("time: \(rawTime)")
+        print("time: \(currentTime)")
+
     }
     
     func getCurrentRawEnvironment() {
         //웨더킷?
-            rawWeather = "1"
+            rawWeather = "11"
             rawSunriseTime = Date()
             rawSunsetTime = Date()
             rawTime = Date()
@@ -122,8 +126,8 @@ class EnvironmentModel: ObservableObject {
         let sunrise = getHourFromDate(time: sunrise)
         let sunset = getHourFromDate(time: sunset)
         switch t {
-        case let t where t == sunrise: environmentTime = "sunrise"
-        case let t where t == sunset: environmentTime = "sunset"
+//        case let t where t == sunrise: environmentTime = "sunrise"
+//        case let t where t == sunset: environmentTime = "sunset"
         case let t where (t >= 22) || (t >= 0 && t < 6): environmentTime = "night"
         case let t where t >= 6 && t < 12: environmentTime = "morning"
         case let t where t >= 12 && t < 18: environmentTime = "afternoon"
