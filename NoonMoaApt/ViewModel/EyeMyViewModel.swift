@@ -3,7 +3,7 @@ import SwiftUI
 
 //TODO: 나중에는 내 사용자 설정에 따라 bodyColor, eyeColor를 반영하는 func들어가야함.
 
-struct EyeMyViewModel {
+class EyeMyViewModel: ObservableObject {
     var smileRight: Float = 0.0
     var smileLeft: Float = 0.0
     var blinkLeft: Float = 0.0
@@ -21,7 +21,7 @@ struct EyeMyViewModel {
     var faceOrientationAverage: SIMD3 = SIMD3<Float>(0.0, 0.0, 0.0)
     var numberOfHistoryUpdates: Int = 10
     
-    mutating func update(faceAnchor: ARFaceAnchor) {
+    func update(faceAnchor: ARFaceAnchor) {
         let blendShapes = faceAnchor.blendShapes
         
         smileRight = Float(truncating: blendShapes.first(where: { $0.key == .mouthSmileRight })?.value ?? 0)

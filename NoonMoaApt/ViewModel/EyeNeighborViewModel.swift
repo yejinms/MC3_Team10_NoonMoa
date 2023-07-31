@@ -17,7 +17,7 @@ class EyeNeighborViewModel: ObservableObject {
     var eyeColor: LinearGradient = .eyeBlue
     var cheekColor: LinearGradient = .cheekRed
     
-    mutating func update(roomUser: User) {
+    func update(roomUser: User) {
         switch roomUser.eyeColor {
         case "eyeBlue" :
             bodyColor = .userBlue
@@ -37,7 +37,7 @@ class EyeNeighborViewModel: ObservableObject {
     }
     
     //이웃 눈의 랜덤한 움직임 함수
-    mutating func randomEyeMove(roomUser: User) {
+    func randomEyeMove(roomUser: User) {
             
             switch roomUser.roomId {
             case "1", "3", "8", "11":

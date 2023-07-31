@@ -11,7 +11,10 @@ import FirebaseFirestore
 
 struct AptView: View {
     @EnvironmentObject var viewRouter: ViewRouter
-    @EnvironmentObject var aptViewModel: AptViewModel
+    @EnvironmentObject var aptModel: AptModel
+    @EnvironmentObject var attendanceModel: AttendanceModel
+    @EnvironmentObject var characterModel: CharacterModel
+    @EnvironmentObject var environmentModel: EnvironmentModel
     @EnvironmentObject var eyeViewController: EyeViewController
     @State private var users: [[User]] = User.UTData
     @State private var buttonText: String = ""
@@ -19,11 +22,6 @@ struct AptView: View {
     
     //아파트 등장 애니메이션
     @State private var isAptEffectPlayed: Bool = false
-    
-    //글자 타이핑 이펙트
-    @State private var displayedText: String = ""
-    @State private var fullText: String = ""
-    let typingInterval = 0.15
     
     //임시변수
     @State private var isCalendarMonthOpen: Bool = false
@@ -40,8 +38,7 @@ struct AptView: View {
         ZStack{
             //배경 레이어
             SceneBackground()
-                .environmentObject(weather)
-                .environmentObject(time)
+                .environmentObject(environmentModel)
                 .scaleEffect(isAptEffectPlayed ? 1 : 1.3)
             
             //아파트 레이어
@@ -77,9 +74,11 @@ struct AptView: View {
             
             //날씨 레이어
             SceneWeather()
-                .environmentObject(weather)
-                .environmentObject(time)
+                .environmentObject(environmentModel)
                 .opacity(isAptEffectPlayed ? 1 : 0.5)
+            
+            SceneBroadcast()
+                .environmentObject(environmentModel)
             
             //버튼 레이어
             GeometryReader { proxy in
@@ -90,7 +89,7 @@ struct AptView: View {
                                 HStack(spacing: 12) {
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         
-                                        SceneButtons(roomUser: $users[rowIndex][userIndex], buttonText: $buttonText).environmentObject(weather)
+                                        SceneButtons(roomUser: $users[rowIndex][userIndex], buttonText: $buttonText).environmentObject(eyeViewController)
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                         //방 이미지 자체의 비율 1:1.2 통한 높이 산정
                                     }
@@ -106,11 +105,11 @@ struct AptView: View {
                 //화면만큼 내린 다음에 아파트 크기 비율인 1:1.5에 따라 올려 보정?
             }
 
-            //기능테스트위한 임시 뷰
-//            FunctionTestView(buttonText: $buttonText)
-//                .environmentObject(weather)
-//                .environmentObject(time)
-//            
+//            기능테스트위한 임시 뷰
+            FunctionTestView(buttonText: $buttonText)
+                .environmentObject(viewRouter)
+                .environmentObject(environmentModel)
+            
             
             //임시코드
             Image("CalendarMonth_Temp")
@@ -193,23 +192,9 @@ struct AptView: View {
                 }
                 .padding(.trailing, proxy.size.width * 0.06)
             }
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Spacer().frame(height: 56)
-                    Text(displayedText)
-                        .foregroundColor(.white)
-                        .font(.title3)
-                        .bold()
-                        .shadow(color: .gray, radius: 6, x: 0, y: 4)
-                    Spacer()
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 32)
         }//ZStack
         .onAppear {
-            aptViewModel.fetchCurrentUserApt()
+            aptModel.fetchCurrentUserApt()
             if let user = Auth.auth().currentUser {
                 firestoreManager.syncDB()
                 let userRef = db.collection("User").document(user.uid)
@@ -228,46 +213,35 @@ struct AptView: View {
                 }
             }
         }
-        //안내방송
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                displayedText = ""
-                fullText = "아,아...안내방송 드립니다.\n2023년 07월 27일\n오늘 날씨는 맑을 것으로 예상됩니다..."
-                startTyping()
-            }
-        }
-        .onChange(of: displayedText) { _ in
-            if displayedText.count == fullText.count {
-                withAnimation(.easeInOut(duration: 2).delay(2)) {
-                    displayedText = ""
-                }
-            }
-        }
+    
     }
-
-private func startTyping() {
-    var currentIndex = 0
-    let timer = Timer.scheduledTimer(withTimeInterval: typingInterval, repeats: true) { timer in
-        if currentIndex < fullText.count {
-            let index = fullText.index(fullText.startIndex, offsetBy: currentIndex)
-            displayedText += String(fullText[index])
-            currentIndex += 1
-        } else {
-            timer.invalidate()
-        }
-    }
-    timer.fire()
-}
 
 }
 
 struct AptView_Previews: PreviewProvider {
     static var previews: some View {
+        let newAttendanceRecord = AttendanceRecord(
+                 userId: "",
+                 date: Date(),
+                 rawIsSmiling: false,
+                 rawIsBlinkingLeft: true,
+                 rawIsBlinkingRight: false,
+                 rawLookAtPoint: [0, 0, 0],
+                 rawFaceOrientation: [0, 0, 0],
+                 rawCharacterColor: [0, 0, 0],
+                 rawWeather: "clear",
+                 rawTime: Date(),
+                 rawtSunriseTime: Date(),
+                 rawSunsetTime: Date()
+             )
+        
         AptView()
-            .environmentObject(WeatherViewModel())
-            .environmentObject(TimeViewModel())
             .environmentObject(ViewRouter())
-            .environmentObject(AptViewModel())
+            .environmentObject(AptModel())
+            .environmentObject(AttendanceModel(newAttendanceRecord: newAttendanceRecord))
+            .environmentObject(CharacterModel())
+            .environmentObject(EnvironmentModel())
             .environmentObject(EyeViewController())
+        
     }
 }

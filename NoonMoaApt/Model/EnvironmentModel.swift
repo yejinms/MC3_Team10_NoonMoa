@@ -10,41 +10,50 @@ import SwiftUI
 
 class EnvironmentModel: ObservableObject {
     
-    var rawWeather: String
-    var rawTime: Date
-    var rawtSunriseTime: Date
-    var rawSunsetTime: Date
+    //rawData to be uploaded to the server
+    var rawWeather: String = ""
+    var rawTime: Date = Date()
+    var rawtSunriseTime: Date = Date()
+    var rawSunsetTime: Date = Date()
     
-    @Published var currentWeather: String
-    @Published var currentIsWind: Bool
-    @Published var currentIsThunder: Bool
-    @Published var currentTime: String
-    @Published var currentLottieImageName: String
-    @Published var currentColorOfSky: LinearGradient
-    @Published var currentColorOfGround: LinearGradient
-    @Published var currentBroadcastText: String
-    @Published var currentStampLargeSkyImageName: String
-    @Published var currentStampSmallSkyImageName: String
-    @Published var currentStampBorderColor: Color
+    //rawData -> currentEnvironmentData
+    @Published var currentWeather: String = "clear"
+    @Published var currentIsWind: Bool = false
+    @Published var currentIsThunder: Bool = false
+    @Published var currentTime: String = "morning"
     
-    var recordedRawWeather: String
-    var recordedRawSunriseTime: Date
-    var recordedRawSunsetTime: Date
-    var recordedRawTime: Date
+    //currentEnvironmentData -> currentViewData
+    @Published var currentLottieImageName: String = Lottie.clearMorning
+    @Published var currentColorOfSky: LinearGradient = LinearGradient.sky.clearMorning
+    @Published var currentColorOfGround: LinearGradient = LinearGradient.ground.clearMorning
+    @Published var currentBroadcastText: String = Text.broadcast.clearMorning
+    @Published var currentStampLargeSkyImage: Image = Image.assets.stampLarge.clearMorning
+    @Published var currentStampSmallSkyImage: Image = Image.assets.stampSmall.clearMorning
+    @Published var currentStampBorderColor: Color = Color.stampBorder.clearMorning
     
-    var recordedWeather: String
-    var recordedIsWind: Bool
-    var recordedIsThunder: Bool
-    var recordedTime: String
+    //recordedRawData from the server
+    var recordedRawWeather: String = ""
+    var recordedRawSunriseTime: Date = Date()
+    var recordedRawSunsetTime: Date = Date()
+    var recordedRawTime: Date = Date()
     
-    var recordedLottieImageName: String
-    var recordedColorOfSky: LinearGradient
-    var recordedColorOfGround: LinearGradient
-    var recordedBroadcastText: String
-    var recordedStampLargeSkyImageName: String
-    var recordedStampSmallSkyImageName: String
-    var recordedStampBorderColor: Color
+    //recordedRawData -> recordedEnvironmentData
+    var recordedWeather: String = "clear"
+    var recordedIsWind: Bool = false
+    var recordedIsThunder: Bool = false
+    var recordedTime: String = "morning"
     
+    //recordedEnvironmentData -> recordedViewData
+    var recordedLottieImageName: String = Lottie.clearMorning
+    var recordedColorOfSky: LinearGradient = LinearGradient.sky.clearMorning
+    var recordedColorOfGround: LinearGradient = LinearGradient.ground.clearMorning
+    var recordedBroadcastText: String = Text.broadcast.clearMorning
+    var recordedStampLargeSkyImage: Image = Image.assets.stampLarge.clearMorning
+    var recordedStampSmallSkyImage: Image = Image.assets.stampSmall.clearMorning
+    var recordedStampBorderColor: Color = Color.stampBorder.clearMorning
+    
+    //MARK: --
+   
     //앱을 시작할 때 실행시키며, 10분단위로 실행시킨다. 이 모델을 따르는 뷰는 자동으로 업데이트 된다.
     func getCurrentEnvironment() {
         getCurrentRawEnvironment()
@@ -59,7 +68,7 @@ class EnvironmentModel: ObservableObject {
         //        rawTime = 현재 시간}
     }
     
-    func saveRawEnvironment()  {
+    func saveRawEnvironmentToAttendanceModel()  {
         //attendanceModel.newAttendanceRecord(...)
     }
     
@@ -138,6 +147,7 @@ class EnvironmentModel: ObservableObject {
         let hour = calendar.component(.hour, from: time)
         return hour
     }
+    
     func convertEnvironmentToViewData(isInputCurrentData: Bool, weather: String, time: String, isThunder: Bool) {
         var viewData = [String: Any]()
         switch weather {
@@ -148,8 +158,8 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearSunrise,
                             "colorOfGround": LinearGradient.ground.clearSunrise,
                             "broadcastText": Text.broadcast.clearSunrise,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearSunrise,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearSunrise,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearSunrise,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearSunrise,
                             "stampBorderColor": Color.stampBorder.clearSunrise]
                 
             case "morning":
@@ -157,8 +167,8 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearMorning,
                             "colorOfGround": LinearGradient.ground.clearMorning,
                             "broadcastText": Text.broadcast.clearMorning,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearMorning,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearMorning,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearMorning,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearMorning,
                             "stampBorderColor": Color.stampBorder.clearMorning]
                 
             case "afternoon":
@@ -166,8 +176,8 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearAfternoon,
                             "colorOfGround": LinearGradient.ground.clearAfternoon,
                             "broadcastText": Text.broadcast.clearAfternoon,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearAfternoon,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearAfternoon,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearAfternoon,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearAfternoon,
                             "stampBorderColor": Color.stampBorder.clearAfternoon]
                 
             case "sunset":
@@ -175,8 +185,8 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearSunset,
                             "colorOfGround": LinearGradient.ground.clearSunset,
                             "broadcastText": Text.broadcast.clearSunset,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearSunset,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearSunset,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearSunset,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearSunset,
                             "stampBorderColor": Color.stampBorder.clearSunset]
                 
             case "evening":
@@ -184,8 +194,8 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearEvening,
                             "colorOfGround": LinearGradient.ground.clearEvening,
                             "broadcastText": Text.broadcast.clearEvening,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearEvening,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearEvening,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearEvening,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearEvening,
                             "stampBorderColor": Color.stampBorder.clearEvening]
                 
             case "night":
@@ -193,11 +203,186 @@ class EnvironmentModel: ObservableObject {
                             "colorOfSky": LinearGradient.sky.clearNight,
                             "colorOfGround": LinearGradient.ground.clearNight,
                             "broadcastText": Text.broadcast.clearNight,
-                            "stampLargeSkyImageName": Image.assets.stampLarge.clearNight,
-                            "stampSmallSkyImageName": Image.assets.stampSmall.clearNight,
+                            "stampLargeSkyImage": Image.assets.stampLarge.clearNight,
+                            "stampSmallSkyImage": Image.assets.stampSmall.clearNight,
                             "stampBorderColor": Color.stampBorder.clearNight]
+            default: viewData = [:]
             }
             
+        case "cloudy":
+            switch time {
+            case "sunrise":
+                viewData = ["lottieImageName": Lottie.cloudySunrise,
+                            "colorOfSky": LinearGradient.sky.cloudySunrise,
+                            "colorOfGround": LinearGradient.ground.cloudySunrise,
+                            "broadcastText": Text.broadcast.cloudySunrise,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudySunrise,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudySunrise,
+                            "stampBorderColor": Color.stampBorder.cloudySunrise]
+                
+            case "morning":
+                viewData = ["lottieImageName": Lottie.cloudyMorning,
+                            "colorOfSky": LinearGradient.sky.cloudyMorning,
+                            "colorOfGround": LinearGradient.ground.cloudyMorning,
+                            "broadcastText": Text.broadcast.cloudyMorning,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudyMorning,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudyMorning,
+                            "stampBorderColor": Color.stampBorder.cloudyMorning]
+                
+            case "afternoon":
+                viewData = ["lottieImageName": Lottie.cloudyAfternoon,
+                            "colorOfSky": LinearGradient.sky.cloudyAfternoon,
+                            "colorOfGround": LinearGradient.ground.cloudyAfternoon,
+                            "broadcastText": Text.broadcast.cloudyAfternoon,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudyAfternoon,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudyAfternoon,
+                            "stampBorderColor": Color.stampBorder.cloudyAfternoon]
+                
+            case "sunset":
+                viewData = ["lottieImageName": Lottie.cloudySunset,
+                            "colorOfSky": LinearGradient.sky.cloudySunset,
+                            "colorOfGround": LinearGradient.ground.cloudySunset,
+                            "broadcastText": Text.broadcast.cloudySunset,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudySunset,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudySunset,
+                            "stampBorderColor": Color.stampBorder.cloudySunset]
+                
+            case "evening":
+                viewData = ["lottieImageName": Lottie.cloudyEvening,
+                            "colorOfSky": LinearGradient.sky.cloudyEvening,
+                            "colorOfGround": LinearGradient.ground.cloudyEvening,
+                            "broadcastText": Text.broadcast.cloudyEvening,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudyEvening,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudyEvening,
+                            "stampBorderColor": Color.stampBorder.cloudyEvening]
+                
+            case "night":
+                viewData = ["lottieImageName": Lottie.cloudyNight,
+                            "colorOfSky": LinearGradient.sky.cloudyNight,
+                            "colorOfGround": LinearGradient.ground.cloudyNight,
+                            "broadcastText": Text.broadcast.cloudyNight,
+                            "stampLargeSkyImage": Image.assets.stampLarge.cloudyNight,
+                            "stampSmallSkyImage": Image.assets.stampSmall.cloudyNight,
+                            "stampBorderColor": Color.stampBorder.cloudyNight]
+            default: viewData = [:]
+            }
+            
+        case "rainy":
+            switch time {
+            case "sunrise":
+                viewData = ["lottieImageName": Lottie.rainySunrise,
+                            "colorOfSky": LinearGradient.sky.rainySunrise,
+                            "colorOfGround": LinearGradient.ground.rainySunrise,
+                            "broadcastText": Text.broadcast.rainySunrise,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainySunrise,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainySunrise,
+                            "stampBorderColor": Color.stampBorder.rainySunrise]
+                
+            case "morning":
+                viewData = ["lottieImageName": Lottie.rainyMorning,
+                            "colorOfSky": LinearGradient.sky.rainyMorning,
+                            "colorOfGround": LinearGradient.ground.rainyMorning,
+                            "broadcastText": Text.broadcast.rainyMorning,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainyMorning,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainyMorning,
+                            "stampBorderColor": Color.stampBorder.rainyMorning]
+                
+            case "afternoon":
+                viewData = ["lottieImageName": Lottie.rainyAfternoon,
+                            "colorOfSky": LinearGradient.sky.rainyAfternoon,
+                            "colorOfGround": LinearGradient.ground.rainyAfternoon,
+                            "broadcastText": Text.broadcast.rainyAfternoon,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainyAfternoon,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainyAfternoon,
+                            "stampBorderColor": Color.stampBorder.rainyAfternoon]
+                
+            case "sunset":
+                viewData = ["lottieImageName": Lottie.rainySunset,
+                            "colorOfSky": LinearGradient.sky.rainySunset,
+                            "colorOfGround": LinearGradient.ground.rainySunset,
+                            "broadcastText": Text.broadcast.rainySunset,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainySunset,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainySunset,
+                            "stampBorderColor": Color.stampBorder.rainySunset]
+                
+            case "evening":
+                viewData = ["lottieImageName": Lottie.rainyEvening,
+                            "colorOfSky": LinearGradient.sky.rainyEvening,
+                            "colorOfGround": LinearGradient.ground.rainyEvening,
+                            "broadcastText": Text.broadcast.rainyEvening,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainyEvening,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainyEvening,
+                            "stampBorderColor": Color.stampBorder.rainyEvening]
+                
+            case "night":
+                viewData = ["lottieImageName": Lottie.rainyNight,
+                            "colorOfSky": LinearGradient.sky.rainyNight,
+                            "colorOfGround": LinearGradient.ground.rainyNight,
+                            "broadcastText": Text.broadcast.rainyNight,
+                            "stampLargeSkyImage": Image.assets.stampLarge.rainyNight,
+                            "stampSmallSkyImage": Image.assets.stampSmall.rainyNight,
+                            "stampBorderColor": Color.stampBorder.rainyNight]
+            default: viewData = [:]
+            }
+            
+        case "snowy":
+            switch time {
+            case "sunrise":
+                viewData = ["lottieImageName": Lottie.snowySunrise,
+                            "colorOfSky": LinearGradient.sky.snowySunrise,
+                            "colorOfGround": LinearGradient.ground.snowySunrise,
+                            "broadcastText": Text.broadcast.snowySunrise,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowySunrise,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowySunrise,
+                            "stampBorderColor": Color.stampBorder.snowySunrise]
+                
+            case "morning":
+                viewData = ["lottieImageName": Lottie.snowyMorning,
+                            "colorOfSky": LinearGradient.sky.snowyMorning,
+                            "colorOfGround": LinearGradient.ground.snowyMorning,
+                            "broadcastText": Text.broadcast.snowyMorning,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowyMorning,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowyMorning,
+                            "stampBorderColor": Color.stampBorder.snowyMorning]
+                
+            case "afternoon":
+                viewData = ["lottieImageName": Lottie.snowyAfternoon,
+                            "colorOfSky": LinearGradient.sky.snowyAfternoon,
+                            "colorOfGround": LinearGradient.ground.snowyAfternoon,
+                            "broadcastText": Text.broadcast.snowyAfternoon,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowyAfternoon,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowyAfternoon,
+                            "stampBorderColor": Color.stampBorder.snowyAfternoon]
+                
+            case "sunset":
+                viewData = ["lottieImageName": Lottie.snowySunset,
+                            "colorOfSky": LinearGradient.sky.snowySunset,
+                            "colorOfGround": LinearGradient.ground.snowySunset,
+                            "broadcastText": Text.broadcast.snowySunset,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowySunset,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowySunset,
+                            "stampBorderColor": Color.stampBorder.snowySunset]
+                
+            case "evening":
+                viewData = ["lottieImageName": Lottie.snowyEvening,
+                            "colorOfSky": LinearGradient.sky.snowyEvening,
+                            "colorOfGround": LinearGradient.ground.snowyEvening,
+                            "broadcastText": Text.broadcast.snowyEvening,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowyEvening,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowyEvening,
+                            "stampBorderColor": Color.stampBorder.snowyEvening]
+                
+            case "night":
+                viewData = ["lottieImageName": Lottie.snowyNight,
+                            "colorOfSky": LinearGradient.sky.snowyNight,
+                            "colorOfGround": LinearGradient.ground.snowyNight,
+                            "broadcastText": Text.broadcast.snowyNight,
+                            "stampLargeSkyImage": Image.assets.stampLarge.snowyNight,
+                            "stampSmallSkyImage": Image.assets.stampSmall.snowyNight,
+                            "stampBorderColor": Color.stampBorder.snowyNight]
+            default: viewData = [:]
+            }
+        default: viewData = [:]
         }
         
         if isInputCurrentData {
@@ -206,8 +391,8 @@ class EnvironmentModel: ObservableObject {
             currentColorOfGround = viewData["colorOfGround"] as! LinearGradient
             currentBroadcastText = viewData["broadcastText"] as! String
             
-            currentStampLargeSkyImageName = viewData["stampLargeSkyImageName"] as! String
-            currentStampSmallSkyImageName = viewData["stampSmallSkyImageName"] as! String
+            currentStampLargeSkyImage = viewData["stampLargeSkyImage"] as! Image
+            currentStampSmallSkyImage = viewData["stampSmallSkyImage"] as! Image
             currentStampBorderColor = viewData["stampBorderColor"] as! Color
         } else {
             recordedLottieImageName = viewData["recordedLottieImageName"] as! String
@@ -215,8 +400,8 @@ class EnvironmentModel: ObservableObject {
             recordedColorOfGround = viewData["recordedColorOfGround"] as! LinearGradient
             recordedBroadcastText = viewData["recordedBroadcastText"] as! String
             
-            recordedStampLargeSkyImageName = viewData["recordedStampLargeSkyImageName"] as! String
-            recordedStampSmallSkyImageName = viewData["recordedStampSmallSkyImageName"] as! String
+            recordedStampLargeSkyImage = viewData["recordedStampLargeSkyImageName"] as! Image
+            recordedStampSmallSkyImage = viewData["recordedStampSmallSkyImageName"] as! Image
             recordedStampBorderColor = viewData["recordedStampBorderColor"] as! Color
         }
     }

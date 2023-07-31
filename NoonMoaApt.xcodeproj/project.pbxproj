@@ -13,9 +13,6 @@
 		8A7FF4A22A77ABF90075BA78 /* EnvironmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4A12A77ABF90075BA78 /* EnvironmentModel.swift */; };
 		8A7FF4A42A77AC070075BA78 /* AttendanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4A32A77AC070075BA78 /* AttendanceModel.swift */; };
 		8A7FF4A62A77AC1A0075BA78 /* CustomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4A52A77AC1A0075BA78 /* CustomViewModel.swift */; };
-		8A7FF4A82A77AC310075BA78 /* AttendanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4A72A77AC310075BA78 /* AttendanceViewModel.swift */; };
-		8A7FF4AA2A77AC3E0075BA78 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4A92A77AC3E0075BA78 /* CalendarViewModel.swift */; };
-		8A7FF4AC2A77AC780075BA78 /* AptViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4AB2A77AC780075BA78 /* AptViewModel.swift */; };
 		8A7FF4AE2A77ACAC0075BA78 /* SceneBroadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7FF4AD2A77ACAC0075BA78 /* SceneBroadcast.swift */; };
 		8A84C29F2A6ED2DF001A9094 /* SceneMyEye.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84C29E2A6ED2DF001A9094 /* SceneMyEye.swift */; };
 		8A84C2A12A6ED2E9001A9094 /* SceneNeighborEye.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A84C2A02A6ED2E9001A9094 /* SceneNeighborEye.swift */; };
@@ -110,9 +107,6 @@
 		8A7FF4A12A77ABF90075BA78 /* EnvironmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentModel.swift; sourceTree = "<group>"; };
 		8A7FF4A32A77AC070075BA78 /* AttendanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceModel.swift; sourceTree = "<group>"; };
 		8A7FF4A52A77AC1A0075BA78 /* CustomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewModel.swift; sourceTree = "<group>"; };
-		8A7FF4A72A77AC310075BA78 /* AttendanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewModel.swift; sourceTree = "<group>"; };
-		8A7FF4A92A77AC3E0075BA78 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		8A7FF4AB2A77AC780075BA78 /* AptViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AptViewModel.swift; sourceTree = "<group>"; };
 		8A7FF4AD2A77ACAC0075BA78 /* SceneBroadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneBroadcast.swift; sourceTree = "<group>"; };
 		8A84C29E2A6ED2DF001A9094 /* SceneMyEye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneMyEye.swift; sourceTree = "<group>"; };
 		8A84C2A02A6ED2E9001A9094 /* SceneNeighborEye.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneNeighborEye.swift; sourceTree = "<group>"; };
@@ -220,9 +214,6 @@
 				8AD2ECC12A6E163E0063D9ED /* EyeViewController.swift */,
 				8AD2ECBF2A6E163E0063D9ED /* EyeMyViewModel.swift */,
 				8A229FFE2A70AA6D00E0FD97 /* EyeNeighborViewModel.swift */,
-				8A7FF4A72A77AC310075BA78 /* AttendanceViewModel.swift */,
-				8A7FF4A92A77AC3E0075BA78 /* CalendarViewModel.swift */,
-				8A7FF4AB2A77AC780075BA78 /* AptViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -566,7 +557,6 @@
 				8A7FF4AE2A77ACAC0075BA78 /* SceneBroadcast.swift in Sources */,
 				8AD2303F2A699F4C00C967B5 /* FunctionTestView.swift in Sources */,
 				8AD230402A699F4C00C967B5 /* SceneRoom.swift in Sources */,
-				8A7FF4A82A77AC310075BA78 /* AttendanceViewModel.swift in Sources */,
 				E32E3E662A6951CE00B865E8 /* LoginView.swift in Sources */,
 				8A7FF4A22A77ABF90075BA78 /* EnvironmentModel.swift in Sources */,
 				E32E3E692A6951CE00B865E8 /* CalendarSingleView.swift in Sources */,
@@ -578,12 +568,10 @@
 				8A84C2A12A6ED2E9001A9094 /* SceneNeighborEye.swift in Sources */,
 				E3F739282A6A540000E5F291 /* MonthView.swift in Sources */,
 				E3F739272A6A540000E5F291 /* CalendarController.swift in Sources */,
-				8A7FF4AA2A77AC3E0075BA78 /* CalendarViewModel.swift in Sources */,
 				E32E3E182A6951B600B865E8 /* NoonMoaAptApp.swift in Sources */,
 				E32E3E6E2A6951CE00B865E8 /* FirebaseModel.swift in Sources */,
 				8A7FF4A42A77AC070075BA78 /* AttendanceModel.swift in Sources */,
 				E3A82DB22A716E1400B1EB95 /* FirestoreManager.swift in Sources */,
-				8A7FF4AC2A77AC780075BA78 /* AptViewModel.swift in Sources */,
 				E3F739342A6A552300E5F291 /* Color+Extension.swift in Sources */,
 				E3F7392C2A6A540000E5F291 /* WeekView.swift in Sources */,
 				E3F739242A6A540000E5F291 /* CalendarMonthView.swift in Sources */,

@@ -14,7 +14,6 @@ class EyeViewController: NSObject, ObservableObject {
 //               }
         super.init()
         let configuration = ARFaceTrackingConfiguration()
-        configuration.isWorldTrackingEnabled = false
         session.run(configuration)
         session.delegate = self
     }
@@ -32,7 +31,7 @@ class EyeViewController: NSObject, ObservableObject {
 extension EyeViewController: ARSessionDelegate {
     func session(_: ARSession, didUpdate anchors: [ARAnchor]) {
         if let faceAnchor = anchors.first as? ARFaceAnchor {
-            eyeMyModel.update(faceAnchor: faceAnchor)
+            eyeMyViewModel.update(faceAnchor: faceAnchor)
         }
     }
 }

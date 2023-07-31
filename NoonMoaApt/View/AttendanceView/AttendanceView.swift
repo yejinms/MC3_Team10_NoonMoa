@@ -13,7 +13,9 @@ struct AttendanceView: View {
     private let currentUser = Auth.auth().currentUser
     
     @EnvironmentObject var viewRouter: ViewRouter
-    @EnvironmentObject var attendanceViewModel: AttendanceViewModel
+    @EnvironmentObject var attendanceModel: AttendanceModel
+    @EnvironmentObject var environmentModel: EnvironmentModel
+    @EnvironmentObject var characterModel: CharacterModel
     @EnvironmentObject var customViewModel: CustomViewModel
     @EnvironmentObject var eyeViewController: EyeViewController
     
@@ -21,16 +23,6 @@ struct AttendanceView: View {
     @State private var isScaleEffectPlayed: Bool = false
     @State private var isBlurEffectPlayed: Bool = false
     @State private var isShutterEffectPlayed: Bool = false
-    
-    @State private var savedSkyColor: LinearGradient = Color.sky.clearDay
-    @State private var savedSkyImage: Image = Image.assets.largeStamp.clearDay
-    @State private var savedIsSmiling: Bool = false
-    @State private var savedIsBlinkingLeft: Bool = false
-    @State private var savedIsBlinkingRight: Bool = false
-    @State private var savedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    @State private var savedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
-    @State private var savedBodyColor: LinearGradient = .userBlue
-    @State private var savedEyeColor: LinearGradient = .eyeBlue
     
     private var firestoreManager: FirestoreManager {
         FirestoreManager.shared
@@ -73,11 +65,11 @@ struct AttendanceView: View {
                     
                     if !isStamped {
                         //출석체크 전 눈 움직이는 뷰
-                        StampLargeView(skyColor: Color.gradationGray, skyImage: Image(""), isSmiling: eyeViewController.eyeMyModel.isSmiling,
-                                       isBlinkingLeft: eyeViewController.eyeMyModel.isBlinkingLeft,
-                                       isBlinkingRight: eyeViewController.eyeMyModel.isBlinkingRight,
-                                       lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
-                                       faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
+                        StampLargeView(skyColor: LinearGradient.gradationGray, skyImage: Image(""), isSmiling: eyeViewController.eyeMyViewModel.isSmiling,
+                                       isBlinkingLeft: eyeViewController.eyeMyViewModel.isBlinkingLeft,
+                                       isBlinkingRight: eyeViewController.eyeMyViewModel.isBlinkingRight,
+                                       lookAtPoint: eyeViewController.eyeMyViewModel.lookAtPoint,
+                                       faceOrientation: eyeViewController.eyeMyViewModel.faceOrientation,
                                        bodyColor: LinearGradient.unStampedWhite,
                                        eyeColor: LinearGradient.unStampedWhite, cheekColor: LinearGradient.cheekGray)
                         .frame(width: geo.size.width, height: geo.size.width)
@@ -89,7 +81,7 @@ struct AttendanceView: View {
                         
                     } else {
                         //출석체크 후 저장된 날씨와, 캐릭터의 움직임 좌표값으로 표현된 뷰
-                        StampLargeView(skyColor: savedSkyColor, skyImage: savedSkyImage, isSmiling: savedIsSmiling, isBlinkingLeft: savedIsBlinkingLeft, isBlinkingRight: savedIsBlinkingRight, lookAtPoint: savedLookAtPoint, faceOrientation: savedFaceOrientation, bodyColor: savedBodyColor, eyeColor: savedEyeColor, cheekColor: LinearGradient.cheekRed)
+                        StampLargeView(skyColor: environmentModel.currentColorOfSky, skyImage: environmentModel.currentStampLargeSkyImage, isSmiling: characterModel.currentIsSmiling, isBlinkingLeft: characterModel.currentIsBlinkingLeft, isBlinkingRight: characterModel.currentIsBlinkingRight, lookAtPoint: characterModel.currentLookAtPoint, faceOrientation: characterModel.currentFaceOrientation, bodyColor: customViewModel.currentBodyColor, eyeColor: customViewModel.currentEyeColor, cheekColor: customViewModel.currentCheekColor)
                             .frame(width: geo.size.width, height: geo.size.width)
                             .offset(y: -16)
                             .scaleEffect(isScaleEffectPlayed ? 0.9 : 1)
@@ -121,20 +113,8 @@ struct AttendanceView: View {
                                 withAnimation(.linear.speed(1.5).repeatCount(1, autoreverses: true)) {
                                     isShutterEffectPlayed = true
                                 }
-                                
-                                //weather뷰모델에 현재 날씨를 실행시키고, 그에 따라 배경 정보를 저장한다.
-                                
-//                                self.savedSkyColor = custo
-//                                self.savedSkyImage = weatherViewModel.savedSkyImage
-                                //ARView에서 움직이던 값을 저장한다.
-                                self.savedIsSmiling = eyeViewController.eyeMyViewModel.isSmiling
-                                self.savedIsBlinkingLeft = eyeViewController.eyeMyViewModel.isBlinkingLeft
-                                self.savedIsBlinkingRight = eyeViewController.eyeMyViewModel.isBlinkingRight
-                                self.savedLookAtPoint = eyeViewController.eyeMyViewModel.lookAtPoint
-                                self.savedFaceOrientation = eyeViewController.eyeMyViewModel.faceOrientation
-                                self.savedBodyColor = eyeViewController.eyeMyViewModel.bodyColor
-                                self.savedEyeColor = eyeViewController.eyeMyViewModel.eyeColor
-                                
+                                environmentModel.getCurrentEnvironment()
+                                characterModel.getCurrentCharacter()
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 withAnimation(.spring(response: 0.5, dampingFraction: 0.3).speed(1)) {
@@ -174,11 +154,9 @@ struct AttendanceView: View {
                             }
                             // 시작하기 버튼
                             Button (action: {
-                                //TODO: AttendanceCompleteViewModel에 정보를 저장합니다.
                                 viewRouter.currentView = .apt
-                                attendanceCompletedViewModel.saveAttendanceRecord(record: regenAttendanceRecord())
-//                                아래는 실행되지 않을 것임
-                                attendanceCompletedViewModel.updateUserLastActiveDate()
+                                attendanceModel.uploadAttendanceRecord()
+//                                attendanceCompletedViewModel.updateUserLastActiveDate()
                             }) {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color.warmBlack)
@@ -197,26 +175,27 @@ struct AttendanceView: View {
             .padding(24)
         }//ZStack
     }
-    func regenAttendanceRecord() -> AttendanceRecord {
-        
-        firestoreManager.syncDB()
-        // Get the emptyRooms document
-//        let emptyRoomsRef = db.collection("User").document("emptyRooms")
-//        emptyRoomsRef.getDocument { (document, error) in
-            
-        let userId = "\(currentUser?.uid ?? "")"
-        let weatherCondition = weatherViewModel.currentWeather
-        let eyeDirection = [savedFaceOrientation.x, savedFaceOrientation.y, savedFaceOrientation.z]
-        
-        return AttendanceRecord(userId: userId, date: Date(), weatherCondition: weatherCondition, eyeDirection: eyeDirection)
-    }
 }
 
 struct AttendanceView_Previews: PreviewProvider {
     static var previews: some View {
+        let newAttendanceRecord = AttendanceRecord(
+                 userId: "",
+                 date: Date(),
+                 rawIsSmiling: false,
+                 rawIsBlinkingLeft: true,
+                 rawIsBlinkingRight: false,
+                 rawLookAtPoint: [0, 0, 0],
+                 rawFaceOrientation: [0, 0, 0],
+                 rawCharacterColor: [0, 0, 0],
+                 rawWeather: "clear",
+                 rawTime: Date(),
+                 rawtSunriseTime: Date(),
+                 rawSunsetTime: Date()
+             )
         AttendanceView()
             .environmentObject(ViewRouter())
-            .environmentObject(AttendanceViewModel())
+            .environmentObject(AttendanceModel(newAttendanceRecord: newAttendanceRecord))
             .environmentObject(CustomViewModel())
             .environmentObject(EyeViewController())
     }

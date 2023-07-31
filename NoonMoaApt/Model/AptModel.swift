@@ -9,7 +9,7 @@
     import Firebase
     import FirebaseFirestore
 
-    class AptViewModel: ObservableObject {
+    class AptModel: ObservableObject {
         @Published var apt: Apt?
         @Published var rooms: [Room] = []
         @Published var users: [User] = []

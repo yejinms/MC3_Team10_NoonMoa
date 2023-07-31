@@ -9,20 +9,12 @@ import Foundation
 import SwiftUI
 
 class CustomViewModel: ObservableObject {
-    private var characterModel: CharacterModel
-    @Published var currentCharacterColor: [Float]
+    private var characterModel: CharacterModel = CharacterModel()
+    @Published var currentCharacterColor: [Float] = [0.0, 0.0, 0.0]
     
-    @Published var currentBodyColor: LinearGradient
-    @Published var currentEyeColor: LinearGradient
-    @Published var currentCheekColor: LinearGradient
-    
-    init(characterModel: CharacterModel,currentCharacterColor: [Float], currentBodyColor: LinearGradient, currentEyeColor: LinearGradient, currentCheekColor: LinearGradient) {
-        self.characterModel = characterModel
-        self.currentCharacterColor = currentCharacterColor
-        self.currentBodyColor = currentBodyColor
-        self.currentEyeColor = currentEyeColor
-        self.currentCheekColor = currentCheekColor
-    }
+    @Published var currentBodyColor: LinearGradient = LinearGradient.userBlue
+    @Published var currentEyeColor: LinearGradient = LinearGradient.eyeBlue
+    @Published var currentCheekColor: LinearGradient = LinearGradient.cheekRed
     
     func convertCharacterColorToGradient(characterColor: [Float]) {
         let bodyColor = Color(red: Double(characterColor[0]), green: Double(characterColor[1]), blue: Double(characterColor[2]), opacity: 1.0)

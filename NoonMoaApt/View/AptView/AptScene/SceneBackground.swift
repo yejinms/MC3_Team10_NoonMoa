@@ -8,56 +8,15 @@
 import SwiftUI
 
 struct SceneBackground: View {
-    @EnvironmentObject var aptViewModel: AptViewModel
+    @EnvironmentObject var environmentModel: EnvironmentModel
     
     var body: some View {
         
         GeometryReader { geo in
             ZStack {
-                switch weather.currentWeather {
-                case WeatherViewModel.clear:
-                    if time.isDayTime {
-                        Color.sky.clearDay
-                        GroundView(colorOfGround: Color.ground.grassGreen, geoSizeWidth: geo.size.width)
+                environmentModel.currentColorOfSky
+                GroundView(colorOfGround: environmentModel.currentColorOfGround, geoSizeWidth: geo.size.width)
                             .offset(y: geo.size.height / 2)
-                        
-                    } else {
-                        Color.sky.clearNight
-                        GroundView(colorOfGround: Color.ground.grassGreen, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    }
-                case WeatherViewModel.cloudy:
-                    if time.isDayTime {
-                        Color.sky.cloudyDay
-                        GroundView(colorOfGround: Color.ground.dirtBrown, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    } else {
-                        Color.sky.cloudyNight
-                        GroundView(colorOfGround: Color.ground.dirtBrown, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    }
-                case WeatherViewModel.rainy:
-                    if time.isDayTime {
-                        Color.sky.rainyDay
-                        GroundView(colorOfGround: Color.ground.dirtBrown, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    } else {
-                        Color.sky.rainyNight
-                        GroundView(colorOfGround: Color.ground.dirtBrown, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    }
-                case WeatherViewModel.snowy:
-                    if time.isDayTime {
-                        Color.sky.snowyDay
-                        GroundView(colorOfGround: Color.ground.snowWhite, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    } else {
-                        Color.sky.snowyNight
-                        GroundView(colorOfGround: Color.ground.snowWhite, geoSizeWidth: geo.size.width)
-                            .offset(y: geo.size.height / 2)
-                    }
-                default: EmptyView()
-                }
             }
             .ignoresSafeArea()
         }
@@ -90,7 +49,7 @@ struct Trapezoid: Shape {
 
 struct GroundView: View {
     
-    var colorOfGround: LinearGradient = Color.ground.grassGreen
+    var colorOfGround: LinearGradient = LinearGradient.ground.clearMorning
     var geoSizeWidth: Double = 0.0
     
     var body: some View {
@@ -99,7 +58,7 @@ struct GroundView: View {
             .frame(height: geoSizeWidth / 4)
             .overlay(
                 Trapezoid(insetAmount: geoSizeWidth * 0.15)
-                    .fill(Color.ground.pathBeige)
+                    .fill(LinearGradient.ground.pathBeige)
                     .overlay(
                         Trapezoid(insetAmount: geoSizeWidth * 0.15)
                             .stroke(Color.black, lineWidth: 1)
@@ -119,8 +78,7 @@ struct SceneBackground_Previews: PreviewProvider {
     
     static var previews: some View {
         SceneBackground()
-            .environmentObject(WeatherViewModel())
-            .environmentObject(TimeViewModel())
+            .environmentObject(EnvironmentModel())
         
     }
 }

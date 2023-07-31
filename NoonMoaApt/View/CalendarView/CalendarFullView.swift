@@ -112,9 +112,9 @@ struct CalendarFullView: View {
                                             Text("\(yearMonthDay.day)")
                                                 .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
                                                 .font(.system(size: 10, weight: .light, design: .default))
-                                            Text("\(record.weatherCondition)")
+                                            Text("\(record.rawWeather)")
                                                 .font(.system(size: 10, weight: .light, design: .default))
-                                            Text("\(record.eyeDirection.map{ String($0) }.joined(separator: ", "))")
+                                            Text("\(record.rawLookAtPoint.map{ String($0) }.joined(separator: ", "))")
                                                 .font(.system(size: 10, weight: .light, design: .default))
                                         }
                                     }
