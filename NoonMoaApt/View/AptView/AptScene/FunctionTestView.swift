@@ -9,11 +9,10 @@ import SwiftUI
 
 struct FunctionTestView: View {
     @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var environmentModel: EnvironmentModel
     
-    @EnvironmentObject var weather: WeatherViewModel
-    @EnvironmentObject var time: TimeViewModel
-    
-    @State private var index: Int = 0
+    @State private var indexTime: Int = 0
+    @State private var indexWeather: Int = 0
     @Binding var buttonText: String
     
     var body: some View { 
@@ -21,7 +20,9 @@ struct FunctionTestView: View {
             Spacer().frame(height: 48)
             HStack(spacing: 8) {
                 Button(action: {
-                    time.isDayTime.toggle()
+                    let array = ["sunrise", "morning", "afternoon", "sunset", "evening", "night"]
+                    indexTime = (indexTime + 7) % 6
+                    environmentModel.currentTime = array[indexTime]
                 }) {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(.white)
@@ -35,8 +36,8 @@ struct FunctionTestView: View {
                 }
                 Button(action: {
                     let array = ["clear", "cloudy", "rainy", "snowy"]
-                    index = (index + 5) % 4
-                    weather.currentWeather = array[index]
+                    indexWeather = (indexWeather + 5) % 4
+                    environmentModel.currentWeather = array[indexWeather]
                 }) {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(.white)
@@ -125,7 +126,7 @@ struct FunctionTestView_Previews: PreviewProvider {
     
     static var previews: some View {
         FunctionTestView(buttonText: $buttonText)
-            .environmentObject(WeatherViewModel())
-            .environmentObject(TimeViewModel())
+            .environmentObject(ViewRouter())
+            .environmentObject(EnvironmentModel())
     }
 }

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct StampButtonView: View {
     
-    @StateObject var weather: WeatherViewModel = WeatherViewModel()
-    @StateObject var time: TimeViewModel = TimeViewModel()
-
+    @StateObject var environmentModel: EnvironmentModel = EnvironmentModel()
+    
     var skyColor: LinearGradient
     var skyImage: Image
     var isSmiling: Bool
@@ -49,8 +48,7 @@ struct StampButtonView: View {
 
 struct StampButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        StampButtonView(skyColor: Color.sky.clearDay, skyImage: Image.assets.circleStamp.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userBlue, eyeColor: LinearGradient.eyeBlue, cheekColor: LinearGradient.cheekRed)
-            .environmentObject(WeatherViewModel())
-            .environmentObject(TimeViewModel())
+        StampButtonView(skyColor: LinearGradient.sky.clearMorning, skyImage: Image.assets.stampSmall.clearMorning, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userBlue, eyeColor: LinearGradient.eyeBlue, cheekColor: LinearGradient.cheekRed)
+            .environmentObject(EnvironmentModel())
     }
 }

@@ -46,7 +46,7 @@ struct StampLargeView: View {
 
 struct StampLargeView_Previews: PreviewProvider {
     static var previews: some View {
-        StampLargeView(skyColor: Color.sky.clearDay, skyImage: Image.assets.largeStamp.clearDay, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userCyan, eyeColor: LinearGradient.eyeCyan, cheekColor: LinearGradient.cheekRed)
+        StampLargeView(skyColor: LinearGradient.sky.clearMorning, skyImage: Image.assets.stampLarge.clearMorning, isSmiling: false, isBlinkingLeft: false, isBlinkingRight: false, lookAtPoint: SIMD3<Float>(0.0, 0.0, 0.0), faceOrientation: SIMD3<Float>(0.0, 0.0, 0.0), bodyColor: LinearGradient.userCyan, eyeColor: LinearGradient.eyeCyan, cheekColor: LinearGradient.cheekRed)
     }
 }
 //

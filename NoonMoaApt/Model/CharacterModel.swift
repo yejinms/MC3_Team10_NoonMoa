@@ -8,73 +8,47 @@
 import Foundation
 
 class CharacterModel: ObservableObject {
-    private var eyeViewController: EyeViewController
-    private var customViewModel: CustomViewModel
     
-    var rawIsSmiling: Bool
-    var rawIsBlinkingLeft: Bool
-    var rawIsBlinkingRight: Bool
-    var rawLookAtPoint: [Float]
-    var rawFaceOrientation: [Float]
-    var rawCharacterColor: [Float]
+    var rawIsSmiling: Bool = false
+    var rawIsBlinkingLeft: Bool = false
+    var rawIsBlinkingRight: Bool = false
+    var rawLookAtPoint: [Float] = [0.0, 0.0, 0.0]
+    var rawFaceOrientation: [Float] = [0.0, 0.0, 0.0]
+    var rawCharacterColor: [Float] = [0.0, 0.0, 0.0]
     
-    var currentIsSmiling: Bool
-    var currentIsBlinkingLeft: Bool
-    var currentIsBlinkingRight: Bool
-    var currentLookAtPoint: SIMD3<Float>
-    var currentFaceOrientation: SIMD3<Float>
-    var currentCharacterColor: [Float]
+    var currentIsSmiling: Bool = false
+    var currentIsBlinkingLeft: Bool = false
+    var currentIsBlinkingRight: Bool = false
+    var currentLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    var currentFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    var currentCharacterColor: [Float] = [0.0, 0.0, 0.0]
     
-    var recordedRawIsSmiling: Bool
-    var recordedRawIsBlinkingLeft: Bool
-    var recordedRawIsBlinkingRight: Bool
-    var recordedRawLookAtPoint: [Float]
-    var recordedRawFaceOrientation: [Float]
-    var recordedRawCharacterColor: [Float]
+    var recordedRawIsSmiling: Bool = false
+    var recordedRawIsBlinkingLeft: Bool = false
+    var recordedRawIsBlinkingRight: Bool = false
+    var recordedRawLookAtPoint: [Float] = [0.0, 0.0, 0.0]
+    var recordedRawFaceOrientation: [Float] = [0.0, 0.0, 0.0]
+    var recordedRawCharacterColor: [Float] = [0.0, 0.0, 0.0]
     
-    var recordedIsSmiling: Bool
-    var recordedIsBlinkingLeft: Bool
-    var recordedIsBlinkingRight: Bool
-    var recordedLookAtPoint: SIMD3<Float>
-    var recordedFaceOrientation: SIMD3<Float>
-    var recordedCharacterColor: [Float]
-    
-    init(eyeViewController: EyeViewController, customViewModel: CustomViewModel, rawIsSmiling: Bool, rawIsBlinkingLeft: Bool, rawIsBlinkingRight: Bool, rawLookAtPoint: [Float], rawFaceOrientation: [Float], rawCharacterColor: [Float], currentIsSmiling: Bool, currentIsBlinkingLeft: Bool, currentIsBlinkingRight: Bool, currentLookAtPoint: SIMD3<Float>, currentFaceOrientation: SIMD3<Float>, currentCharacterColor: [Float], recordedRawIsSmiling: Bool, recordedRawIsBlinkingLeft: Bool, recordedRawIsBlinkingRight: Bool, recordedRawLookAtPoint: [Float], recordedRawFaceOrientation: [Float], recordedRawCharacterColor: [Float], recordedIsSmiling: Bool, recordedIsBlinkingLeft: Bool, recordedIsBlinkingRight: Bool, recordedLookAtPoint: SIMD3<Float>, recordedFaceOrientation: SIMD3<Float>, recordedCharacterColor: [Float]) {
-        self.eyeViewController = eyeViewController
-        self.customViewModel = customViewModel
-        self.rawIsSmiling = rawIsSmiling
-        self.rawIsBlinkingLeft = rawIsBlinkingLeft
-        self.rawIsBlinkingRight = rawIsBlinkingRight
-        self.rawLookAtPoint = rawLookAtPoint
-        self.rawFaceOrientation = rawFaceOrientation
-        self.rawCharacterColor = rawCharacterColor
-        self.currentIsSmiling = currentIsSmiling
-        self.currentIsBlinkingLeft = currentIsBlinkingLeft
-        self.currentIsBlinkingRight = currentIsBlinkingRight
-        self.currentLookAtPoint = currentLookAtPoint
-        self.currentFaceOrientation = currentFaceOrientation
-        self.currentCharacterColor = currentCharacterColor
-        self.recordedRawIsSmiling = recordedRawIsSmiling
-        self.recordedRawIsBlinkingLeft = recordedRawIsBlinkingLeft
-        self.recordedRawIsBlinkingRight = recordedRawIsBlinkingRight
-        self.recordedRawLookAtPoint = recordedRawLookAtPoint
-        self.recordedRawFaceOrientation = recordedRawFaceOrientation
-        self.recordedRawCharacterColor = recordedRawCharacterColor
-        self.recordedIsSmiling = recordedIsSmiling
-        self.recordedIsBlinkingLeft = recordedIsBlinkingLeft
-        self.recordedIsBlinkingRight = recordedIsBlinkingRight
-        self.recordedLookAtPoint = recordedLookAtPoint
-        self.recordedFaceOrientation = recordedFaceOrientation
-        self.recordedCharacterColor = recordedCharacterColor
-    }
+    var recordedIsSmiling: Bool = false
+    var recordedIsBlinkingLeft: Bool = false
+    var recordedIsBlinkingRight: Bool = false
+    var recordedLookAtPoint: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    var recordedFaceOrientation: SIMD3<Float> = SIMD3<Float>(0.0, 0.0, 0.0)
+    var recordedCharacterColor: [Float] = [0.0, 0.0, 0.0]
     
     func getCurrentCharacter() {
-        currentIsSmiling = eyeViewController.eyeMyViewModel.isSmiling
-        currentIsBlinkingLeft = eyeViewController.eyeMyViewModel.isBlinkingLeft
-        currentIsBlinkingRight = eyeViewController.eyeMyViewModel.isBlinkingRight
-        currentLookAtPoint = eyeViewController.eyeMyViewModel.lookAtPoint
-        currentFaceOrientation = eyeViewController.eyeMyViewModel.faceOrientation
-        currentCharacterColor = customViewModel.currentCharacterColor
+        getCurrentCharacterViewData()
+        convertViewDataToRawCharacter(isSmiling: currentIsSmiling, isBlinkingLeft: currentIsBlinkingLeft, isBlinkingRight: currentIsBlinkingRight, lookAtPoint: currentLookAtPoint, faceOrientation: currentFaceOrientation, characterColor: currentCharacterColor)
+    }
+    
+    func getCurrentCharacterViewData() {
+        currentIsSmiling = EyeMyViewModel().isSmiling
+        currentIsBlinkingLeft = EyeMyViewModel().isBlinkingLeft
+        currentIsBlinkingRight = EyeMyViewModel().isBlinkingRight
+        currentLookAtPoint = EyeMyViewModel().lookAtPoint
+        currentFaceOrientation = EyeMyViewModel().faceOrientation
+        currentCharacterColor = CustomViewModel().currentCharacterColor
     }
     
     //AttendanceModel을 통해 저장할 때 사용
@@ -87,7 +61,7 @@ class CharacterModel: ObservableObject {
         rawCharacterColor = characterColor
     }
     
-    func saveRawCharacter()  {
+    func saveRawCharacterToAttendanceModel()  {
         //attendanceModel.newAttendanceRecord(...)
     }
     

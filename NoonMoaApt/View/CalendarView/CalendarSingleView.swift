@@ -31,8 +31,8 @@ struct CalendarSingleView: View {
                     .padding(8)
                 }
                 if let record = controller.record {
-                    Text("Weather condition: \(record.weatherCondition)")
-                    Text("Eye Direction: \(record.eyeDirection.map{ String($0) }.joined(separator: ", "))")
+                    Text("Weather condition: \(record.rawWeather)")
+                    Text("Eye Direction: \(record.rawLookAtPoint.map{ String($0) }.joined(separator: ", "))")
                 }
                 // The rest of your code...
             }

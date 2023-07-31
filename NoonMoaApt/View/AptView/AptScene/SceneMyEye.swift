@@ -12,13 +12,13 @@ struct SceneMyEye: View {
 
     var body: some View {
         
-        EyeView(isSmiling: eyeViewController.eyeMyModel.isSmiling,
-                isBlinkingLeft: eyeViewController.eyeMyModel.isBlinkingLeft,
-                isBlinkingRight: eyeViewController.eyeMyModel.isBlinkingRight,
-                lookAtPoint: eyeViewController.eyeMyModel.lookAtPoint,
-                faceOrientation: eyeViewController.eyeMyModel.faceOrientation,
-                bodyColor: eyeViewController.eyeMyModel.bodyColor,
-                eyeColor: eyeViewController.eyeMyModel.eyeColor, cheekColor: eyeViewController.eyeMyModel.cheekColor)
+        EyeView(isSmiling: eyeViewController.eyeMyViewModel.isSmiling,
+                isBlinkingLeft: eyeViewController.eyeMyViewModel.isBlinkingLeft,
+                isBlinkingRight: eyeViewController.eyeMyViewModel.isBlinkingRight,
+                lookAtPoint: eyeViewController.eyeMyViewModel.lookAtPoint,
+                faceOrientation: eyeViewController.eyeMyViewModel.faceOrientation,
+                bodyColor: eyeViewController.eyeMyViewModel.bodyColor,
+                eyeColor: eyeViewController.eyeMyViewModel.eyeColor, cheekColor: eyeViewController.eyeMyViewModel.cheekColor)
     }
 }
 
