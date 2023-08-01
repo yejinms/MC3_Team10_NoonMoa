@@ -16,7 +16,8 @@ struct AptView: View {
     @EnvironmentObject var characterModel: CharacterModel
     @EnvironmentObject var environmentModel: EnvironmentModel
     @EnvironmentObject var eyeViewController: EyeViewController
-    @EnvironmentObject var eyeNeighborViewModel: EyeNeighborViewModel
+    @EnvironmentObject var customViewModel: CustomViewModel
+
 
     @State private var users: [[User]] = User.UTData
     @State private var buttonText: String = ""
@@ -54,7 +55,7 @@ struct AptView: View {
                                     ForEach(users[rowIndex].indices, id: \.self) { userIndex in
                                         SceneRoom(roomUser: $users[rowIndex][userIndex])
                                             .environmentObject(eyeViewController)
-                                            .environmentObject(eyeNeighborViewModel)
+                                            .environmentObject(customViewModel)
                                             .frame(width: (geo.size.width - 48) / 3, height: ((geo.size.width - 48) / 3) / 1.2)
                                     }
                                 }

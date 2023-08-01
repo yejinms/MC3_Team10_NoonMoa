@@ -18,7 +18,6 @@ struct MainView: View {
     @StateObject var calendarSingleController: CalendarSingleController
     @StateObject var loginViewModel: LoginViewModel
     @StateObject var eyeViewController: EyeViewController
-    @StateObject var eyeNeighborViewModel: EyeNeighborViewModel
 
     var body: some View {
         
@@ -49,7 +48,6 @@ struct MainView: View {
                 .environmentObject(characterModel)
                 .environmentObject(customViewModel)
                 .environmentObject(eyeViewController)
-                .environmentObject(eyeNeighborViewModel)
 
             
         case .CalendarFull:
